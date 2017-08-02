@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <groupId>io.wizzie.ks.cep</groupId>
+    <artifactId>cep</artifactId>
+    <version>0.0.1-SNAPSHOT</version>
+
+    <packaging>pom</packaging>
+
+    <distributionManagement>
+        <repository>
+            <id>wizzie-release</id>
+            <name>Wizzie Release Repository</name>
+            <url>s3://wizzie-mvn-repo/release</url>
+        </repository>
+        <snapshotRepository>
+            <id>wizzie-snapshot</id>
+            <name>Wizzie Snapshot Repository</name>
+            <url>s3://wizzie-mvn-repo/snapshot</url>
+        </snapshotRepository>
+    </distributionManagement>
+
+    <scm>
+        <developerConnection>scm:git:git@github.com:wizzie-io/kscep.git</developerConnection>
+        <tag>HEAD</tag>
+    </scm>
+
+    <modules>
+        <module>service</module>
+    </modules>
+
+    <profiles>
+        <profile>
+            <id>dist</id>
+            <modules>
+                <!-- distribution packaging -->
+                <module>distribution</module>
+            </modules>
+        </profile>
+
+        <profile>
+            <id>docker</id>
+            <modules>
+                <!-- docker packaging -->
+                <module>distribution</module>
+                <module>docker</module>
+            </modules>
+        </profile>
+    </profiles>
+
+    <build>
+        <extensions>
+            <extension>
+                <groupId>org.springframework.build</groupId>
+                <artifactId>aws-maven</artifactId>
+                <version>5.0.0.RELEASE</version>
+            </extension>
+        </extensions>
+
+        <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-release-plugin</artifactId>
+                <version>2.5.1</version>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-surefire-plugin</artifactId>
+                <version>2.19.1</version>
+            </plugin>
+        </plugins>
+    </build>
+
+</project>
