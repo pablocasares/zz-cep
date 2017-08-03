@@ -33,6 +33,27 @@ public class AttributeModel {
     @JsonCreator
     public AttributeModel(@JsonProperty("name") String name,
                           @JsonProperty("type") AttributeType attributeType) {
+        this.name = name;
+        this.attributeType = attributeType;
+    }
 
+    @JsonProperty
+    public String getName() {
+        return name;
+    }
+
+    @JsonProperty
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    @JsonProperty
+    public AttributeType getType() {
+        return attributeType;
+    }
+
+    @JsonProperty
+    public void setAttributeType(AttributeType attributeType) {
+        this.attributeType = attributeType;
     }
 }
