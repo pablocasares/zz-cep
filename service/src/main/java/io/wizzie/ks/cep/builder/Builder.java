@@ -1,7 +1,7 @@
 package io.wizzie.ks.cep.builder;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import io.wizzie.ks.cep.builder.config.Config;
+import io.wizzie.bootstrapper.builder.*;
 import io.wizzie.ks.cep.exceptions.SourceNotFoundException;
 import io.wizzie.ks.cep.metrics.MetricsManager;
 import io.wizzie.ks.cep.model.InOutStreamModel;
@@ -12,12 +12,15 @@ import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
 
-public class Builder {
+import static io.wizzie.ks.cep.builder.config.ConfigProperties.BOOTSTRAPER_CLASSNAME;
+
+public class Builder implements Listener {
     private static final Logger log = LoggerFactory.getLogger(Builder.class);
 
     Config config;
     KafkaStreams streams;
     MetricsManager metricsManager;
+    Bootstrapper bootstrapper;
 
     enum Topics {
         CEP_STREAM_BOOTSTRAPPER_TOPIC("__cep_stream_bootstrapper"),
@@ -39,10 +42,16 @@ public class Builder {
         this.config = config;
         metricsManager = new MetricsManager(config.clone());
         metricsManager.start();
+
+        bootstrapper = BootstrapperBuilder.makeBuilder()
+                .boostrapperClass(config.get(BOOTSTRAPER_CLASSNAME))
+                .withConfigInstance(config)
+                .listener(this)
+                .build();
     }
 
-    public void update(String source, String bootstrapConfig) {
-
+    @Override
+    public void updateConfig(SourceSystem sourceSystem, String bootstrapConfig) {
         if (streams != null) {
             metricsManager.clean();
             streams.close();
@@ -51,7 +60,7 @@ public class Builder {
 
         ObjectMapper objectMapper = new ObjectMapper();
 
-        switch (Topics.valueOf(source)) {
+        switch (Topics.valueOf(sourceSystem.source)) {
             case CEP_RULES_BOOTSTRAPPER_TOPIC:
                 try {
                     ProcessingModel processingModel = objectMapper.readValue(bootstrapConfig, ProcessingModel.class);
@@ -69,7 +78,7 @@ public class Builder {
                 }
                 break;
             default:
-                throw new SourceNotFoundException(String.format("Source \"{}\" not found!", source));
+                throw new SourceNotFoundException(String.format("Source \"{}\" not found!", sourceSystem.source));
         }
 
         log.info("Started CEP with conf {}", config.getProperties());
