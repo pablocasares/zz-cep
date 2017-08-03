@@ -22,5 +22,14 @@ public class ProcessingModel {
     public void setRules(List<RuleModel> rules) {
         this.rules = rules;
     }
+
+    @Override
+    public String toString() {
+        StringBuilder sb = new StringBuilder();
+
+        sb.append("{")
+                .append("rules: ").append(rules)
+                .append("}");
+    }
 }
 
