@@ -8,11 +8,17 @@ public class AttributeModel {
     AttributeType attributeType;
 
     enum AttributeType {
-        STRING("string"), INTEGER("integer"), OBJECT("object"), DOUBLE("double");
+        STRING("string"),
+        INTEGER("int"),
+        LONG("long"),
+        FLOAT("float"),
+        DOUBLE("double"),
+        BOOLEAN("bool"),
+        OBJECT("object");
 
         private final String type;
 
-        private AttributeType(final String type) {
+        AttributeType(final String type) {
             this.type = type;
         }
 
