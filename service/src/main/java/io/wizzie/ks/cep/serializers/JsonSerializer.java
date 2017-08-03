@@ -1,4 +1,4 @@
-package io.wizzie.ks.normalizer.serializers;
+package io.wizzie.ks.cep.serializers;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
