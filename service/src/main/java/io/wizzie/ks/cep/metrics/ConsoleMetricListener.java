@@ -2,7 +2,7 @@ package io.wizzie.ks.cep.metrics;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import io.wizzie.ks.cep.builder.config.Config;
+import io.wizzie.bootstrapper.builder.Config;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 

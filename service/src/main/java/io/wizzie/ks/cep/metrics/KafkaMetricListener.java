@@ -1,6 +1,6 @@
 package io.wizzie.ks.cep.metrics;
 
-import io.wizzie.ks.cep.builder.config.Config;
+import io.wizzie.bootstrapper.builder.Config;
 import org.apache.kafka.clients.producer.KafkaProducer;
 import org.apache.kafka.clients.producer.ProducerConfig;
 import org.apache.kafka.clients.producer.ProducerRecord;
