@@ -17,7 +17,12 @@
 
     <dependencies>
 
-        <!-- https://mvnrepository.com/artifact/com.cookingfox/guava-preconditions -->
+        <dependency>
+            <groupId>io.wizzie</groupId>
+            <artifactId>config-bootstrapper</artifactId>
+            <version>0.0.1</version>
+        </dependency>
+
         <dependency>
             <groupId>com.cookingfox</groupId>
             <artifactId>guava-preconditions</artifactId>
