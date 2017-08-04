@@ -10,7 +10,7 @@ public class AttributeModelUnitTest {
     @Test
     public void nameIsNotNullTest() {
         String attribute = "attribute";
-        AttributeModel.AttributeType attributeType = AttributeModel.AttributeType.INTEGER;
+        String attributeType = "integer";
 
         AttributeModel attributeModel = new AttributeModel(attribute, attributeType);
 
@@ -21,18 +21,18 @@ public class AttributeModelUnitTest {
     @Test
     public void typeIsNotNullTest() {
         String attribute = "attribute";
-        AttributeModel.AttributeType attributeType = AttributeModel.AttributeType.INTEGER;
+        String attributeType = "integer";
 
         AttributeModel attributeModel = new AttributeModel(attribute, attributeType);
 
         assertNotNull(attributeModel.attributeType);
-        assertEquals(attributeType.toString(), attributeModel.getType().toString());
+        assertEquals("int", attributeModel.getAttributeType().getType());
     }
 
     @Test
     public void toStringIsCorrectTest() {
         String attribute = "attribute";
-        AttributeModel.AttributeType attributeType = AttributeModel.AttributeType.INTEGER;
+        String attributeType = "integer";
 
         AttributeModel attributeModel = new AttributeModel(attribute, attributeType);
 
@@ -42,7 +42,7 @@ public class AttributeModelUnitTest {
         assertNotNull(attributeModel.attributeType);
         assertEquals(attributeType.toString(), attributeType.toString());
 
-        assertEquals("{name: attribute, type: int}", attributeModel.toString());
+        assertEquals("{name: attribute, type: integer}", attributeModel.toString());
     }
 
 }

@@ -9,9 +9,9 @@
     {
       "streamName": "inputStream",
       "attributes": [
-        {"name": "id", "type": "int"},
+        {"name": "id", "type": "integer"},
         {"name": "name", "type": "string"},
-        {"name": "process", "type": "bool"},
+        {"name": "process", "type": "boolean"},
         {"name": "value", "type": "double"}
       ]
     }
