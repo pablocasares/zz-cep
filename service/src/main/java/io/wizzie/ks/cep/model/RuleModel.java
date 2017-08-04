@@ -6,13 +6,13 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import java.util.List;
 
 public class RuleModel {
-    Integer id;
+    String id;
     String version;
     List<String> streams;
     String executionPlan;
 
     @JsonCreator
-    public RuleModel(@JsonProperty("id") Integer id,
+    public RuleModel(@JsonProperty("id") String id,
                      @JsonProperty("version") String version,
                      @JsonProperty("streams") List<String> streams,
                      @JsonProperty("executionPlan") String executionPlan) {
@@ -20,12 +20,12 @@ public class RuleModel {
     }
 
     @JsonProperty
-    public Integer getId() {
+    public String getId() {
         return id;
     }
 
     @JsonProperty
-    public void setId(Integer id) {
+    public void setId(String id) {
         this.id = id;
     }
 

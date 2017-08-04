@@ -8,5 +8,13 @@ public class ProcessingModel {
     public ProcessingModel(List<RuleModel> rules) {
         this.rules = rules;
     }
+
+    public List<RuleModel> getRules() {
+        return rules;
+    }
+
+    public void setRules(List<RuleModel> rules) {
+        this.rules = rules;
+    }
 }
 

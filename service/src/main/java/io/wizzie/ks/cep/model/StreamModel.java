@@ -14,4 +14,20 @@ public class StreamModel {
                        @JsonProperty("attributes") List<AttributeModel> attributes) {
 
     }
+
+    public String getStreamName() {
+        return streamName;
+    }
+
+    public void setStreamName(String streamName) {
+        this.streamName = streamName;
+    }
+
+    public List<AttributeModel> getAttributes() {
+        return attributes;
+    }
+
+    public void setAttributes(List<AttributeModel> attributes) {
+        this.attributes = attributes;
+    }
 }
