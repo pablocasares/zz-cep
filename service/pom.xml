@@ -125,7 +125,7 @@
                             <appendAssemblyId>false</appendAssemblyId>
                             <archive>
                                 <manifest>
-                                    <mainClass>io.wizzie.ks.normalizer.Normalizer</mainClass>
+                                    <mainClass>io.wizzie.ks.cep.Cep</mainClass>
                                 </manifest>
                             </archive>
                         </configuration>
