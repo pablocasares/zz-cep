@@ -1,10 +1,11 @@
 package io.wizzie.ks.cep.builder;
 
-import io.wizzie.ks.cep.model.InOutStreamModel;
-import io.wizzie.ks.cep.model.SourceModel;
+import io.wizzie.ks.cep.model.*;
 import org.apache.kafka.clients.consumer.ConsumerRecord;
 import org.apache.kafka.clients.consumer.ConsumerRecords;
 import org.apache.kafka.clients.consumer.KafkaConsumer;
+import org.wso2.siddhi.core.event.Event;
+import org.wso2.siddhi.core.stream.input.InputHandler;
 
 import java.util.*;
 import java.util.concurrent.ExecutorService;
@@ -16,7 +17,9 @@ public class KafkaController {
 
     private KafkaConsumer<String, String> consumer;
     private Map<String, String> kafka2Siddhi = new HashMap<>();
+    private Map<String, String> siddhi2Kafka = new HashMap<>();
     final List<Kafka2Siddhi> consumers = new ArrayList<>();
+    Siddhi2Kafka producer;
 
     public KafkaController() {
 
@@ -28,10 +31,12 @@ public class KafkaController {
             consumers.add(consumer);
             executor.submit(consumer);
         }
+
+        producer = new Siddhi2Kafka();
     }
 
 
-    public void addSourcesStream(InOutStreamModel inOutStreamModel) {
+    public void addSources2Stream(InOutStreamModel inOutStreamModel, Map<String, InputHandler> inputHandlers) {
 
         //clear existing sources
         kafka2Siddhi.clear();
@@ -42,8 +47,23 @@ public class KafkaController {
 
         for (Kafka2Siddhi consumer : consumers) {
             //Subscribe to the topics associated with the streams.
-            consumer.subscribe(Arrays.asList(kafka2Siddhi.keySet().toArray(new String[kafka2Siddhi.keySet().size()])), kafka2Siddhi);
+            consumer.subscribe(kafka2Siddhi, inputHandlers);
         }
+    }
+
+
+    public void addStream2Sinks(InOutStreamModel inOutStreamModel, Map<String, RuleModel> rules){
+
+        //clear existing sinks
+        siddhi2Kafka.clear();
+
+        producer.addSinks(inOutStreamModel.getSinks());
+        producer.addRules(rules);
+
+    }
+
+    public void send2Kafka(String rule,Event event){
+        producer.send(rule, event);
     }
 
 }
