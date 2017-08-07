@@ -78,7 +78,7 @@ public class Builder implements Listener {
                 }
                 break;
             default:
-                throw new SourceNotFoundException(String.format("Source \"{}\" not found!", sourceSystem.source));
+                throw new SourceNotFoundException(String.format("Source [%s] not found!", sourceSystem.source));
         }
 
         log.info("Started CEP with conf {}", config.getProperties());

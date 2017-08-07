@@ -1,0 +1,20 @@
+{
+  "rules": [
+    {
+      "id": 1,
+      "version": "version1",
+      "streams": [
+        "inputStream"
+      ],
+      "executionPlan": "from inputStream[ process == true ]#window.length(10) select avg(value) as avg, name insert into outputStream"
+    },
+    {
+      "id": 2,
+      "version": "version1",
+      "streams": [
+        "inputStream"
+      ],
+      "executionPlan": "from inputStream[ process == false ] select id, 'Not processed' as description insert into outputStream"
+    }
+  ]
+}
