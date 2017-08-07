@@ -20,7 +20,7 @@ public class KafkaController {
 
     public KafkaController() {
 
-        int numConsumers = 3;
+        int numConsumers = 1;
         ExecutorService executor = Executors.newFixedThreadPool(numConsumers);
 
         for (int i = 0; i < numConsumers; i++) {
@@ -42,7 +42,7 @@ public class KafkaController {
 
         for (Kafka2Siddhi consumer : consumers) {
             //Subscribe to the topics associated with the streams.
-            consumer.subscribe(Arrays.asList(kafka2Siddhi.keySet().toArray(new String[kafka2Siddhi.keySet().size()])));
+            consumer.subscribe(Arrays.asList(kafka2Siddhi.keySet().toArray(new String[kafka2Siddhi.keySet().size()])), kafka2Siddhi);
         }
     }
 
