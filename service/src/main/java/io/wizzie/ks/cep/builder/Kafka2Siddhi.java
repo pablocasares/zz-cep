@@ -6,11 +6,13 @@ import org.apache.kafka.clients.consumer.KafkaConsumer;
 import org.apache.kafka.common.errors.WakeupException;
 
 import java.util.List;
+import java.util.Map;
 
 
 public class Kafka2Siddhi implements Runnable {
 
     private final KafkaConsumer kafkaConsumer;
+    private Map<String, String> kafka2Siddhi;
 
         public Kafka2Siddhi(){
 
@@ -32,7 +34,9 @@ public class Kafka2Siddhi implements Runnable {
             }
         }
 
-        public void subscribe(List<String> topics){
+        public void subscribe(List<String> topics, Map<String, String> kafka2Siddhi){
+            this.kafka2Siddhi.clear();
+            this.kafka2Siddhi.putAll(kafka2Siddhi);
             kafkaConsumer.subscribe(topics);
         }
 
