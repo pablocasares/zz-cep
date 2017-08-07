@@ -45,18 +45,14 @@ public class AttributeModel {
         this.name = name;
     }
 
-    @JsonProperty
-    public AttributeType getAttributeType() {
-        return attributeType;
-    }
 
     @JsonProperty
     public void setAttributeType(AttributeType attributeType) {
         this.attributeType = attributeType;
     }
 
-    public AttributeType getAttributeType() {
-        return attributeType;
+    public String getAttributeType() {
+        return attributeType.getType();
     }
 
     @Override
