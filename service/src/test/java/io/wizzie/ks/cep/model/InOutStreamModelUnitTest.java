@@ -46,9 +46,9 @@ public class InOutStreamModelUnitTest {
         String streamName = "myStream";
         List<AttributeModel> attributes =
                 Arrays.asList(
-                        new AttributeModel("attr1", AttributeModel.AttributeType.FLOAT),
-                        new AttributeModel("attr2", AttributeModel.AttributeType.INTEGER),
-                        new AttributeModel("attr3", AttributeModel.AttributeType.BOOLEAN)
+                        new AttributeModel("attr1", "float"),
+                        new AttributeModel("attr2", "integer"),
+                        new AttributeModel("attr3", "boolean")
                 );
 
         List<SourceModel> sources = Collections.EMPTY_LIST;
@@ -72,9 +72,9 @@ public class InOutStreamModelUnitTest {
         String streamName = "myStream";
         List<AttributeModel> attributes =
                 Arrays.asList(
-                        new AttributeModel("attr1", AttributeModel.AttributeType.FLOAT),
-                        new AttributeModel("attr2", AttributeModel.AttributeType.INTEGER),
-                        new AttributeModel("attr3", AttributeModel.AttributeType.BOOLEAN)
+                        new AttributeModel("attr1", "float"),
+                        new AttributeModel("attr2", "integer"),
+                        new AttributeModel("attr3", "boolean")
                 );
 
         List<SourceModel> sources = Collections.singletonList(new SourceModel(sourceStreamName, sourceKafkaTopic));
@@ -96,7 +96,7 @@ public class InOutStreamModelUnitTest {
                 "{" +
                         "sources: [{streamName: sourceStream, kafkaTopic: sourceTopic}], " +
                         "sinks: [{streamName: sinkStream, kafkaTopic: sinkTopic}], " +
-                        "streams: [{streamName: myStream, attributes: [{name: attr1, type: float}, {name: attr2, type: int}, {name: attr3, type: bool}]}]" +
+                        "streams: [{streamName: myStream, attributes: [{name: attr1, type: float}, {name: attr2, type: integer}, {name: attr3, type: boolean}]}]" +
                         "}", inOutStreamModel.toString());
 
     }

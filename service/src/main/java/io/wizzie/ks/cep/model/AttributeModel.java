@@ -22,9 +22,7 @@ public class AttributeModel {
             this.type = type;
         }
 
-
-        @Override
-        public String toString() {
+        public String getType() {
             return type;
         }
 
@@ -32,9 +30,9 @@ public class AttributeModel {
 
     @JsonCreator
     public AttributeModel(@JsonProperty("name") String name,
-                          @JsonProperty("type") AttributeType attributeType) {
+                          @JsonProperty("type") String attributeType) {
         this.name = name;
-        this.attributeType = attributeType;
+        this.attributeType = AttributeType.valueOf(attributeType.toUpperCase());
     }
 
     @JsonProperty
@@ -48,7 +46,7 @@ public class AttributeModel {
     }
 
     @JsonProperty
-    public AttributeType getType() {
+    public AttributeType getAttributeType() {
         return attributeType;
     }
 
@@ -66,7 +64,7 @@ public class AttributeModel {
         StringBuilder sb = new StringBuilder();
         sb.append("{")
                 .append("name: ").append(name).append(", ")
-                .append("type: ").append(attributeType.toString())
+                .append("type: ").append(attributeType.toString().toLowerCase())
                 .append("}");
 
         return sb.toString();
