@@ -7,14 +7,13 @@ import org.wso2.siddhi.core.ExecutionPlanRuntime;
 import org.wso2.siddhi.core.SiddhiManager;
 
 import java.util.HashMap;
-
-import java.util.LinkedList;
-import java.util.List;
 import java.util.Map;
 
 public class SiddhiController {
 
-    private static final Logger log = LoggerFactory.getLogger(StreamBuilder.class);
+    private static SiddhiController instance = null;
+
+    private static final Logger log = LoggerFactory.getLogger(KafkaController.class);
 
     Map<String, StreamModel> streamsDefinition = new HashMap<>();
     Map<String, SourceModel> sourcesDefinition = new HashMap<>();
@@ -25,9 +24,15 @@ public class SiddhiController {
 
     SiddhiManager siddhiManager;
 
-    public SiddhiController() {
-        siddhiManager = new SiddhiManager();
+    private SiddhiController(){}
+
+    public static SiddhiController getInstance() {
+        if(instance == null) {
+            instance = new SiddhiController();
+        }
+        return instance;
     }
+
 
     public void addStreamDefinition(InOutStreamModel inOutStreamModel) {
         for (StreamModel streamModel : inOutStreamModel.getStreams()) {
@@ -83,6 +88,7 @@ public class SiddhiController {
         for (Map.Entry<String, String> executionPlansEntry : currentExecutionPlans.entrySet()) {
             ExecutionPlanRuntime executionPlanRuntime = siddhiManager.createExecutionPlanRuntime(executionPlansEntry.getValue());
             executionPlanRuntimes.put(executionPlansEntry.getKey(), executionPlanRuntime);
+
         }
 
 
