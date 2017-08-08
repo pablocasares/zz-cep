@@ -60,7 +60,6 @@ public class StreamModelUnitTest {
 
         assertEquals(
                 "{streamName: myStream, attributes: [{name: attr1, type: float}, {name: attr2, type: integer}, {name: attr3, type: boolean}]}", streamModel.toString());
-
     }
 
 

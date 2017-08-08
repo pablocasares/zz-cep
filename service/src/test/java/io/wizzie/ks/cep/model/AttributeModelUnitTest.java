@@ -26,7 +26,7 @@ public class AttributeModelUnitTest {
         AttributeModel attributeModel = new AttributeModel(attribute, attributeType);
 
         assertNotNull(attributeModel.attributeType);
-        assertEquals("int", attributeModel.getAttributeType().getType());
+        assertEquals("int", attributeModel.getAttributeType());
     }
 
     @Test

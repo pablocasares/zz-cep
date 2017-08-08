@@ -1,5 +1,6 @@
-package io.wizzie.ks.cep.builder;
+package io.wizzie.ks.cep.connectors;
 
+import io.wizzie.ks.cep.parsers.EventsParser;
 import org.apache.kafka.clients.consumer.ConsumerRecord;
 import org.apache.kafka.clients.consumer.ConsumerRecords;
 import org.apache.kafka.clients.consumer.KafkaConsumer;
@@ -12,13 +13,16 @@ import java.util.*;
 
 public class Kafka2Siddhi implements Runnable {
 
-    private final KafkaConsumer consumer;
-    private Map<String, String> topics2Siddhi;
+    private KafkaConsumer consumer;
+    private Map<String, String> topics2Siddhi = new HashMap<>();
     Map<String, InputHandler> inputHandlers = new HashMap<>();
     EventsParser eventsParser;
 
     public Kafka2Siddhi() {
+        System.out.println("at constructor");
+    }
 
+    private void init() {
         eventsParser = EventsParser.getInstance();
         Properties props = new Properties();
         props.put("bootstrap.servers", "localhost:9092");
@@ -26,17 +30,29 @@ public class Kafka2Siddhi implements Runnable {
         props.put("key.deserializer", StringDeserializer.class.getName());
         props.put("value.deserializer", StringDeserializer.class.getName());
         this.consumer = new KafkaConsumer<>(props);
-    }
+        System.out.println("at init");
 
+    }
 
     @Override
     public void run() {
+
+        init();
+
         try {
             while (true) {
-                ConsumerRecords<String, String> records = consumer.poll(100);
-                for (ConsumerRecord<String, String> record : records) {
-                    if (inputHandlers.containsKey(record.topic())) {
-                        inputHandlers.get(record.topic()).send(eventsParser.parseToObjectArray(record.topic(), record.value()));
+                ConsumerRecords<String, String> records = null;
+                try {
+                    records = consumer.poll(100);
+                } catch (IllegalStateException e) {
+                    //ignore if consumer not subscribed
+                }
+                if (records != null) {
+                    for (ConsumerRecord<String, String> record : records) {
+                        for (Map.Entry<String, String> topics2SiddhiEntry : topics2Siddhi.entrySet()) {
+                            if (topics2SiddhiEntry.getValue().equals(record.topic()))
+                                inputHandlers.get(topics2SiddhiEntry.getValue()).send(eventsParser.parseToObjectArray(topics2SiddhiEntry.getValue(), record.value()));
+                        }
                     }
                 }
             }
@@ -47,6 +63,7 @@ public class Kafka2Siddhi implements Runnable {
         } finally {
             consumer.close();
         }
+
     }
 
     public void subscribe(Map<String, String> kafka2Siddhi, Map<String, InputHandler> inputHandlers) {

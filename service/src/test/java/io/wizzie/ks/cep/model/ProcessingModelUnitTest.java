@@ -14,8 +14,8 @@ public class ProcessingModelUnitTest {
     @Test
     public void rulesIsNotNullTest() {
         List<RuleModel> rules = Arrays.asList(
-                new RuleModel(1, "v1", Collections.EMPTY_LIST, "myExecutionPlan"),
-                new RuleModel(2, "v1", Collections.EMPTY_LIST, "myOtherPlan")
+                new RuleModel("1", "v1", Collections.EMPTY_LIST, "myExecutionPlan"),
+                new RuleModel("2", "v1", Collections.EMPTY_LIST, "myOtherPlan")
         );
 
         ProcessingModel processingModel = new ProcessingModel(rules);
@@ -28,8 +28,8 @@ public class ProcessingModelUnitTest {
     @Test
     public void toStringIsCorrectTest() {
         List<RuleModel> rules = Arrays.asList(
-                new RuleModel(1, "v1", Collections.singletonList("stream1"), "myExecutionPlan"),
-                new RuleModel(2, "v1", Arrays.asList("stream1", "stream2"), "myOtherPlan")
+                new RuleModel("1", "v1", Collections.singletonList("stream1"), "myExecutionPlan"),
+                new RuleModel("2", "v1", Arrays.asList("stream1", "stream2"), "myOtherPlan")
         );
 
         ProcessingModel processingModel = new ProcessingModel(rules);

@@ -1,8 +1,8 @@
-package io.wizzie.ks.cep.builder;
+package io.wizzie.ks.cep.controllers;
 
+import io.wizzie.ks.cep.connectors.Kafka2Siddhi;
+import io.wizzie.ks.cep.connectors.Siddhi2Kafka;
 import io.wizzie.ks.cep.model.*;
-import org.apache.kafka.clients.consumer.ConsumerRecord;
-import org.apache.kafka.clients.consumer.ConsumerRecords;
 import org.apache.kafka.clients.consumer.KafkaConsumer;
 import org.wso2.siddhi.core.event.Event;
 import org.wso2.siddhi.core.stream.input.InputHandler;
