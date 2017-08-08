@@ -1,6 +1,7 @@
-package io.wizzie.ks.cep.builder;
+package io.wizzie.ks.cep.controllers;
 
 import io.wizzie.ks.cep.model.*;
+import io.wizzie.ks.cep.parsers.EventsParser;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.wso2.siddhi.core.SiddhiAppRuntime;
@@ -21,8 +22,6 @@ public class SiddhiController {
     private static final Logger log = LoggerFactory.getLogger(KafkaController.class);
 
     Map<String, StreamModel> streamsDefinition = new HashMap<>();
-    Map<String, SourceModel> sourcesDefinition = new HashMap<>();
-    Map<String, SinkModel> sinksDefinition = new HashMap<>();
     Map<String, RuleModel> rulesDefinition = new HashMap<>();
     Map<String, String> currentExecutionPlans = new HashMap<>();
     Map<String, SiddhiAppRuntime> executionPlanRuntimes = new HashMap<>();
@@ -71,11 +70,11 @@ public class SiddhiController {
         //Create every streamDefinition, save handlers and create eventParsers
         eventsParser.clear();
         for (Map.Entry<String, StreamModel> streamEntry : streamsDefinition.entrySet()) {
-
+            System.out.println("defining");
             //create stream definition
             StreamDefinition streamDefinition = generateStreamDefinition(streamEntry.getValue().getStreamName(), streamEntry.getValue());
             SiddhiApp siddhiApp = new SiddhiApp(streamEntry.getKey());
-            siddhiApp.defineStream(StreamDefinition.id(streamEntry.getKey())).defineStream(streamDefinition);
+            siddhiApp.defineStream(streamDefinition);
             SiddhiAppRuntime siddhiAppRuntime = siddhiManager.createSiddhiAppRuntime(siddhiApp);
 
             //save handler
@@ -134,11 +133,16 @@ public class SiddhiController {
             });
         }
 
-        //Add kafka2sources and input handlers to KafkaController
-        kafkaController.addSources2Stream(currentInOutStreamModel, inputHandlers);
-        //Add Siddhi2kafka
-        kafkaController.addStream2Sinks(currentInOutStreamModel, rulesDefinition);
-
+        if (currentInOutStreamModel != null) {
+            if (inputHandlers != null) {
+                //Add kafka2sources and input handlers to KafkaController
+                kafkaController.addSources2Stream(currentInOutStreamModel, inputHandlers);
+            }
+            if (rulesDefinition != null) {
+                //Add Siddhi2kafka
+                kafkaController.addStream2Sinks(currentInOutStreamModel, rulesDefinition);
+            }
+        }
     }
 
 

@@ -12,7 +12,7 @@ public class RuleModelUnitTest {
 
     @Test
     public void idIsNotNullTest() {
-        Integer id = 1;
+        String id = "1";
         String version = "v1";
         List<String> streams = Collections.singletonList("placeholder");
         String executionPlan = "placeholder";
@@ -25,7 +25,7 @@ public class RuleModelUnitTest {
 
     @Test
     public void versionIsNotNullTest() {
-        Integer id = 1;
+        String id = "1";
         String version = "v1";
         List<String> streams = Collections.singletonList("placeholder");
         String executionPlan = "placeholder";
@@ -38,7 +38,7 @@ public class RuleModelUnitTest {
 
     @Test
     public void streamsIsNotNullTest() {
-        Integer id = 1;
+        String id = "1";
         String version = "v1";
         List<String> streams = Collections.singletonList("placeholder");
         String executionPlan = "placeholder";
@@ -51,7 +51,7 @@ public class RuleModelUnitTest {
 
     @Test
     public void executionPlanIsNotNullTest() {
-        Integer id = 1;
+        String id = "1";
         String version = "v1";
         List<String> streams = Collections.singletonList("placeholder");
         String executionPlan = "placeholder";
@@ -64,7 +64,7 @@ public class RuleModelUnitTest {
 
     @Test
     public void toStringIsCorrectTest() {
-        Integer id = 1;
+        String id = "1";
         String version = "v1";
         List<String> streams = Collections.singletonList("placeholder");
         String executionPlan = "placeholder";

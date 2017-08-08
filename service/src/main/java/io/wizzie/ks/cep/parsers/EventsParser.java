@@ -1,22 +1,20 @@
-package io.wizzie.ks.cep.builder;
+package io.wizzie.ks.cep.parsers;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import io.wizzie.ks.cep.model.AttributeModel;
 import io.wizzie.ks.cep.model.StreamModel;
 import org.wso2.siddhi.core.event.Event;
 
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 public class EventsParser {
 
     private static EventsParser instance = null;
 
 
-    Map<String, StreamModel> eventsFormat;
+    Map<String, StreamModel> eventsFormat = new HashMap<>();
     ObjectMapper objectMapper = new ObjectMapper();
 
     //Prevent instantiation
@@ -39,7 +37,7 @@ public class EventsParser {
         eventsFormat.clear();
     }
 
-    public Object[] parseToObjectArray(String topic, String event) {
+    public Object[] parseToObjectArray(String streamName, String event) {
 
         //get streamName related with topic
 
@@ -63,10 +61,26 @@ public class EventsParser {
         return attributeList.toArray();
     }
 
-    public String parseToString(String topic, Event event) {
+    public String parseToString(String streamName, Event event) {
 
+        Map<String, Object> eventData = null;
 
-        return stringEvent;
+        if (eventsFormat.containsKey(streamName)) {
+            StreamModel streamModel = eventsFormat.get(streamName);
+            int i = 0;
+            for (AttributeModel attributeModel : streamModel.getAttributes()) {
+                Object element = event.getData()[i];
+                eventData.put(attributeModel.getName(), element);
+                i++;
+            }
+        }
+        String eventString = null;
+        try {
+            eventString = objectMapper.writeValueAsString(eventData);
+        } catch (JsonProcessingException e) {
+            e.printStackTrace();
+        }
+        return eventString;
     }
 
 }

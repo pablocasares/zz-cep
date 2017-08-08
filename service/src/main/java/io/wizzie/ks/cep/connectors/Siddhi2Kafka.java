@@ -1,7 +1,8 @@
-package io.wizzie.ks.cep.builder;
+package io.wizzie.ks.cep.connectors;
 
 import io.wizzie.ks.cep.model.RuleModel;
 import io.wizzie.ks.cep.model.SinkModel;
+import io.wizzie.ks.cep.parsers.EventsParser;
 import org.apache.kafka.clients.producer.KafkaProducer;
 import org.apache.kafka.clients.producer.Producer;
 import org.apache.kafka.clients.producer.ProducerRecord;
@@ -49,7 +50,7 @@ public class Siddhi2Kafka {
                 for(String stream : ruleModelEntry.getValue().getStreams()){
                     for(SinkModel sinkModel : sinks){
                         if(sinkModel.getStreamName().equals(stream)){
-                            producer.send(new ProducerRecord<>(sinkModel.getKafkaTopic(), null, eventsParser.parseToString(event)));
+                            producer.send(new ProducerRecord<>(sinkModel.getKafkaTopic(), null, eventsParser.parseToString(sinkModel.getStreamName(), event)));
                         }
                     }
                 }
