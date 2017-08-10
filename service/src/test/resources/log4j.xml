@@ -10,6 +10,10 @@
         </layout>
     </appender>
 
+    <category name="io.wizzie.ks.cep">
+        <priority value="DEBUG" />
+    </category>
+
     <root>
         <level value="INFO" />
         <appender-ref ref="console" />
