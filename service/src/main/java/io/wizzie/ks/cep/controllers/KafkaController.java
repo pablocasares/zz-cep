@@ -4,6 +4,8 @@ import io.wizzie.ks.cep.connectors.Kafka2Siddhi;
 import io.wizzie.ks.cep.connectors.Siddhi2Kafka;
 import io.wizzie.ks.cep.model.*;
 import org.apache.kafka.clients.consumer.KafkaConsumer;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.wso2.siddhi.core.event.Event;
 import org.wso2.siddhi.core.stream.input.InputHandler;
 
@@ -14,7 +16,10 @@ import java.util.concurrent.Executors;
 
 public class KafkaController {
 
+    private static final Logger log = LoggerFactory.getLogger(KafkaController.class);
 
+
+    private String kafkaCluster;
     private KafkaConsumer<String, String> consumer;
     private Map<String, String> kafka2Siddhi = new HashMap<>();
     private Map<String, String> siddhi2Kafka = new HashMap<>();
@@ -22,21 +27,22 @@ public class KafkaController {
     Siddhi2Kafka producer;
 
     public KafkaController() {
+    }
 
+    public void init(String kafkaCluster){
         int numConsumers = 1;
         ExecutorService executor = Executors.newFixedThreadPool(numConsumers);
 
         for (int i = 0; i < numConsumers; i++) {
-            Kafka2Siddhi consumer = new Kafka2Siddhi();
+            Kafka2Siddhi consumer = new Kafka2Siddhi(kafkaCluster);
             consumers.add(consumer);
             executor.submit(consumer);
         }
 
-        producer = new Siddhi2Kafka();
+        producer = new Siddhi2Kafka(kafkaCluster);
     }
 
-
-    public void addSources2Stream(InOutStreamModel inOutStreamModel, Map<String, InputHandler> inputHandlers) {
+    public void addSources2Stream(InOutStreamModel inOutStreamModel, Map<String, Map<String, InputHandler>> inputHandlers) {
 
         //clear existing sources
         kafka2Siddhi.clear();
@@ -58,6 +64,7 @@ public class KafkaController {
         siddhi2Kafka.clear();
 
         producer.addSinks(inOutStreamModel.getSinks());
+        log.debug("Rules to add. " + rules);
         producer.addRules(rules);
 
     }

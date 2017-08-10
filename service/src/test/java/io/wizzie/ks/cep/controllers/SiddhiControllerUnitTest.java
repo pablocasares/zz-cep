@@ -16,7 +16,7 @@ public class SiddhiControllerUnitTest {
 
 
     @Test
-    public void addStreamAndRulesDefinitionsUnitTest() {
+    public void addStreamDefinitionsUnitTest() {
         SiddhiController siddhiController = SiddhiController.getInstance();
 
         SourceModel sourceModel = new SourceModel("stream","topic");
