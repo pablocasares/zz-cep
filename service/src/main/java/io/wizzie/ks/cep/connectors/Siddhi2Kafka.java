@@ -22,7 +22,7 @@ public class Siddhi2Kafka {
     private static final Logger log = LoggerFactory.getLogger(Siddhi2Kafka.class);
 
 
-    public Siddhi2Kafka(String kafkaCluster){
+    public Siddhi2Kafka(String kafkaCluster) {
         Properties props = new Properties();
         props.put("bootstrap.servers", kafkaCluster);
         props.put("acks", "all");
@@ -37,39 +37,24 @@ public class Siddhi2Kafka {
     }
 
 
-    public void addSinks(List<SinkModel> sinksModel){
-        //clear current sinks
-        sinks.clear();
-        sinks.addAll(sinksModel);
-    }
-
-    public void addRules(Map<String, RuleModel> rulesModels){
+    public void addRules(List<RuleModel> rulesModels) {
         rules.clear();
         log.debug("Adding rules" + rulesModels);
-        rules.putAll(rulesModels);
+        for (RuleModel rule : rulesModels) {
+            rules.put(rule.getId(), rule);
+        }
     }
 
-    public void send(String rule, Event event){
+    public void send(String rule, Event event) {
         //iterate over all rules
         log.debug("Current rules: " + rules);
         log.debug("Event rule: " + rule);
-        for(Map.Entry<String, RuleModel> ruleModelEntry: rules.entrySet()){
-            //if rule selected is the event rule
-            if(ruleModelEntry.getKey().equals(rule)){
-                //iterate over streams of this event rule
-                for(String stream : ruleModelEntry.getValue().getStreams()){
-                    log.debug("Selected stream: " + stream);
-                    //iterate over all rule sinks
-                    for(SinkModel sinkModel : sinks){
-                        log.debug("Stream: " + sinkModel.getStreamName() + " sink: " + sinkModel.getKafkaTopic());
-                        //if sink stream name is the selected stream
-                        if(sinkModel.getStreamName().equals(stream)){
-                            log.debug("KafkaProducer sending event.");
-                            producer.send(new ProducerRecord<>(sinkModel.getKafkaTopic(), null, eventsParser.parseToString(sinkModel.getStreamName(), event)));
-                        }
-                    }
-                }
-            }
+
+        //Get sinks for this rule
+        RuleModel ruleModel = rules.get(rule);
+        //Send event to all rule sinks
+        for (SinkModel sinkModel : ruleModel.getStreams().getSinkModel()){
+            producer.send(new ProducerRecord<>(sinkModel.getKafkaTopic(), null, eventsParser.parseToString(sinkModel.getStreamName(), event)));
         }
     }
 }

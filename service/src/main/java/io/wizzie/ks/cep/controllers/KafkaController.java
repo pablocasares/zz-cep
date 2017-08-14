@@ -19,8 +19,6 @@ public class KafkaController {
     private static final Logger log = LoggerFactory.getLogger(KafkaController.class);
 
 
-    private String kafkaCluster;
-    private KafkaConsumer<String, String> consumer;
     private Map<String, String> kafka2Siddhi = new HashMap<>();
     private Map<String, String> siddhi2Kafka = new HashMap<>();
     final List<Kafka2Siddhi> consumers = new ArrayList<>();
@@ -29,7 +27,7 @@ public class KafkaController {
     public KafkaController() {
     }
 
-    public void init(String kafkaCluster){
+    public void init(String kafkaCluster) {
         int numConsumers = 1;
         ExecutorService executor = Executors.newFixedThreadPool(numConsumers);
 
@@ -42,34 +40,35 @@ public class KafkaController {
         producer = new Siddhi2Kafka(kafkaCluster);
     }
 
-    public void addSources2Stream(InOutStreamModel inOutStreamModel, Map<String, Map<String, InputHandler>> inputHandlers) {
+    public void addProcessingModel(ProcessingModel processingModel, Map<String, Map<String, InputHandler>> inputHandlers) {
 
         //clear existing sources
         kafka2Siddhi.clear();
-
-        for (SourceModel sourceModel : inOutStreamModel.getSources()) {
-            kafka2Siddhi.put(sourceModel.getKafkaTopic(), sourceModel.getStreamName());
+        for (RuleModel rule : processingModel.getRules()) {
+            for (SourceModel sourceModel : rule.getStreams().getSourceModel()) {
+                kafka2Siddhi.put(sourceModel.getKafkaTopic(), sourceModel.getStreamName());
+            }
         }
-
+        //subscribe to the topics.
         for (Kafka2Siddhi consumer : consumers) {
             //Subscribe to the topics associated with the streams.
             consumer.subscribe(kafka2Siddhi, inputHandlers);
         }
-    }
-
-
-    public void addStream2Sinks(InOutStreamModel inOutStreamModel, Map<String, RuleModel> rules){
 
         //clear existing sinks
         siddhi2Kafka.clear();
 
-        producer.addSinks(inOutStreamModel.getSinks());
-        log.debug("Rules to add. " + rules);
-        producer.addRules(rules);
-
+        for(RuleModel rule : processingModel.getRules()){
+           for (SinkModel sinkModel : rule.getStreams().getSinkModel()){
+               siddhi2Kafka.put(sinkModel.getStreamName(),sinkModel.getKafkaTopic());
+           }
+        }
+        log.debug("Rules to add. " + processingModel.getRules());
+        producer.addRules(processingModel.getRules());
     }
 
-    public void send2Kafka(String rule,Event event){
+
+    public void send2Kafka(String rule, Event event) {
         producer.send(rule, event);
     }
 

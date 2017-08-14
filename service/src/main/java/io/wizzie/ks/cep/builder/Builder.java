@@ -4,7 +4,6 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import io.wizzie.bootstrapper.builder.*;
 import io.wizzie.ks.cep.exceptions.SourceNotFoundException;
 import io.wizzie.ks.cep.metrics.MetricsManager;
-import io.wizzie.ks.cep.model.InOutStreamModel;
 import io.wizzie.ks.cep.model.ProcessingModel;
 import org.apache.kafka.streams.KafkaStreams;
 import org.slf4j.Logger;
@@ -71,7 +70,7 @@ public class Builder implements Listener {
                 break;
             case CEP_STREAM_BOOTSTRAPPER_TOPIC:
                 try {
-                    InOutStreamModel inOutStreamModel = objectMapper.readValue(bootstrapConfig, InOutStreamModel.class);
+                    ProcessingModel inOutStreamModel = objectMapper.readValue(bootstrapConfig, ProcessingModel.class);
                     log.info("Streams definitions: {}", inOutStreamModel);
                 } catch (IOException e) {
                     e.printStackTrace();

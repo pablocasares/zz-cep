@@ -69,47 +69,46 @@ public class SiddhiControllerIntegrationTest {
         SiddhiController siddhiController = SiddhiController.getInstance();
         siddhiController.initKafkaController(CLUSTER.bootstrapServers());
 
-        //Add Stream Definition
+        //Add Sources and Sinks Definition
 
-        SourceModel sourceModel = new SourceModel("stream","input1");
+        SourceModel sourceModel = new SourceModel("stream", "input1");
         List<SourceModel> sourceModelList = new LinkedList<>();
         sourceModelList.add(sourceModel);
 
-        SinkModel sinkModel = new SinkModel("streamoutput","input1");
+        SinkModel sinkModel = new SinkModel("streamoutput", "output1");
         List<SinkModel> sinkModelList = new LinkedList<>();
         sinkModelList.add(sinkModel);
 
-        AttributeModel attributeModel = new AttributeModel("attributeName", "string");
-        List<AttributeModel> attributeModelList = new LinkedList<>();
-        attributeModelList.add(attributeModel);
-        StreamModel streamModel = new StreamModel("stream",attributeModelList);
-        List<StreamModel> streamModelList = new LinkedList<>();
-        streamModelList.add(streamModel);
 
-
-
-        InOutStreamModel inOutStreamModel = new InOutStreamModel(sourceModelList, sinkModelList, streamModelList);
-        siddhiController.addStreamDefinition(inOutStreamModel);
-        siddhiController.generateExecutionPlans();
         //////////////////////////////////
 
         //Add Rule Definition
 
         String id = "rule1";
         String version = "v1";
-        List<String> streams = Collections.singletonList("stream");
         String executionPlan = "from stream select * insert into streamoutput";
 
-        RuleModel ruleModelObject = new RuleModel(id, version, streams, executionPlan);
+        StreamMap streamMap = new StreamMap(Arrays.asList(sourceModel), Arrays.asList(sinkModel));
+
+        RuleModel ruleModelObject = new RuleModel(id, version, streamMap, executionPlan);
 
         List<RuleModel> ruleModelList = new LinkedList<>();
         ruleModelList.add(ruleModelObject);
 
-        ProcessingModel processingModel = new ProcessingModel(ruleModelList);
-        siddhiController.addRulesDefinition(processingModel);
-        siddhiController.generateExecutionPlans();
+
+        List<StreamModel> streamsModel = Arrays.asList(
+                new StreamModel("stream", Arrays.asList(
+                        new AttributeModel("attributeName", "string")
+                )));
+
         //////////////////////////////////
 
+
+        ProcessingModel processingModel = new ProcessingModel(ruleModelList, streamsModel);
+
+        siddhiController.addProcessingDefinition(processingModel);
+        siddhiController.generateExecutionPlans();
+        /////////////////////////////////
 
         Properties consumerConfigA = new Properties();
         consumerConfigA.put(ConsumerConfig.BOOTSTRAP_SERVERS_CONFIG, CLUSTER.bootstrapServers());
@@ -125,6 +124,7 @@ public class SiddhiControllerIntegrationTest {
 //        KeyValue<String, Map<String, Object>> expectedDataKv = new KeyValue<>("VALUE", expectedData);
 
         try {
+            System.out.println("Producing KV: " + kvStream1);
             IntegrationTestUtils.produceKeyValuesSynchronously("input1", Collections.singletonList(kvStream1), producerConfig, MOCK_TIME);
         } catch (ExecutionException e) {
             e.printStackTrace();

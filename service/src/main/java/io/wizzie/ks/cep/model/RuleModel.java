@@ -4,21 +4,22 @@ import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 import java.util.List;
+import java.util.Map;
 
 public class RuleModel {
     String id;
     String version;
-    List<String> streams;
+    StreamMap streamMap;
     String executionPlan;
 
     @JsonCreator
     public RuleModel(@JsonProperty("id") String id,
                      @JsonProperty("version") String version,
-                     @JsonProperty("streams") List<String> streams,
+                     @JsonProperty("streamMap") StreamMap streams,
                      @JsonProperty("executionPlan") String executionPlan) {
         this.id = id;
         this.version = version;
-        this.streams = streams;
+        this.streamMap = streams;
         this.executionPlan = executionPlan;
     }
 
@@ -43,13 +44,13 @@ public class RuleModel {
     }
 
     @JsonProperty
-    public List<String> getStreams() {
-        return streams;
+    public StreamMap getStreams() {
+        return streamMap;
     }
 
     @JsonProperty
-    public void setStreams(List<String> streams) {
-        this.streams = streams;
+    public void setStreams(StreamMap streams) {
+        this.streamMap = streams;
     }
 
     @JsonProperty
@@ -69,7 +70,7 @@ public class RuleModel {
         sb.append("{")
                 .append("id: ").append(id).append(", ")
                 .append("version: ").append(version).append(", ")
-                .append("streams: ").append(streams).append(", ")
+                .append("streams: ").append(streamMap).append(", ")
                 .append("executionPlan: ").append(executionPlan)
                 .append("}");
 
