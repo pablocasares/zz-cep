@@ -20,13 +20,14 @@ public class SiddhiController {
 
     private static final Logger log = LoggerFactory.getLogger(SiddhiController.class);
 
-    Map<String, StreamModel> streamsDefinitionModels = new HashMap<>();
+
+    ProcessingModel newProcessingModel;
+
     Map<String, String> streamDefinitions = new HashMap<>();
     Map<String, RuleModel> rulesDefinition = new HashMap<>();
     Map<String, RuleModel> currentExecutionPlans = new HashMap<>();
     Map<String, SiddhiAppRuntime> executionPlanRuntimes = new HashMap<>();
     KafkaController kafkaController;
-    InOutStreamModel currentInOutStreamModel;
     Map<String, Map<String, InputHandler>> inputHandlers = new HashMap<>();
     EventsParser eventsParser = EventsParser.getInstance();
 
@@ -44,28 +45,13 @@ public class SiddhiController {
         return instance;
     }
 
-    public void initKafkaController(String kafkaCluster){
+    public void initKafkaController(String kafkaCluster) {
         this.kafkaController.init(kafkaCluster);
     }
 
-    public void addStreamDefinition(InOutStreamModel inOutStreamModel) {
-        log.debug("Adding Streams definition.");
-        streamsDefinitionModels.clear();
-        for (StreamModel streamModel : inOutStreamModel.getStreams()) {
-            streamsDefinitionModels.put(streamModel.getStreamName(), streamModel);
-        }
-        this.currentInOutStreamModel = inOutStreamModel;
-    }
-
-    public void addRulesDefinition(ProcessingModel processingModel) {
-        log.debug("Adding Rules Defintions.");
-        for (RuleModel ruleModel : processingModel.getRules()) {
-            if (!(rulesDefinition.containsKey(ruleModel.getId())) || !(rulesDefinition.get(ruleModel.getId()).equals(ruleModel.getId()))) {
-                rulesDefinition.put(ruleModel.getId(), ruleModel);
-            } else {
-                log.warn("Rule: " + ruleModel.getId() + " already exists. You should set a new ID or change version if you want add it.");
-            }
-        }
+    public void addProcessingDefinition(ProcessingModel processingModel) {
+        log.debug("Adding new processing model definition.");
+        this.newProcessingModel = processingModel;
     }
 
     public void generateExecutionPlans() {
@@ -74,26 +60,28 @@ public class SiddhiController {
         Map<String, RuleModel> expectedExecutionPlans = new HashMap<>();
 
 
+
         //Create every streamDefinition and create eventParsers
         eventsParser.clear();
         streamDefinitions.clear();
-        for (Map.Entry<String, StreamModel> streamEntry : streamsDefinitionModels.entrySet()) {
+        for (StreamModel streamModel : newProcessingModel.getStreams()) {
             //create stream definition
-            String streamDefinition = generateStreamDefinition(streamEntry.getValue());
-            streamDefinitions.put(streamEntry.getKey(), streamDefinition);
+            String streamDefinition = generateStreamDefinition(streamModel);
+            streamDefinitions.put(streamModel.getStreamName(), streamDefinition);
 
             //add events format to eventsParser
-            eventsParser.addEventFormat(streamEntry.getKey(), streamEntry.getValue());
+            eventsParser.addEventFormat(streamModel.getStreamName(), streamModel);
         }
         log.debug("Created every streamDefinition and created eventParsers");
 
         //Create every ruleDefinition checking if streamDefinition exists
-        for (Map.Entry<String, RuleModel> ruleEntry : rulesDefinition.entrySet()) {
-            for (String stream : ruleEntry.getValue().getStreams()) {
-                if (streamsDefinitionModels.containsKey(stream)) {
-                    expectedExecutionPlans.put(ruleEntry.getKey(), ruleEntry.getValue());
+        for (RuleModel rule: newProcessingModel.getRules()) {
+            StreamMap streamMap = rule.getStreams();
+            for (SourceModel sourceModel : streamMap.getSourceModel()) {
+                if (streamDefinitions.containsKey(sourceModel.getStreamName())) {
+                    expectedExecutionPlans.put(rule.getId(), rule);
                 } else {
-                    log.warn("The rule: " + ruleEntry.getKey() + " doesn't have the stream definition: " + stream + " associated with it. You need to define it.");
+                    log.warn("The rule: " + rule.getId() + " doesn't have the stream definition: " + sourceModel.getStreamName() + " associated with it. You need to define it.");
                 }
             }
         }
@@ -129,8 +117,9 @@ public class SiddhiController {
             SiddhiApp siddhiApp = new SiddhiApp(executionPlansEntry.getKey());
 
             //Add every stream definition to the new Siddhi Plan
-            for (String streamModel : executionPlansEntry.getValue().getStreams()) {
-                fullExecutionPlan.append(streamDefinitions.get(streamModel)).append(" ");
+            StreamMap streamMap = executionPlansEntry.getValue().getStreams();
+            for (SourceModel streamModel : streamMap.getSourceModel()) {
+                fullExecutionPlan.append(streamDefinitions.get(streamModel.getStreamName())).append(" ");
             }
 
             //Add rule
@@ -142,13 +131,14 @@ public class SiddhiController {
 
 
             //save handlers for this rule
-            for (String streamModel : executionPlansEntry.getValue().getStreams()) {
-                InputHandler inputHandler = siddhiAppRuntime.getInputHandler(streamModel);
+            StreamMap streamMap1 = executionPlansEntry.getValue().getStreams();
+            for (SourceModel streamModel : streamMap1.getSourceModel()) {
+                InputHandler inputHandler = siddhiAppRuntime.getInputHandler(streamModel.getStreamName());
 
                 //Save handler at inputHandlers Map. Map format: ("rule1" --> ("stream1"-->inputHandler))
                 inputHandlers.putIfAbsent(executionPlansEntry.getKey(), new HashMap<>());
                 Map<String, InputHandler> inputHandlerMap = inputHandlers.get(executionPlansEntry.getKey());
-                inputHandlerMap.put(streamModel, inputHandler);
+                inputHandlerMap.put(streamModel.getStreamName(), inputHandler);
                 inputHandlers.put(executionPlansEntry.getKey(), inputHandlerMap);
             }
             //Add callback. This callback sends the Siddhi event to SiddhiController
@@ -162,22 +152,16 @@ public class SiddhiController {
                 }
             });
 
-            log.debug("Starting processing the rule: "+ executionPlansEntry.getValue().getId());
+            log.debug("Starting processing the rule: " + executionPlansEntry.getValue().getId());
             //start processing this rule
             siddhiAppRuntime.start();
         }
 
-        if (currentInOutStreamModel != null) {
+        if (newProcessingModel != null) {
             if (inputHandlers != null) {
                 //Add kafka2sources and input handlers to KafkaController
-                log.debug("Adding sources2streams relations to KafkaController");
-                kafkaController.addSources2Stream(currentInOutStreamModel, inputHandlers);
-            }
-            if (rulesDefinition != null && !rulesDefinition.isEmpty()) {
-                //Add Siddhi2kafka
-                log.debug("Adding streams2sinks relations to KafkaController");
-                log.debug("Rules definitions: "+rulesDefinition);
-                kafkaController.addStream2Sinks(currentInOutStreamModel, rulesDefinition);
+                log.debug("Adding processing model relations to KafkaController");
+                kafkaController.addProcessingModel(newProcessingModel, inputHandlers);
             }
         }
     }

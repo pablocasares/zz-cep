@@ -1,8 +1,7 @@
 package io.wizzie.ks.cep.utils.bootstrap;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import io.wizzie.bootstrapper.builder.Config;
-import io.wizzie.ks.cep.model.InOutStreamModel;
+import io.wizzie.ks.cep.model.ProcessingModel;
 import org.apache.kafka.clients.consumer.ConsumerRecord;
 import org.apache.kafka.clients.consumer.KafkaConsumer;
 import org.apache.kafka.clients.producer.KafkaProducer;
@@ -43,7 +42,7 @@ public class StreamerKafkaConfig {
 
             String streamConfig = stringBuffer.toString();
             ObjectMapper objectMapper = new ObjectMapper();
-            InOutStreamModel model = objectMapper.readValue(streamConfig, InOutStreamModel.class);
+            ProcessingModel model = objectMapper.readValue(streamConfig, ProcessingModel.class);
 
             KafkaProducer<String, String> producer = new KafkaProducer<>(properties);
             producer.send(new ProducerRecord<>("__cep_stream_bootstrapper", 0, args[1], streamConfig),
@@ -104,7 +103,7 @@ public class StreamerKafkaConfig {
                 System.out.println(String.format("Find stream configuration with app id [%s] with offset: %d",
                         args[1], jsonOffset));
                 ObjectMapper objectMapper = new ObjectMapper();
-                InOutStreamModel model = objectMapper.readValue(jsonStreamConfig, InOutStreamModel.class);
+                ProcessingModel model = objectMapper.readValue(jsonStreamConfig, ProcessingModel.class);
 
                 System.out.println("Current stream definition: ");
                 System.out.println(model.toString());

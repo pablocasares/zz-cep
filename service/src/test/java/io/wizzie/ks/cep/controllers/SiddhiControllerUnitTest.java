@@ -16,47 +16,47 @@ public class SiddhiControllerUnitTest {
 
 
     @Test
-    public void addStreamDefinitionsUnitTest() {
+    public void addProcessingDefinitionsUnitTest() {
         SiddhiController siddhiController = SiddhiController.getInstance();
 
-        SourceModel sourceModel = new SourceModel("stream","topic");
+        //Add Sources and Sinks Definition
+
+        SourceModel sourceModel = new SourceModel("stream", "input1");
         List<SourceModel> sourceModelList = new LinkedList<>();
         sourceModelList.add(sourceModel);
 
-        SinkModel sinkModel = new SinkModel("stream","topic");
+        SinkModel sinkModel = new SinkModel("streamoutput", "input1");
         List<SinkModel> sinkModelList = new LinkedList<>();
         sinkModelList.add(sinkModel);
 
-        AttributeModel attributeModel = new AttributeModel("attributeName", "string");
-        List<AttributeModel> attributeModelList = new LinkedList<>();
-        attributeModelList.add(attributeModel);
-        StreamModel streamModel = new StreamModel("stream",attributeModelList);
-        List<StreamModel> streamModelList = new LinkedList<>();
-        streamModelList.add(streamModel);
 
-        InOutStreamModel inOutStreamModel = new InOutStreamModel(sourceModelList, sinkModelList, streamModelList);
-        siddhiController.addStreamDefinition(inOutStreamModel);
-        siddhiController.generateExecutionPlans();
-    }
+        //////////////////////////////////
 
+        //Add Rule Definition
 
-    @Test
-    public void addRulesDefinitionUnitTest() {
-        SiddhiController siddhiController = SiddhiController.getInstance();
-
-        String id = "1";
+        String id = "rule1";
         String version = "v1";
-        List<String> streams = Collections.singletonList("placeholder");
-        String executionPlan = "placeholder";
+        String executionPlan = "from stream select * insert into streamoutput";
 
-        RuleModel ruleModelObject = new RuleModel(id, version, streams, executionPlan);
+        StreamMap streamMap = new StreamMap(Arrays.asList(sourceModel), Arrays.asList(sinkModel));
+
+        RuleModel ruleModelObject = new RuleModel(id, version, streamMap, executionPlan);
 
         List<RuleModel> ruleModelList = new LinkedList<>();
         ruleModelList.add(ruleModelObject);
 
-        ProcessingModel processingModel = new ProcessingModel(ruleModelList);
-        siddhiController.addRulesDefinition(processingModel);
-        siddhiController.generateExecutionPlans();
+
+        List<StreamModel> streamsModel = Arrays.asList(
+                new StreamModel("stream1", Arrays.asList(
+                        new AttributeModel("timestamp", "long")
+                )));
+
+        //////////////////////////////////
+
+
+        ProcessingModel processingModel = new ProcessingModel(ruleModelList, streamsModel);
+
+        siddhiController.addProcessingDefinition(processingModel);
     }
 
 }
