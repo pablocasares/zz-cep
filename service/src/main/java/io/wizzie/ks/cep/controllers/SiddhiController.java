@@ -14,6 +14,7 @@ import org.wso2.siddhi.query.api.SiddhiApp;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Properties;
 
 public class SiddhiController {
     private static SiddhiController instance = null;
@@ -45,8 +46,8 @@ public class SiddhiController {
         return instance;
     }
 
-    public void initKafkaController(String kafkaCluster) {
-        this.kafkaController.init(kafkaCluster);
+    public void initKafkaController(Properties consumerProperties, Properties producerProperties) {
+        this.kafkaController.init(consumerProperties, producerProperties);
     }
 
     public void addProcessingDefinition(ProcessingModel processingModel) {
@@ -54,14 +55,13 @@ public class SiddhiController {
         this.newProcessingModel = processingModel;
     }
 
-    public void generateExecutionPlans() {
+    public synchronized void generateExecutionPlans() {
 
         log.debug("Generating execution plans.");
         Map<String, RuleModel> expectedExecutionPlans = new HashMap<>();
 
 
-
-        //Create every streamDefinition and create eventParsers
+        //Create every streamDefinition and create eventParsers for each stream.
         eventsParser.clear();
         streamDefinitions.clear();
         for (StreamModel streamModel : newProcessingModel.getStreams()) {
@@ -75,9 +75,9 @@ public class SiddhiController {
         log.debug("Created every streamDefinition and created eventParsers");
 
         //Create every ruleDefinition checking if streamDefinition exists
-        for (RuleModel rule: newProcessingModel.getRules()) {
-            StreamMap streamMap = rule.getStreams();
-            for (SourceModel sourceModel : streamMap.getSourceModel()) {
+        for (RuleModel rule : newProcessingModel.getRules()) {
+            StreamMapModel streamMapModel = rule.getStreams();
+            for (SourceModel sourceModel : streamMapModel.getSourceModel()) {
                 if (streamDefinitions.containsKey(sourceModel.getStreamName())) {
                     expectedExecutionPlans.put(rule.getId(), rule);
                 } else {
@@ -89,17 +89,23 @@ public class SiddhiController {
 
         //Remove the rules that was already added to Siddhi with an equal version before this new config arrived.
         for (Map.Entry<String, RuleModel> executionPlansEntry : currentExecutionPlans.entrySet()) {
-            if (expectedExecutionPlans.containsKey(executionPlansEntry.getKey()) && (expectedExecutionPlans.get(executionPlansEntry.getKey()).getVersion().equals(executionPlansEntry.getValue().getVersion())))
+            if (expectedExecutionPlans.containsKey(executionPlansEntry.getKey()) && (expectedExecutionPlans.get(executionPlansEntry.getKey()).getVersion().equals(executionPlansEntry.getValue().getVersion()))) {
                 expectedExecutionPlans.remove(executionPlansEntry.getKey());
+                log.debug("Rule: " + executionPlansEntry.getKey() + " is already added. Removing it from expected execution plans.");
+            }
         }
 
-        //Stop the execution plan runtimes that are no longer needed
+        // TODO: FIX THIS LOOP: Stop the execution plan runtimes that are no longer needed
+
         for (Map.Entry<String, RuleModel> executionPlansEntry : currentExecutionPlans.entrySet()) {
             //Delete and stop older rules or delete and stop rules not defined.
-            if (expectedExecutionPlans.containsKey(executionPlansEntry.getKey()) || !rulesDefinition.containsKey(executionPlansEntry.getKey())) {
+            log.debug("Current execution plans: " + currentExecutionPlans);
+            log.debug("Expected new execution plans: " + expectedExecutionPlans);
+            log.debug("Execution plans after generating: " + newProcessingModel.getRules());
+            if (!expectedExecutionPlans.containsKey(executionPlansEntry.getKey())) { //|| !rulesDefinition.containsKey(executionPlansEntry.getKey())) {
                 currentExecutionPlans.remove(executionPlansEntry.getKey());
-                siddhiManager.getSiddhiAppRuntime(executionPlansEntry.getKey()).shutdown();
                 log.debug("Stopping execution plan: " + executionPlansEntry.getKey() + " as it is no longer needed");
+                siddhiManager.getSiddhiAppRuntime(executionPlansEntry.getKey()).shutdown();
             }
         }
         log.debug("Stopped the execution plan runtimes that are no longer needed");
@@ -117,8 +123,8 @@ public class SiddhiController {
             SiddhiApp siddhiApp = new SiddhiApp(executionPlansEntry.getKey());
 
             //Add every stream definition to the new Siddhi Plan
-            StreamMap streamMap = executionPlansEntry.getValue().getStreams();
-            for (SourceModel streamModel : streamMap.getSourceModel()) {
+            StreamMapModel streamMapModel = executionPlansEntry.getValue().getStreams();
+            for (SourceModel streamModel : streamMapModel.getSourceModel()) {
                 fullExecutionPlan.append(streamDefinitions.get(streamModel.getStreamName())).append(" ");
             }
 
@@ -131,8 +137,8 @@ public class SiddhiController {
 
 
             //save handlers for this rule
-            StreamMap streamMap1 = executionPlansEntry.getValue().getStreams();
-            for (SourceModel streamModel : streamMap1.getSourceModel()) {
+            StreamMapModel streamMapModel1 = executionPlansEntry.getValue().getStreams();
+            for (SourceModel streamModel : streamMapModel1.getSourceModel()) {
                 InputHandler inputHandler = siddhiAppRuntime.getInputHandler(streamModel.getStreamName());
 
                 //Save handler at inputHandlers Map. Map format: ("rule1" --> ("stream1"-->inputHandler))

@@ -41,7 +41,7 @@ public class ProcessingModel {
         sb.append("{")
                 .append("streams: ").append(streams)
                 .append(", rules: ").append(rules)
-                .append("}");
+                .append("}\n");
 
         return sb.toString();
     }

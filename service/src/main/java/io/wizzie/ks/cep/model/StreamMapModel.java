@@ -5,11 +5,11 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import java.util.List;
 
 
-public class StreamMap {
+public class StreamMapModel {
     List<SourceModel> sourcesModel;
     List<SinkModel> sinksModel;
 
-    public StreamMap(@JsonProperty("in") List<SourceModel> sourcesModel, @JsonProperty("out") List<SinkModel> sinksModel){
+    public StreamMapModel(@JsonProperty("in") List<SourceModel> sourcesModel, @JsonProperty("out") List<SinkModel> sinksModel){
         this.sourcesModel = sourcesModel;
         this.sinksModel = sinksModel;
     }
@@ -28,5 +28,18 @@ public class StreamMap {
 
     public void setSinkModel(List<SinkModel> sinksModel) {
         this.sinksModel = sinksModel;
+    }
+
+    @Override
+    public String toString() {
+
+        StringBuilder sb = new StringBuilder();
+
+        sb.append("{")
+                .append("in: ").append(sourcesModel).append(", ")
+                .append("out: ").append(sinksModel)
+                .append("}");
+
+        return sb.toString();
     }
 }
