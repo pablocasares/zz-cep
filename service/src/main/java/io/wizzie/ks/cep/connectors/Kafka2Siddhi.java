@@ -25,18 +25,10 @@ public class Kafka2Siddhi implements Runnable {
     private static final Logger log = LoggerFactory.getLogger(Kafka2Siddhi.class);
 
 
-    public Kafka2Siddhi(String kafkaCluster) {
+    public Kafka2Siddhi(Properties consumerProperties) {
         mutex = new Semaphore(1);
         eventsParser = EventsParser.getInstance();
-        Properties props = new Properties();
-        props.put("bootstrap.servers", kafkaCluster);
-        props.put("group.id", "cep");
-        props.put("enable.auto.commit", "true");
-        props.put("auto.commit.interval.ms", "1000");
-        props.put("max.poll.interval.ms", "2000");
-        props.put("key.deserializer", StringDeserializer.class.getName());
-        props.put("value.deserializer", StringDeserializer.class.getName());
-        this.consumer = new KafkaConsumer<>(props);
+        this.consumer = new KafkaConsumer<>(consumerProperties);
     }
 
     @Override
@@ -104,10 +96,10 @@ public class Kafka2Siddhi implements Runnable {
             this.topics2Siddhi.clear();
             this.topics2Siddhi.putAll(kafka2Siddhi);
             this.inputHandlers = inputHandlers;
-            consumer.pause(consumer.assignment());
+            log.debug("Pausing consumer");
             log.debug("Subscribing to: " + topics2Siddhi.keySet());
             consumer.subscribe(Arrays.asList(topics2Siddhi.keySet().toArray(new String[topics2Siddhi.keySet().size()])));
-            consumer.resume(consumer.assignment());
+            log.debug("Resuming consumer: " + consumer.assignment());
         } catch (InterruptedException e) {
             e.printStackTrace();
         } finally {

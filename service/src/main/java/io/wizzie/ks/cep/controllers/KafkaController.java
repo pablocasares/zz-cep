@@ -27,17 +27,17 @@ public class KafkaController {
     public KafkaController() {
     }
 
-    public void init(String kafkaCluster) {
+    public void init(Properties consumerProperties, Properties producerProperties) {
         int numConsumers = 1;
         ExecutorService executor = Executors.newFixedThreadPool(numConsumers);
 
         for (int i = 0; i < numConsumers; i++) {
-            Kafka2Siddhi consumer = new Kafka2Siddhi(kafkaCluster);
+            Kafka2Siddhi consumer = new Kafka2Siddhi(consumerProperties);
             consumers.add(consumer);
             executor.submit(consumer);
         }
 
-        producer = new Siddhi2Kafka(kafkaCluster);
+        producer = new Siddhi2Kafka(producerProperties);
     }
 
     public void addProcessingModel(ProcessingModel processingModel, Map<String, Map<String, InputHandler>> inputHandlers) {

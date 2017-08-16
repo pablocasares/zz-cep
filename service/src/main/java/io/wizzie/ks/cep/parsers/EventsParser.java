@@ -2,14 +2,19 @@ package io.wizzie.ks.cep.parsers;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import io.wizzie.ks.cep.controllers.KafkaController;
 import io.wizzie.ks.cep.model.AttributeModel;
 import io.wizzie.ks.cep.model.StreamModel;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.wso2.siddhi.core.event.Event;
 
 import java.io.IOException;
 import java.util.*;
 
 public class EventsParser {
+
+    private static final Logger log = LoggerFactory.getLogger(EventsParser.class);
 
     private static EventsParser instance = null;
 
@@ -66,6 +71,7 @@ public class EventsParser {
         Map<String, Object> eventData = null;
 
         if (eventsFormat.containsKey(streamName)) {
+            eventData = new HashMap<>();
             StreamModel streamModel = eventsFormat.get(streamName);
             int i = 0;
             for (AttributeModel attributeModel : streamModel.getAttributes()) {
@@ -73,6 +79,9 @@ public class EventsParser {
                 eventData.put(attributeModel.getName(), element);
                 i++;
             }
+        } else {
+            log.debug("Events Parser doesn't contains stream: " + streamName);
+            log.debug("Current stream parsers: " + eventsFormat.keySet());
         }
         String eventString = null;
         try {

@@ -2,10 +2,8 @@ package io.wizzie.ks.cep.controllers;
 
 import io.wizzie.ks.cep.model.*;
 import org.junit.Test;
-import org.wso2.siddhi.core.stream.output.sink.Sink;
 
 import java.util.Arrays;
-import java.util.Collections;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -16,7 +14,7 @@ public class SiddhiControllerUnitTest {
 
 
     @Test
-    public void addProcessingDefinitionsUnitTest() {
+    public void addProcessingDefinitionUnitTest() {
         SiddhiController siddhiController = SiddhiController.getInstance();
 
         //Add Sources and Sinks Definition
@@ -38,9 +36,9 @@ public class SiddhiControllerUnitTest {
         String version = "v1";
         String executionPlan = "from stream select * insert into streamoutput";
 
-        StreamMap streamMap = new StreamMap(Arrays.asList(sourceModel), Arrays.asList(sinkModel));
+        StreamMapModel streamMapModel = new StreamMapModel(Arrays.asList(sourceModel), Arrays.asList(sinkModel));
 
-        RuleModel ruleModelObject = new RuleModel(id, version, streamMap, executionPlan);
+        RuleModel ruleModelObject = new RuleModel(id, version, streamMapModel, executionPlan);
 
         List<RuleModel> ruleModelList = new LinkedList<>();
         ruleModelList.add(ruleModelObject);

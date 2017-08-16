@@ -3,23 +3,20 @@ package io.wizzie.ks.cep.model;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
-import java.util.List;
-import java.util.Map;
-
 public class RuleModel {
     String id;
     String version;
-    StreamMap streamMap;
+    StreamMapModel streamMapModel;
     String executionPlan;
 
     @JsonCreator
     public RuleModel(@JsonProperty("id") String id,
                      @JsonProperty("version") String version,
-                     @JsonProperty("streamMap") StreamMap streams,
+                     @JsonProperty("streamMapModel") StreamMapModel streams,
                      @JsonProperty("executionPlan") String executionPlan) {
         this.id = id;
         this.version = version;
-        this.streamMap = streams;
+        this.streamMapModel = streams;
         this.executionPlan = executionPlan;
     }
 
@@ -44,13 +41,13 @@ public class RuleModel {
     }
 
     @JsonProperty
-    public StreamMap getStreams() {
-        return streamMap;
+    public StreamMapModel getStreams() {
+        return streamMapModel;
     }
 
     @JsonProperty
-    public void setStreams(StreamMap streams) {
-        this.streamMap = streams;
+    public void setStreams(StreamMapModel streams) {
+        this.streamMapModel = streams;
     }
 
     @JsonProperty
@@ -70,7 +67,7 @@ public class RuleModel {
         sb.append("{")
                 .append("id: ").append(id).append(", ")
                 .append("version: ").append(version).append(", ")
-                .append("streams: ").append(streamMap).append(", ")
+                .append("streams: ").append(streamMapModel).append(", ")
                 .append("executionPlan: ").append(executionPlan)
                 .append("}");
 
