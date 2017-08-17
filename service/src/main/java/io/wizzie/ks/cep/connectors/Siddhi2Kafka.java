@@ -49,8 +49,10 @@ public class Siddhi2Kafka {
         //Send event to all rule sinks parsing it with the source stream format
         for (SinkModel sinkModel : ruleModel.getStreams().getSinkModel()) {
             log.debug("Sending event to sink: " + sinkModel.getKafkaTopic());
-            log.debug("Parsed event: " + eventsParser.parseToString(sinkModel.getStreamName(), event));
             for (SourceModel sourceModel : ruleModel.getStreams().getSourceModel()) {
+                log.debug("Parsed event: " + eventsParser.parseToString(sourceModel.getStreamName(), event));
+                //Be careful here, if you define more than one "in" stream to some rule it will send more than 1 event.
+                //The reason is because without parsing the rule you can't know which parsing you should use.
                 producer.send(new ProducerRecord<>(sinkModel.getKafkaTopic(), null, eventsParser.parseToString(sourceModel.getStreamName(), event)));
             }
         }
