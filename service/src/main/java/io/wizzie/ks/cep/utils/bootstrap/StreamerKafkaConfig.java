@@ -45,10 +45,10 @@ public class StreamerKafkaConfig {
             ProcessingModel model = objectMapper.readValue(streamConfig, ProcessingModel.class);
 
             KafkaProducer<String, String> producer = new KafkaProducer<>(properties);
-            producer.send(new ProducerRecord<>("__cep_stream_bootstrapper", 0, args[1], streamConfig),
+            producer.send(new ProducerRecord<>("__cep_bootstrapper", 0, args[1], streamConfig),
                     ((metadata, exception) -> {
                         if (exception == null) {
-                            System.out.println(String.format("Wrote stream definition with appID[%s] with offset: %d",
+                            System.out.println(String.format("Wrote processing definition with appID[%s] with offset: %d",
                                     args[1], metadata.offset()));
                         } else {
                             System.out.println(exception.getMessage());
@@ -70,11 +70,11 @@ public class StreamerKafkaConfig {
             consumerConfig.put(KEY_DESERIALIZER_CLASS_CONFIG, "org.apache.kafka.common.serialization.StringDeserializer");
             consumerConfig.put(VALUE_DESERIALIZER_CLASS_CONFIG, "org.apache.kafka.common.serialization.StringDeserializer");
             consumerConfig.put(GROUP_ID_CONFIG, String.format(
-                    "cep-streams-bootstraper-%s-%s", args[1], UUID.randomUUID().toString())
+                    "cep-bootstraper-%s-%s", args[1], UUID.randomUUID().toString())
             );
 
             KafkaConsumer<String, String> restoreConsumer = new KafkaConsumer<>(consumerConfig);
-            TopicPartition storePartition = new TopicPartition("__cep_stream_bootstrapper", 0);
+            TopicPartition storePartition = new TopicPartition("__cep_bootstrapper", 0);
             restoreConsumer.assign(Collections.singletonList(storePartition));
 
             // calculate the end offset of the partition
@@ -100,18 +100,18 @@ public class StreamerKafkaConfig {
             }
 
             if (jsonStreamConfig != null) {
-                System.out.println(String.format("Find stream configuration with app id [%s] with offset: %d",
+                System.out.println(String.format("Find processing configuration with app id [%s] with offset: %d",
                         args[1], jsonOffset));
                 ObjectMapper objectMapper = new ObjectMapper();
                 ProcessingModel model = objectMapper.readValue(jsonStreamConfig, ProcessingModel.class);
 
-                System.out.println("Current stream definition: ");
+                System.out.println("Current processing definition: ");
                 System.out.println(model.toString());
 
-                System.out.println("Stream json definition: ");
+                System.out.println("Processing json definition: ");
                 System.out.println(objectMapper.writerWithDefaultPrettyPrinter().writeValueAsString(model));
             } else {
-                System.out.println(String.format("Don't find any stream definition with app id [%s]", args[1]));
+                System.out.println(String.format("Don't find any processing definition with app id [%s]", args[1]));
             }
         } else {
             System.out.println("Usage: java -cp cep-selfcontained.jar io.wizzie.ks.cep.utils.bootstrap.StreamerKafkaConfig <bootstrap_kafka_servers> <app_id> [stream_config_path]");

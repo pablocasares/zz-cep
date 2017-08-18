@@ -25,5 +25,4 @@ public class Cep {
             log.error("Execute: java -cp ${JAR_PATH} io.wizzie.ks.cep <config_file>");
         }
     }
-
 }
