@@ -17,14 +17,12 @@ import java.util.*;
 public class Siddhi2Kafka {
 
     Producer<String, String> producer;
-    List<SinkModel> sinks = new LinkedList<>();
     EventsParser eventsParser;
     Map<String, RuleModel> rules = new HashMap<>();
     private static final Logger log = LoggerFactory.getLogger(Siddhi2Kafka.class);
 
 
     public Siddhi2Kafka(Properties producerProperties) {
-        Properties props = new Properties();
         producer = new KafkaProducer<>(producerProperties);
         eventsParser = EventsParser.getInstance();
     }
@@ -56,5 +54,9 @@ public class Siddhi2Kafka {
                 producer.send(new ProducerRecord<>(sinkModel.getKafkaTopic(), null, eventsParser.parseToString(sourceModel.getStreamName(), event)));
             }
         }
+    }
+
+    public void close(){
+        producer.close();
     }
 }

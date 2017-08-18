@@ -25,7 +25,6 @@ public class SiddhiController {
     ProcessingModel newProcessingModel;
 
     Map<String, String> streamDefinitions = new HashMap<>();
-    Map<String, RuleModel> rulesDefinition = new HashMap<>();
     Map<String, RuleModel> currentExecutionPlans = new HashMap<>();
     Map<String, SiddhiAppRuntime> executionPlanRuntimes = new HashMap<>();
     KafkaController kafkaController;
@@ -67,6 +66,7 @@ public class SiddhiController {
         for (StreamModel streamModel : newProcessingModel.getStreams()) {
             //create stream definition
             String streamDefinition = generateStreamDefinition(streamModel);
+            log.debug("Adding stream definition for: " + streamModel.getStreamName());
             streamDefinitions.put(streamModel.getStreamName(), streamDefinition);
 
             //add events format to eventsParser
@@ -164,15 +164,18 @@ public class SiddhiController {
             }
         }
 
+
+    }
+
+    public synchronized void addProcessingModel2KafkaController(){
         if (newProcessingModel != null) {
-            if (inputHandlers != null) {
+            if (inputHandlers != null && !inputHandlers.isEmpty()) {
                 //Add kafka2sources and input handlers to KafkaController
                 log.debug("Adding processing model relations to KafkaController");
                 kafkaController.addProcessingModel(newProcessingModel, inputHandlers);
             }
         }
     }
-
 
     private String generateStreamDefinition(StreamModel streamModel) {
 
@@ -198,5 +201,9 @@ public class SiddhiController {
         return ruleDefinition.toString();
     }
 
+
+    public void shutdown(){
+        kafkaController.shutdown();
+    }
 
 }

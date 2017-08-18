@@ -35,12 +35,12 @@ public class Kafka2Siddhi implements Runnable {
     public void run() {
         try {
             while (true) {
-                //log.debug("Consumer acquiring mutex");
+                log.debug("Consumer acquiring mutex");
                 mutex.acquire();
                 //log.debug("Consumer entered exclusion zone");
                 ConsumerRecords<String, String> records = null;
                 try {
-                    //log.debug("Consumer starts poll. It will stay at this line if the consumer can't connect to Kafka.");
+                    log.debug("Consumer starts poll. It will stay at this line if the consumer can't connect to Kafka.");
                     records = consumer.poll(100);
                 } catch (IllegalStateException e) {
                     //ignore if consumer not subscribed
@@ -74,7 +74,7 @@ public class Kafka2Siddhi implements Runnable {
                         }
                     }
                 }
-                //log.debug("Consumer releasing mutex");
+                log.debug("Consumer releasing mutex");
                 mutex.release();
             }
         } catch (WakeupException e) {

@@ -58,18 +58,29 @@ public class KafkaController {
         //clear existing sinks
         siddhi2Kafka.clear();
 
-        for(RuleModel rule : processingModel.getRules()){
-           for (SinkModel sinkModel : rule.getStreams().getSinkModel()){
-               siddhi2Kafka.put(sinkModel.getStreamName(),sinkModel.getKafkaTopic());
-           }
+        for (RuleModel rule : processingModel.getRules()) {
+            for (SinkModel sinkModel : rule.getStreams().getSinkModel()) {
+                siddhi2Kafka.put(sinkModel.getStreamName(), sinkModel.getKafkaTopic());
+            }
         }
         log.debug("Rules to add. " + processingModel.getRules());
-        producer.addRules(processingModel.getRules());
+        if (producer == null) {
+            log.warn("KafkaController has not been initialized. Please exec init method before calling addProcessingModel.");
+        } else {
+            producer.addRules(processingModel.getRules());
+        }
     }
 
 
     public void send2Kafka(String rule, Event event) {
         producer.send(rule, event);
+    }
+
+    public void shutdown(){
+        for(Kafka2Siddhi kafka2Siddhi : consumers){
+            kafka2Siddhi.shutdown();
+        }
+        producer.close();
     }
 
 }

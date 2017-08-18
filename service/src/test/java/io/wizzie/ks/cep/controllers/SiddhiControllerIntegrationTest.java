@@ -42,7 +42,32 @@ public class SiddhiControllerIntegrationTest {
 
         // sinks
         CLUSTER.createTopic("output1", 1, REPLICATION_FACTOR);
+
+
+        Properties  consumerProperties = new Properties();
+        consumerProperties.put("bootstrap.servers", CLUSTER.bootstrapServers());
+        consumerProperties.put("group.id", "cep");
+        consumerProperties.put("enable.auto.commit", "true");
+        consumerProperties.put("auto.commit.interval.ms", "1000");
+        consumerProperties.put("key.deserializer", StringDeserializer.class.getName());
+        consumerProperties.put("value.deserializer", StringDeserializer.class.getName());
+        //Property just needed for testing.
+        consumerProperties.put(ConsumerConfig.AUTO_OFFSET_RESET_CONFIG, "earliest");
+
+        Properties producerProperties = new Properties();
+        producerProperties.put("bootstrap.servers", CLUSTER.bootstrapServers());
+        producerProperties.put("acks", "all");
+        producerProperties.put("retries", 0);
+        producerProperties.put("batch.size", 16384);
+        producerProperties.put("linger.ms", 1);
+        producerProperties.put("buffer.memory", 33554432);
+        producerProperties.put("key.serializer", "org.apache.kafka.common.serialization.StringSerializer");
+        producerProperties.put("value.serializer", "org.apache.kafka.common.serialization.StringSerializer");
+
+
+        SiddhiController.getInstance().initKafkaController(consumerProperties, producerProperties);
     }
+
 
     @Test
     public void SiddhiControllerAddTwoStreamTest() throws InterruptedException {
@@ -68,38 +93,6 @@ public class SiddhiControllerIntegrationTest {
             e.printStackTrace();
         }
 
-        Properties producerConfig = new Properties();
-        producerConfig.put(ProducerConfig.BOOTSTRAP_SERVERS_CONFIG, CLUSTER.bootstrapServers());
-        producerConfig.put(ProducerConfig.ACKS_CONFIG, "all");
-        producerConfig.put(ProducerConfig.RETRIES_CONFIG, 0);
-        producerConfig.put(ProducerConfig.KEY_SERIALIZER_CLASS_CONFIG, Serdes.String().serializer().getClass());
-        producerConfig.put(ProducerConfig.VALUE_SERIALIZER_CLASS_CONFIG, JsonSerializer.class);
-
-
-        SiddhiController siddhiController = SiddhiController.getInstance();
-
-        Properties  consumerProperties = new Properties();
-        consumerProperties.put("bootstrap.servers", CLUSTER.bootstrapServers());
-        consumerProperties.put("group.id", "cep");
-        consumerProperties.put("enable.auto.commit", "true");
-        consumerProperties.put("auto.commit.interval.ms", "1000");
-        consumerProperties.put("key.deserializer", StringDeserializer.class.getName());
-        consumerProperties.put("value.deserializer", StringDeserializer.class.getName());
-        //Property just needed for testing.
-        consumerProperties.put(ConsumerConfig.AUTO_OFFSET_RESET_CONFIG, "earliest");
-
-        Properties producerProperties = new Properties();
-        producerProperties.put("bootstrap.servers", CLUSTER.bootstrapServers());
-        producerProperties.put("acks", "all");
-        producerProperties.put("retries", 0);
-        producerProperties.put("batch.size", 16384);
-        producerProperties.put("linger.ms", 1);
-        producerProperties.put("buffer.memory", 33554432);
-        producerProperties.put("key.serializer", "org.apache.kafka.common.serialization.StringSerializer");
-        producerProperties.put("value.serializer", "org.apache.kafka.common.serialization.StringSerializer");
-
-
-        siddhiController.initKafkaController(consumerProperties, producerProperties);
 
         //Add Sources and Sinks Definition
 
@@ -140,8 +133,10 @@ public class SiddhiControllerIntegrationTest {
 
         ProcessingModel processingModel = new ProcessingModel(ruleModelList, streamsModel);
 
+        SiddhiController siddhiController = SiddhiController.getInstance();
         siddhiController.addProcessingDefinition(processingModel);
         siddhiController.generateExecutionPlans();
+        siddhiController.addProcessingModel2KafkaController();
         /////////////////////////////////
 
         Properties consumerConfigA = new Properties();
@@ -160,6 +155,13 @@ public class SiddhiControllerIntegrationTest {
 
         KeyValue<String, Map<String, Object>> expectedDataKv = new KeyValue<>(null, expectedData);
         KeyValue<String, Map<String, Object>> expectedDataKv2 = new KeyValue<>(null, expectedData2);
+
+        Properties producerConfig = new Properties();
+        producerConfig.put(ProducerConfig.BOOTSTRAP_SERVERS_CONFIG, CLUSTER.bootstrapServers());
+        producerConfig.put(ProducerConfig.ACKS_CONFIG, "all");
+        producerConfig.put(ProducerConfig.RETRIES_CONFIG, 0);
+        producerConfig.put(ProducerConfig.KEY_SERIALIZER_CLASS_CONFIG, Serdes.String().serializer().getClass());
+        producerConfig.put(ProducerConfig.VALUE_SERIALIZER_CLASS_CONFIG, JsonSerializer.class);
 
 
         try {
@@ -206,29 +208,6 @@ public class SiddhiControllerIntegrationTest {
 
         SiddhiController siddhiController = SiddhiController.getInstance();
 
-        Properties  consumerProperties = new Properties();
-        consumerProperties.put("bootstrap.servers", CLUSTER.bootstrapServers());
-        consumerProperties.put("group.id", "cep");
-        consumerProperties.put("enable.auto.commit", "true");
-        consumerProperties.put("auto.commit.interval.ms", "1000");
-        consumerProperties.put("key.deserializer", StringDeserializer.class.getName());
-        consumerProperties.put("value.deserializer", StringDeserializer.class.getName());
-        //Property just needed for testing.
-        consumerProperties.put(ConsumerConfig.AUTO_OFFSET_RESET_CONFIG, "earliest");
-
-        Properties producerProperties = new Properties();
-        producerProperties.put("bootstrap.servers", CLUSTER.bootstrapServers());
-        producerProperties.put("acks", "all");
-        producerProperties.put("retries", 0);
-        producerProperties.put("batch.size", 16384);
-        producerProperties.put("linger.ms", 1);
-        producerProperties.put("buffer.memory", 33554432);
-        producerProperties.put("key.serializer", "org.apache.kafka.common.serialization.StringSerializer");
-        producerProperties.put("value.serializer", "org.apache.kafka.common.serialization.StringSerializer");
-
-
-        siddhiController.initKafkaController(consumerProperties, producerProperties);
-
         //Add Sources and Sinks Definition
 
         SourceModel sourceModel = new SourceModel("stream", "input1");
@@ -268,6 +247,8 @@ public class SiddhiControllerIntegrationTest {
 
         siddhiController.addProcessingDefinition(processingModel);
         siddhiController.generateExecutionPlans();
+        siddhiController.addProcessingModel2KafkaController();
+
         /////////////////////////////////
 
         Properties consumerConfigA = new Properties();
@@ -284,7 +265,6 @@ public class SiddhiControllerIntegrationTest {
         KeyValue<String, Map<String, Object>> expectedDataKv = new KeyValue<>(null, expectedData);
 
         try {
-            //Thread.sleep(10000);
             System.out.println("Producing KV: " + kvStream1);
             IntegrationTestUtils.produceKeyValuesSynchronously("input1", Collections.singletonList(kvStream1), producerConfig, MOCK_TIME);
         } catch (ExecutionException e) {
@@ -335,28 +315,6 @@ public class SiddhiControllerIntegrationTest {
 
         SiddhiController siddhiController = SiddhiController.getInstance();
 
-        Properties  consumerProperties = new Properties();
-        consumerProperties.put("bootstrap.servers", CLUSTER.bootstrapServers());
-        consumerProperties.put("group.id", "cep");
-        consumerProperties.put("enable.auto.commit", "true");
-        consumerProperties.put("auto.commit.interval.ms", "1000");
-        consumerProperties.put("key.deserializer", StringDeserializer.class.getName());
-        consumerProperties.put("value.deserializer", StringDeserializer.class.getName());
-        //Property just needed for testing.
-        consumerProperties.put(ConsumerConfig.AUTO_OFFSET_RESET_CONFIG, "earliest");
-
-        Properties producerProperties = new Properties();
-        producerProperties.put("bootstrap.servers", CLUSTER.bootstrapServers());
-        producerProperties.put("acks", "all");
-        producerProperties.put("retries", 0);
-        producerProperties.put("batch.size", 16384);
-        producerProperties.put("linger.ms", 1);
-        producerProperties.put("buffer.memory", 33554432);
-        producerProperties.put("key.serializer", "org.apache.kafka.common.serialization.StringSerializer");
-        producerProperties.put("value.serializer", "org.apache.kafka.common.serialization.StringSerializer");
-
-
-        siddhiController.initKafkaController(consumerProperties, producerProperties);
 
         //Add Sources and Sinks Definition
 
@@ -409,6 +367,8 @@ public class SiddhiControllerIntegrationTest {
 
         siddhiController.addProcessingDefinition(processingModel);
         siddhiController.generateExecutionPlans();
+        siddhiController.addProcessingModel2KafkaController();
+
         /////////////////////////////////
 
         Properties consumerConfigA = new Properties();
@@ -430,7 +390,6 @@ public class SiddhiControllerIntegrationTest {
 
 
         try {
-            //Thread.sleep(10000);
             System.out.println("Producing KVs: " + kvStream1 + kvStream2);
             IntegrationTestUtils.produceKeyValuesSynchronously("input1", Collections.singletonList(kvStream1), producerConfig, MOCK_TIME);
             IntegrationTestUtils.produceKeyValuesSynchronously("input1", Collections.singletonList(kvStream2), producerConfig, MOCK_TIME);
@@ -447,6 +406,9 @@ public class SiddhiControllerIntegrationTest {
         assertEquals(Arrays.asList(expectedDataKv, expectedDataKv, expectedDataKv2, expectedDataKv2), receivedMessagesFromOutput1);
 
     }
+
+
+
 
     @AfterClass
     public static void stop() {
