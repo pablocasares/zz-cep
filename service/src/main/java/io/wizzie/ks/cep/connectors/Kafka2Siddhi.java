@@ -37,16 +37,13 @@ public class Kafka2Siddhi implements Runnable {
             while (true) {
                 log.debug("Consumer acquiring mutex");
                 mutex.acquire();
-                //log.debug("Consumer entered exclusion zone");
                 ConsumerRecords<String, String> records = null;
                 try {
                     log.debug("Consumer starts poll. It will stay at this line if the consumer can't connect to Kafka.");
                     records = consumer.poll(100);
                 } catch (IllegalStateException e) {
                     //ignore if consumer not subscribed
-                    //log.debug("Consumer not subscribed");
                 } finally {
-                    //log.debug("Consumer ends poll");
                 }
 
                 if (records != null) {
