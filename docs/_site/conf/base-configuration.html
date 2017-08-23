@@ -1,0 +1,266 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+        <meta name="viewport" content="width=device-width">
+
+        <title>CEP : Base Configuration</title>
+        <meta name="description" content="is a complex engine processing based on Kafka and Siddhi">
+
+        <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css" rel="stylesheet">
+        <link rel="stylesheet" href="/cep/css/syntax.css">
+        <link rel="stylesheet" href="/cep/css/main.css">
+    </head>
+    <body>
+
+        <div class="container">
+            <div class="row">
+                <div id="header" class="col-sm-12">
+                    <h4><a class="brand" href="/cep/">CEP</a>
+    <small>is a complex engine processing based on Kafka and Siddhi</small>
+</h4>
+
+                </div>
+            </div>
+
+            <div class="row">
+                
+                
+                    <div id="navigation" class="col-sm-2">
+                        <ul class="nav nav-list">
+    <li><a href="/cep/">Home</a></li>
+    
+        
+        
+
+        
+    
+        
+        
+
+        
+            
+                <li class="nav-header">Getting Started</li>
+            
+            <li data-order=""><a href="/cep/getting/base-tutorial.html">Base tutorial</a></li>
+        
+    
+        
+        
+
+        
+            
+                <li class="nav-header">Configuration</li>
+            
+            <li data-order="2"><a href="/cep/conf/stream-configuration.html">Stream Configuration</a></li>
+        
+            
+            <li data-order="1"><a href="/cep/conf/base-configuration.html">Base Configuration</a></li>
+        
+    
+        
+        
+
+        
+            
+                <li class="nav-header">Bootstrapper</li>
+            
+            <li data-order="1"><a href="/cep/bootstrapper/definition-boostrapper.html">Definition</a></li>
+        
+            
+            <li data-order="2"><a href="/cep/bootstrapper/file-boostrapper.html">File Bootstrapper</a></li>
+        
+            
+            <li data-order="3"><a href="/cep/bootstrapper/kafka-boostrapper.html">Kafka Bootstrapper</a></li>
+        
+    
+        
+        
+
+        
+    
+        
+        
+
+        
+            
+                <li class="nav-header">Metrics</li>
+            
+            <li data-order="1"><a href="/cep/metrics/configuration.html">Configuration</a></li>
+        
+    
+        
+        
+
+        
+            
+                <li class="nav-header">Internals</li>
+            
+            <li data-order=""><a href="/cep/internals/topics.html">Topics</a></li>
+        
+    
+        
+        
+
+        
+    
+        
+        
+
+        
+            
+                <li class="nav-header">Limitations</li>
+            
+            <li data-order=""><a href="/cep/limits/currently-limitations.html">Current limitations</a></li>
+        
+    
+<!-- List additional links. It is recommended to add a divider
+    e.g. <li class="divider"></li> first to break up the content. -->
+</ul>
+
+                    </div>
+
+                    <div id="content" class="col-sm-10">
+                        <div class="page-header">
+    <h2>Base Configuration
+        
+    </h2>
+</div>
+
+<p>The configuration file is a JSON format file where you specific the general properties to configure the cep instance. This file is different from the stream processing config file that defines the CEP processing rules.</p>
+
+<p>Example configuration file:</p>
+
+<div class="language-json highlighter-rouge"><pre class="highlight"><code><span class="p">{</span><span class="w">
+  </span><span class="nt">"application.id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"cep-instance-id"</span><span class="p">,</span><span class="w">
+  </span><span class="nt">"bootstrap.servers"</span><span class="p">:</span><span class="w"> </span><span class="s2">"localhost:9092"</span><span class="p">,</span><span class="w">
+  </span><span class="nt">"num.stream.threads"</span><span class="p">:</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w">
+  </span><span class="nt">"bootstraper.classname"</span><span class="p">:</span><span class="w"> </span><span class="s2">"io.wizzie.bootstrapper.bootstrappers.impl.KafkaBootstrapper"</span><span class="p">,</span><span class="w">
+  </span><span class="nt">"bootstrap.kafka.topics"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="s2">"__cep_bootstrapper"</span><span class="p">],</span><span class="w">
+  </span><span class="nt">"metric.enable"</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span><span class="w">
+  </span><span class="nt">"metric.listeners"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="s2">"io.wizzie.ks.cep.metrics.ConsoleMetricListener"</span><span class="p">],</span><span class="w">
+  </span><span class="nt">"metric.interval"</span><span class="p">:</span><span class="w"> </span><span class="mi">60000</span><span class="w">
+</span><span class="p">}</span><span class="w">
+</span></code></pre>
+</div>
+
+<table>
+  <thead>
+    <tr>
+      <th style="text-align: left">Property</th>
+      <th style="text-align: left">Description</th>
+      <th style="text-align: center">Default Value</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td style="text-align: left"><code class="highlighter-rouge">application.id</code></td>
+      <td style="text-align: left">This id is used to identify a group of cep instances. Normally this id is used to identify different clients.</td>
+      <td style="text-align: center">-</td>
+    </tr>
+    <tr>
+      <td style="text-align: left"><code class="highlighter-rouge">bootstrap.servers</code></td>
+      <td style="text-align: left">A list of host/port pairs to use for establishing the initial connection to the Kafka cluster. The client will make use of all servers irrespective of which servers are specified here for bootstrapping—this list only impacts the initial hosts used to discover the full set of servers. This list should be in the form <code class="highlighter-rouge">host1:port1,host2:port2</code></td>
+      <td style="text-align: center">-</td>
+    </tr>
+    <tr>
+      <td style="text-align: left"><code class="highlighter-rouge">num.stream.threads</code></td>
+      <td style="text-align: left">The number of threads to execute stream processing.</td>
+      <td style="text-align: center">1</td>
+    </tr>
+    <tr>
+      <td style="text-align: left"><code class="highlighter-rouge">bootstrapper.classname</code></td>
+      <td style="text-align: left">The bootstrapper class reference. More info: <a href="https://github.com/wizzie-io/cep/wiki/Bootstrapper">Bootstrapper</a></td>
+      <td style="text-align: center">-</td>
+    </tr>
+    <tr>
+      <td style="text-align: left"><code class="highlighter-rouge">metric.enable</code></td>
+      <td style="text-align: left">Enable metrics system.</td>
+      <td style="text-align: center">false</td>
+    </tr>
+    <tr>
+      <td style="text-align: left"><code class="highlighter-rouge">metric.listeners</code></td>
+      <td style="text-align: left">Array with metrics listeners. More info: <a href="https://github.com/wizzie-io/cep/wiki/Metrics">Metrics</a></td>
+      <td style="text-align: center">[“io.wizzie.ks.cep.metrics.ConsoleMetricListener”]</td>
+    </tr>
+    <tr>
+      <td style="text-align: left"><code class="highlighter-rouge">metric.interval</code></td>
+      <td style="text-align: left">Metric report interval (milliseconds)</td>
+      <td style="text-align: center">60000</td>
+    </tr>
+    <tr>
+      <td style="text-align: left"><code class="highlighter-rouge">metric.enable</code></td>
+      <td style="text-align: left">Enable metrics system.</td>
+      <td style="text-align: center">false</td>
+    </tr>
+  </tbody>
+</table>
+
+
+                    </div>
+                
+            </div>
+
+            
+
+            <div class="row">
+                <div id="footer" class="col-sm-12">
+                    Documentation for <a href="https://github.com/wizzie-io/cep">CEP</a>
+
+                </div>
+            </div>
+        </div>
+
+        <script>
+            function orderNav() {
+                var list,
+                    section,
+                    header,
+                    sections = [],
+                    lists = {},
+                    headers = {};
+
+                var navUl = document.querySelectorAll('#navigation ul')[0],
+                    navLis = document.querySelectorAll('#navigation ul li');
+
+                if (!navUl) return;
+
+                for (var i = 0; i < navLis.length; i++) {
+                    var order, li = navLis[i];
+
+                    if (li.classList.contains('nav-header')) {
+                        section = li.textContent || li.innerText;
+                        sections.push(section);
+                        headers[section] = li;
+                        continue;
+                    }
+
+                    if (!lists[section]) {
+                        lists[section] = [];
+                    }
+
+                    order = parseFloat(li.getAttribute('data-order'))
+                    lists[section].push([order, li]);
+                }
+
+                for (var i = 0; i < sections.length; i++) {
+                    section = sections[i];
+                    list = lists[section].sort(function(a, b) {
+                        return a[0] - b[0];
+                    });
+
+                    if (header = headers[section]) {
+                        navUl.appendChild(header);
+                    }
+                    for (var j = 0; j < list.length; j++) {
+                        navUl.appendChild(list[j][1]);
+                    }
+                }
+            }
+
+            if (document.querySelectorAll) orderNav();
+        </script>
+        
+    </body>
+</html>
