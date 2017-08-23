@@ -1,5 +1,5 @@
 {
-  "application.id": "ks-cep-instance-id",
+  "application.id": "cep-instance-id",
   "bootstrap.servers": "localhost:9092",
   "num.stream.threads": 1,
   "bootstraper.classname": "io.wizzie.bootstrapper.bootstrappers.impl.KafkaBootstrapper",
