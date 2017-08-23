@@ -1,4 +1,4 @@
-[![CircleCI](https://circleci.com/gh/wizzie-io/zz-cep.svg?style=svg&circle-token=845e475c24569ae89a683fcf6b6266a08636a8aa)](https://circleci.com/gh/wizzie-io/zz-cep)
+[![CircleCI](https://circleci.com/gh/wizzie-io/zz-cep.svg?style=shield&circle-token=845e475c24569ae89a683fcf6b6266a08636a8aa)](https://circleci.com/gh/wizzie-io/zz-cep)
 # Cep
 
 Cep is a complex event processing engine based on Siddhi and Kafka. You only need to define a JSON stream where you specify the process logic and how the message are transformed.
