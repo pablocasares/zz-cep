@@ -93,9 +93,6 @@ public class SiddhiControllerIntegrationTest {
             e.printStackTrace();
         }
 
-
-        //Add Sources and Sinks Definition
-
         SourceModel sourceModel = new SourceModel("stream", "input1");
         List<SourceModel> sourceModelList = new LinkedList<>();
         sourceModelList.add(sourceModel);
@@ -103,11 +100,6 @@ public class SiddhiControllerIntegrationTest {
         SinkModel sinkModel = new SinkModel("streamoutput", "output1");
         List<SinkModel> sinkModelList = new LinkedList<>();
         sinkModelList.add(sinkModel);
-
-
-        //////////////////////////////////
-
-        //Add Rule Definition
 
         String id = "rule2";
         String version = "v1";
@@ -128,16 +120,12 @@ public class SiddhiControllerIntegrationTest {
                         new AttributeModel("attributeName", "string")
                 )));
 
-        //////////////////////////////////
-
-
         ProcessingModel processingModel = new ProcessingModel(ruleModelList, streamsModel);
 
         SiddhiController siddhiController = SiddhiController.getInstance();
         siddhiController.addProcessingDefinition(processingModel);
         siddhiController.generateExecutionPlans();
         siddhiController.addProcessingModel2KafkaController();
-        /////////////////////////////////
 
         Properties consumerConfigA = new Properties();
         consumerConfigA.put(ConsumerConfig.BOOTSTRAP_SERVERS_CONFIG, CLUSTER.bootstrapServers());
@@ -165,7 +153,6 @@ public class SiddhiControllerIntegrationTest {
 
 
         try {
-            //Thread.sleep(10000);
             System.out.println("Producing KVs: " + kvStream1 + kvStream2);
             IntegrationTestUtils.produceKeyValuesSynchronously("input1", Collections.singletonList(kvStream1), producerConfig, MOCK_TIME);
             IntegrationTestUtils.produceKeyValuesSynchronously("input1", Collections.singletonList(kvStream2), producerConfig, MOCK_TIME);
@@ -208,8 +195,6 @@ public class SiddhiControllerIntegrationTest {
 
         SiddhiController siddhiController = SiddhiController.getInstance();
 
-        //Add Sources and Sinks Definition
-
         SourceModel sourceModel = new SourceModel("stream", "input1");
         List<SourceModel> sourceModelList = new LinkedList<>();
         sourceModelList.add(sourceModel);
@@ -217,11 +202,6 @@ public class SiddhiControllerIntegrationTest {
         SinkModel sinkModel = new SinkModel("streamoutput", "output1");
         List<SinkModel> sinkModelList = new LinkedList<>();
         sinkModelList.add(sinkModel);
-
-
-        //////////////////////////////////
-
-        //Add Rule Definition
 
         String id = "rule1";
         String version = "v1";
@@ -240,16 +220,11 @@ public class SiddhiControllerIntegrationTest {
                         new AttributeModel("attributeName", "string")
                 )));
 
-        //////////////////////////////////
-
-
         ProcessingModel processingModel = new ProcessingModel(ruleModelList, streamsModel);
 
         siddhiController.addProcessingDefinition(processingModel);
         siddhiController.generateExecutionPlans();
         siddhiController.addProcessingModel2KafkaController();
-
-        /////////////////////////////////
 
         Properties consumerConfigA = new Properties();
         consumerConfigA.put(ConsumerConfig.BOOTSTRAP_SERVERS_CONFIG, CLUSTER.bootstrapServers());
@@ -315,9 +290,6 @@ public class SiddhiControllerIntegrationTest {
 
         SiddhiController siddhiController = SiddhiController.getInstance();
 
-
-        //Add Sources and Sinks Definition
-
         SourceModel sourceModel = new SourceModel("stream", "input1");
         List<SourceModel> sourceModelList = new LinkedList<>();
         sourceModelList.add(sourceModel);
@@ -325,11 +297,6 @@ public class SiddhiControllerIntegrationTest {
         SinkModel sinkModel = new SinkModel("streamoutput", "output1");
         List<SinkModel> sinkModelList = new LinkedList<>();
         sinkModelList.add(sinkModel);
-
-
-        //////////////////////////////////
-
-        //Add Rule Definition
 
         String id = "rule2";
         String version = "v1";
@@ -360,16 +327,11 @@ public class SiddhiControllerIntegrationTest {
                         new AttributeModel("attributeName", "string")
                 )));
 
-        //////////////////////////////////
-
-
         ProcessingModel processingModel = new ProcessingModel(ruleModelList, streamsModel);
 
         siddhiController.addProcessingDefinition(processingModel);
         siddhiController.generateExecutionPlans();
         siddhiController.addProcessingModel2KafkaController();
-
-        /////////////////////////////////
 
         Properties consumerConfigA = new Properties();
         consumerConfigA.put(ConsumerConfig.BOOTSTRAP_SERVERS_CONFIG, CLUSTER.bootstrapServers());
@@ -406,8 +368,6 @@ public class SiddhiControllerIntegrationTest {
         assertEquals(Arrays.asList(expectedDataKv, expectedDataKv, expectedDataKv2, expectedDataKv2), receivedMessagesFromOutput1);
 
     }
-
-
 
 
     @AfterClass

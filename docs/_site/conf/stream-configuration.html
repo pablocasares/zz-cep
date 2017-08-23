@@ -1,0 +1,344 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+        <meta name="viewport" content="width=device-width">
+
+        <title>CEP : Stream Configuration</title>
+        <meta name="description" content="is a complex engine processing based on Kafka and Siddhi">
+
+        <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css" rel="stylesheet">
+        <link rel="stylesheet" href="/cep/css/syntax.css">
+        <link rel="stylesheet" href="/cep/css/main.css">
+    </head>
+    <body>
+
+        <div class="container">
+            <div class="row">
+                <div id="header" class="col-sm-12">
+                    <h4><a class="brand" href="/cep/">CEP</a>
+    <small>is a complex engine processing based on Kafka and Siddhi</small>
+</h4>
+
+                </div>
+            </div>
+
+            <div class="row">
+                
+                
+                    <div id="navigation" class="col-sm-2">
+                        <ul class="nav nav-list">
+    <li><a href="/cep/">Home</a></li>
+    
+        
+        
+
+        
+    
+        
+        
+
+        
+            
+                <li class="nav-header">Getting Started</li>
+            
+            <li data-order=""><a href="/cep/getting/base-tutorial.html">Base tutorial</a></li>
+        
+    
+        
+        
+
+        
+            
+                <li class="nav-header">Configuration</li>
+            
+            <li data-order="2"><a href="/cep/conf/stream-configuration.html">Stream Configuration</a></li>
+        
+            
+            <li data-order="1"><a href="/cep/conf/base-configuration.html">Base Configuration</a></li>
+        
+    
+        
+        
+
+        
+            
+                <li class="nav-header">Bootstrapper</li>
+            
+            <li data-order="1"><a href="/cep/bootstrapper/definition-boostrapper.html">Definition</a></li>
+        
+            
+            <li data-order="2"><a href="/cep/bootstrapper/file-boostrapper.html">File Bootstrapper</a></li>
+        
+            
+            <li data-order="3"><a href="/cep/bootstrapper/kafka-boostrapper.html">Kafka Bootstrapper</a></li>
+        
+    
+        
+        
+
+        
+    
+        
+        
+
+        
+            
+                <li class="nav-header">Metrics</li>
+            
+            <li data-order="1"><a href="/cep/metrics/configuration.html">Configuration</a></li>
+        
+    
+        
+        
+
+        
+            
+                <li class="nav-header">Internals</li>
+            
+            <li data-order=""><a href="/cep/internals/topics.html">Topics</a></li>
+        
+    
+        
+        
+
+        
+    
+        
+        
+
+        
+            
+                <li class="nav-header">Limitations</li>
+            
+            <li data-order=""><a href="/cep/limits/currently-limitations.html">Current limitations</a></li>
+        
+    
+<!-- List additional links. It is recommended to add a divider
+    e.g. <li class="divider"></li> first to break up the content. -->
+</ul>
+
+                    </div>
+
+                    <div id="content" class="col-sm-10">
+                        <div class="page-header">
+    <h2>Stream Configuration
+        
+    </h2>
+</div>
+
+<p>The stream configuration is the execution plan of the cep. Cep uses the stream configuration to build the Siddhi processing model using Kafka. You can configure how the cep gets the stream conf to do it you need to use the <a href="https://github.com/wizzie-io/cep/wiki/Bootstrapper">Bootstrappers</a>.</p>
+
+<p>Stream configuration has two main sections:</p>
+
+<h3 id="streams">Streams</h3>
+
+<p>This section is used to define the streams attributes and types.</p>
+
+<div class="language-json highlighter-rouge"><pre class="highlight"><code><span class="p">{</span><span class="w">
+    </span><span class="nt">"streams"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w">
+        </span><span class="p">{</span><span class="w">
+            </span><span class="nt">"streamName"</span><span class="p">:</span><span class="w"> </span><span class="s2">"streaminput"</span><span class="p">,</span><span class="w">
+            </span><span class="nt">"attributes"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w">
+                </span><span class="p">{</span><span class="w">
+                    </span><span class="nt">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"timestamp"</span><span class="p">,</span><span class="w">
+                    </span><span class="nt">"type"</span><span class="p">:</span><span class="w"> </span><span class="s2">"long"</span><span class="w">
+                </span><span class="p">}</span><span class="w">
+            </span><span class="p">]</span><span class="w">
+        </span><span class="p">}</span><span class="w">
+    </span><span class="p">]</span><span class="w">
+</span><span class="p">}</span><span class="w">
+</span></code></pre>
+</div>
+
+<p>This example defines a stream called <code class="highlighter-rouge">streaminput</code> with a one field called <code class="highlighter-rouge">timestamp</code> of type <code class="highlighter-rouge">long</code>.
+You can add the number of streams that you want. You must define an stream if you will use it on the next section.</p>
+
+<h3 id="rules">Rules</h3>
+
+<p>The <code class="highlighter-rouge">rules</code> section is made by processing rules:</p>
+
+<div class="language-json highlighter-rouge"><pre class="highlight"><code><span class="p">{</span><span class="w">
+    </span><span class="nt">"rules"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w">
+        </span><span class="p">{</span><span class="w">
+            </span><span class="nt">"id"</span><span class="p">:</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w">
+            </span><span class="nt">"version"</span><span class="p">:</span><span class="w"> </span><span class="s2">"v1"</span><span class="p">,</span><span class="w">
+            </span><span class="nt">"streams"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+                </span><span class="nt">"in"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w">
+                    </span><span class="p">{</span><span class="w">
+                        </span><span class="nt">"streamName"</span><span class="p">:</span><span class="w"> </span><span class="s2">"streaminput"</span><span class="p">,</span><span class="w">
+                        </span><span class="nt">"kafkaTopic"</span><span class="p">:</span><span class="w"> </span><span class="s2">"kafkainput"</span><span class="w">
+                    </span><span class="p">}</span><span class="w">
+                </span><span class="p">],</span><span class="w">
+                </span><span class="nt">"out"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w">
+                    </span><span class="p">{</span><span class="w">
+                        </span><span class="nt">"streamName"</span><span class="p">:</span><span class="w"> </span><span class="s2">"streamoutput"</span><span class="p">,</span><span class="w">
+                        </span><span class="nt">"kafkaTopic"</span><span class="p">:</span><span class="w"> </span><span class="s2">"kafkaoutput"</span><span class="w">
+                    </span><span class="p">}</span><span class="w">
+                </span><span class="p">]</span><span class="w">
+            </span><span class="p">},</span><span class="w">
+            </span><span class="nt">"executionPlan"</span><span class="p">:</span><span class="w"> </span><span class="s2">"from streaminput select * insert into streamoutput"</span><span class="w">
+        </span><span class="p">},</span><span class="w">
+        </span><span class="p">{</span><span class="w">
+            </span><span class="nt">"id"</span><span class="p">:</span><span class="w"> </span><span class="mi">2</span><span class="p">,</span><span class="w">
+            </span><span class="nt">"version"</span><span class="p">:</span><span class="w"> </span><span class="s2">"v1"</span><span class="p">,</span><span class="w">
+            </span><span class="nt">"streams"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+                </span><span class="nt">"in"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w">
+                    </span><span class="p">{</span><span class="w">
+                        </span><span class="nt">"streamName"</span><span class="p">:</span><span class="w"> </span><span class="s2">"streaminput"</span><span class="p">,</span><span class="w">
+                        </span><span class="nt">"kafkaTopic"</span><span class="p">:</span><span class="w"> </span><span class="s2">"kafkainput"</span><span class="w">
+                    </span><span class="p">}</span><span class="w">
+                </span><span class="p">],</span><span class="w">
+                </span><span class="nt">"out"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w">
+                    </span><span class="p">{</span><span class="w">
+                        </span><span class="nt">"streamName"</span><span class="p">:</span><span class="w"> </span><span class="s2">"streamoutput"</span><span class="p">,</span><span class="w">
+                        </span><span class="nt">"kafkaTopic"</span><span class="p">:</span><span class="w"> </span><span class="s2">"kafkaoutput"</span><span class="w">
+                    </span><span class="p">}</span><span class="w">
+                </span><span class="p">]</span><span class="w">
+            </span><span class="p">},</span><span class="w">
+            </span><span class="nt">"executionPlan"</span><span class="p">:</span><span class="w"> </span><span class="s2">"from streaminput select * insert into streamoutput"</span><span class="w">
+        </span><span class="p">}</span><span class="w">
+    </span><span class="p">]</span><span class="w">
+</span><span class="p">}</span><span class="w">
+</span></code></pre>
+</div>
+
+<p>The rules objects are made by: <code class="highlighter-rouge">id</code>, <code class="highlighter-rouge">version</code>, <code class="highlighter-rouge">streams</code> and <code class="highlighter-rouge">executionPlan</code></p>
+
+<ul>
+  <li><code class="highlighter-rouge">id</code>: The name of the rule.</li>
+  <li><code class="highlighter-rouge">version</code>: an string that identifies the version of the rule.</li>
+  <li><code class="highlighter-rouge">streams</code>: a map that contains the <code class="highlighter-rouge">in</code> and <code class="highlighter-rouge">out</code> relations between Siddhi and Kafka.</li>
+  <li><code class="highlighter-rouge">executionPlan</code>: the SiddhiQL query that will be used to process this rule.</li>
+</ul>
+
+<p>So, the full stream configuration should be:</p>
+
+<div class="language-json highlighter-rouge"><pre class="highlight"><code><span class="p">{</span><span class="w">
+    </span><span class="nt">"streams"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w">
+        </span><span class="p">{</span><span class="w">
+            </span><span class="nt">"streamName"</span><span class="p">:</span><span class="w"> </span><span class="s2">"streaminput"</span><span class="p">,</span><span class="w">
+            </span><span class="nt">"attributes"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w">
+                </span><span class="p">{</span><span class="w">
+                    </span><span class="nt">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"timestamp"</span><span class="p">,</span><span class="w">
+                    </span><span class="nt">"type"</span><span class="p">:</span><span class="w"> </span><span class="s2">"long"</span><span class="w">
+                </span><span class="p">}</span><span class="w">
+            </span><span class="p">]</span><span class="w">
+        </span><span class="p">}</span><span class="w">
+    </span><span class="p">],</span><span class="w">
+    </span><span class="nt">"rules"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w">
+        </span><span class="p">{</span><span class="w">
+            </span><span class="nt">"id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"1"</span><span class="p">,</span><span class="w">
+            </span><span class="nt">"version"</span><span class="p">:</span><span class="w"> </span><span class="s2">"v1"</span><span class="p">,</span><span class="w">
+            </span><span class="nt">"streams"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+                </span><span class="nt">"in"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w">
+                    </span><span class="p">{</span><span class="w">
+                        </span><span class="nt">"streamName"</span><span class="p">:</span><span class="w"> </span><span class="s2">"streaminput"</span><span class="p">,</span><span class="w">
+                        </span><span class="nt">"kafkaTopic"</span><span class="p">:</span><span class="w"> </span><span class="s2">"kafkainput"</span><span class="w">
+                    </span><span class="p">}</span><span class="w">
+                </span><span class="p">],</span><span class="w">
+                </span><span class="nt">"out"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w">
+                    </span><span class="p">{</span><span class="w">
+                        </span><span class="nt">"streamName"</span><span class="p">:</span><span class="w"> </span><span class="s2">"streamoutput"</span><span class="p">,</span><span class="w">
+                        </span><span class="nt">"kafkaTopic"</span><span class="p">:</span><span class="w"> </span><span class="s2">"kafkaoutput"</span><span class="w">
+                    </span><span class="p">}</span><span class="w">
+                </span><span class="p">]</span><span class="w">
+            </span><span class="p">},</span><span class="w">
+            </span><span class="nt">"executionPlan"</span><span class="p">:</span><span class="w"> </span><span class="s2">"from streaminput select * insert into streamoutput"</span><span class="w">
+        </span><span class="p">},</span><span class="w">
+        </span><span class="p">{</span><span class="w">
+            </span><span class="nt">"id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"2"</span><span class="p">,</span><span class="w">
+            </span><span class="nt">"version"</span><span class="p">:</span><span class="w"> </span><span class="s2">"v1"</span><span class="p">,</span><span class="w">
+            </span><span class="nt">"streams"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+                </span><span class="nt">"in"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w">
+                    </span><span class="p">{</span><span class="w">
+                        </span><span class="nt">"streamName"</span><span class="p">:</span><span class="w"> </span><span class="s2">"streaminput"</span><span class="p">,</span><span class="w">
+                        </span><span class="nt">"kafkaTopic"</span><span class="p">:</span><span class="w"> </span><span class="s2">"kafkainput"</span><span class="w">
+                    </span><span class="p">}</span><span class="w">
+                </span><span class="p">],</span><span class="w">
+                </span><span class="nt">"out"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w">
+                    </span><span class="p">{</span><span class="w">
+                        </span><span class="nt">"streamName"</span><span class="p">:</span><span class="w"> </span><span class="s2">"streamoutput"</span><span class="p">,</span><span class="w">
+                        </span><span class="nt">"kafkaTopic"</span><span class="p">:</span><span class="w"> </span><span class="s2">"kafkaoutput"</span><span class="w">
+                    </span><span class="p">}</span><span class="w">
+                </span><span class="p">]</span><span class="w">
+            </span><span class="p">},</span><span class="w">
+            </span><span class="nt">"executionPlan"</span><span class="p">:</span><span class="w"> </span><span class="s2">"from streaminput select * insert into streamoutput"</span><span class="w">
+        </span><span class="p">}</span><span class="w">
+    </span><span class="p">]</span><span class="w">
+</span><span class="p">}</span><span class="w">
+</span></code></pre>
+</div>
+
+<p>Important notes: you must define an stream if you use it at one rule. If you want to update and overwrite a rule, you must send the same rule with a different version. If you send
+a rule with the same version, the existing rule will not be overwritten.
+The execution plans you can use are defined at <a href="https://docs.wso2.com/display/CEP420/SiddhiQL+Guide+3.1">SiddhiQL Documentation</a></p>
+
+
+                    </div>
+                
+            </div>
+
+            
+
+            <div class="row">
+                <div id="footer" class="col-sm-12">
+                    Documentation for <a href="https://github.com/wizzie-io/cep">CEP</a>
+
+                </div>
+            </div>
+        </div>
+
+        <script>
+            function orderNav() {
+                var list,
+                    section,
+                    header,
+                    sections = [],
+                    lists = {},
+                    headers = {};
+
+                var navUl = document.querySelectorAll('#navigation ul')[0],
+                    navLis = document.querySelectorAll('#navigation ul li');
+
+                if (!navUl) return;
+
+                for (var i = 0; i < navLis.length; i++) {
+                    var order, li = navLis[i];
+
+                    if (li.classList.contains('nav-header')) {
+                        section = li.textContent || li.innerText;
+                        sections.push(section);
+                        headers[section] = li;
+                        continue;
+                    }
+
+                    if (!lists[section]) {
+                        lists[section] = [];
+                    }
+
+                    order = parseFloat(li.getAttribute('data-order'))
+                    lists[section].push([order, li]);
+                }
+
+                for (var i = 0; i < sections.length; i++) {
+                    section = sections[i];
+                    list = lists[section].sort(function(a, b) {
+                        return a[0] - b[0];
+                    });
+
+                    if (header = headers[section]) {
+                        navUl.appendChild(header);
+                    }
+                    for (var j = 0; j < list.length; j++) {
+                        navUl.appendChild(list[j][1]);
+                    }
+                }
+            }
+
+            if (document.querySelectorAll) orderNav();
+        </script>
+        
+    </body>
+</html>
