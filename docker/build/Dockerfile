@@ -7,7 +7,7 @@ RUN apt-get install -y gettext-base
 
 RUN mkdir -p /var/log/cep
 
-ADD cep-dist.tar.gz /opt/
+ADD zz-cep-dist.tar.gz /opt/
 RUN rm -f /opt/cep/config/*
 
 ADD log4j.xml /opt/cep/config/
