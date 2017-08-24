@@ -6,7 +6,7 @@
     <packaging>pom</packaging>
 
     <parent>
-        <artifactId>cep</artifactId>
+        <artifactId>zz-cep</artifactId>
         <groupId>io.wizzie.ks.cep</groupId>
         <version>0.0.1-SNAPSHOT</version>
     </parent>
