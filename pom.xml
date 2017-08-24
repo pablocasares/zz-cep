@@ -32,7 +32,7 @@
     </repositories>
 
     <scm>
-        <developerConnection>scm:git:git@github.com:wizzie-io/kscep.git</developerConnection>
+        <developerConnection>scm:git:git@github.com:wizzie-io/zz-cep.git</developerConnection>
         <tag>HEAD</tag>
     </scm>
 
