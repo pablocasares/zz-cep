@@ -1,3 +1,3 @@
 #!/usr/bin/env bash
-envsubst < /opt/cep/config/config_env.json > /opt/cep/config/config.json
-/opt/cep/bin/cep-start.sh /opt/cep/config/config.json
+envsubst < /opt/zz-cep/config/config_env.json > /opt/zz-cep/config/config.json
+/opt/zz-cep/bin/cep-start.sh /opt/zz-cep/config/config.json
