@@ -31,7 +31,7 @@ deployment:
       - docker login -u oauth2accesstoken -e circleci@wizzie-registry.iam.gserviceaccount.com -p "$(gcloud auth application-default print-access-token)" https://gcr.io
       - mvn deploy -Dmaven.test.skip=true -P docker
   release:
-    tag: /cep-.*/
+    tag: /zz-cep-.*/
     commands:
       - echo $GCLOUD_SERVICE_KEY | base64 --decode --ignore-garbage > ${HOME}/gcloud-service-key.json
       - sudo /opt/google-cloud-sdk/bin/gcloud --quiet components update
