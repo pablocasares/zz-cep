@@ -6,7 +6,7 @@ date: 2017-02-14 12:25:04
 order: 2
 ---
 
-The stream configuration is the execution plan of the cep. Cep uses the stream configuration to build the Siddhi processing model using Kafka. You can configure how the cep gets the stream conf to do it you need to use the [Bootstrappers](https://github.com/wizzie-io/cep/wiki/Bootstrapper).
+The stream configuration is the execution plan of the cep. Cep uses the stream configuration to build the Siddhi processing model using Kafka. You can configure how the cep gets the stream conf to do it you need to use the [Bootstrappers](http://www.wizzie.io/zz-cep/bootstrapper/definition-boostrapper.html).
 
 Stream configuration has two main sections:
 

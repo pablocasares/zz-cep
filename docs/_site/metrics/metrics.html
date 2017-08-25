@@ -5,7 +5,7 @@
         <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
         <meta name="viewport" content="width=device-width">
 
-        <title>CEP : Definition</title>
+        <title>CEP : Listeners</title>
         <meta name="description" content="is a complex engine processing based on Kafka and Siddhi">
 
         <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css" rel="stylesheet">
@@ -136,18 +136,30 @@
 
                     <div id="content" class="col-sm-10">
                         <div class="page-header">
-    <h2>Definition
+    <h2>Listeners
         
     </h2>
 </div>
 
-<p>The bootstrapper is the mechanism that is used to load stream config into cep. You can configure the boostrapper class on the config file, using <code class="highlighter-rouge">bootstrapper.classname</code> property. Currently, the cep has two bootstrappers:</p>
+<p>The listeners are the process that listen the reported metrics and do something with them. You can have multiple listeners at the same time. Currently, the Cep service supports two listener metrics:</p>
 
-<ul>
-  <li><a href="https://wizzie.io/zz-cep/bootstrapper/file-boostrapper.html">FileBootstrapper</a></li>
-  <li><a href="https://wizzie.io/zz-cep/bootstrapper/kafka-boostrapper.html">KafkaBootstrapper</a></li>
-</ul>
+<h4 id="consolemetriclistener">ConsoleMetricListener</h4>
 
+<p>This listener <code class="highlighter-rouge">io.wizzie.ks.metrics.ConsoleMetricListener</code> send the transform the metrics to JSON and prints them into the log file using the log4j. The metric format is:</p>
+<div class="language-json highlighter-rouge"><pre class="highlight"><code><span class="p">{</span><span class="nt">"timestamp"</span><span class="p">:</span><span class="mi">123456789</span><span class="p">,</span><span class="w"> </span><span class="nt">"monitor"</span><span class="p">:</span><span class="s2">"heap-memory"</span><span class="p">,</span><span class="w"> </span><span class="nt">"value"</span><span class="p">:</span><span class="mi">12345</span><span class="p">}</span><span class="w">
+</span></code></pre>
+</div>
+
+<h4 id="kafkametriclistener">KafkaMetricListener</h4>
+<p>This listener <code class="highlighter-rouge">io.wizzie.ks.cep.metrics.KafkaMetricListener</code> send the transform the metrics to JSON and sends them into the Kafka topic. The metric format is:</p>
+<div class="language-json highlighter-rouge"><pre class="highlight"><code><span class="p">{</span><span class="nt">"timestamp"</span><span class="p">:</span><span class="mi">123456789</span><span class="p">,</span><span class="w"> </span><span class="nt">"monitor"</span><span class="p">:</span><span class="s2">"heap-memory"</span><span class="p">,</span><span class="w"> </span><span class="nt">"value"</span><span class="p">:</span><span class="mi">12345</span><span class="p">,</span><span class="w"> </span><span class="nt">"app_id"</span><span class="p">:</span><span class="s2">"MY_KAFKA_STREAMS_APP_ID"</span><span class="p">}</span><span class="w">
+</span></code></pre>
+</div>
+
+<p>This listener adds a new property to specify the metrics Kafka topic <code class="highlighter-rouge">metric.kafka.topic</code>, by default is <code class="highlighter-rouge">__cep_metrics</code></p>
+
+<h4 id="custom-listeners">Custom Listeners</h4>
+<p>You can made new listeners to do this you need to implement the <a href="https://github.com/wizzie-io/zz-cep/blob/master/service/src/main/java/io/wizzie/ks/cep/metrics/MetricListener.java">MetricListener Class</a>. On this class you receive the metric on the method <code class="highlighter-rouge">void updateMetric(String metricName, Object metricValue);</code></p>
 
 
                     </div>

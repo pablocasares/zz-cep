@@ -2,7 +2,7 @@
 # Cep
 
 Cep is a complex event processing engine based on Siddhi and Kafka. You only need to define a JSON stream where you specify the process logic and how the message are transformed.
-[Try it now!!](https://wizzie.io/zz-cep/getting/getting-started.html)
+[Try it now!!](https://wizzie.io/zz-cep/getting/base-tutorial.html)
 
 ## Documentation
 
@@ -42,7 +42,7 @@ mvn clean package -P docker
 
 ## Contributing
 
-1. [Fork it](https://github.com/wizzie-io/cep/fork)
+1. [Fork it](https://github.com/wizzie-io/zz-cep/fork)
 2. Create your feature branch: `git checkout -b my-new-feature`
 3. Commit your changes: `git commit -am 'Add some feature'`
 4. Push to the branch: `git push origin my-new-feature`
