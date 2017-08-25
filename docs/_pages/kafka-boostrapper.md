@@ -20,7 +20,7 @@ This bootstrapper read the stream config from Kafka, so you can change the strea
 
 The StreamerKafkaConfig tool allow us to send new stream config to the cep and read the current stream config.
 
-You can use the script [streamer-kafka.sh](https://github.com/wizzie-io/cep/blob/master/bin/streamer-kafka.sh) to use this tool. The tool has two modes:
+You can use the script [streamer-kafka.sh](https://github.com/wizzie-io/zz-cep/blob/master/bin/streamer-kafka.sh) to use this tool. The tool has two modes:
 
 #### Read Mode
 

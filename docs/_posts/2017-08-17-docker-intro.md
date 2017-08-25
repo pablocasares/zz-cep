@@ -41,7 +41,7 @@ Once kafka broker is up, we can start a Cep container and link it to the kafka b
 ```
 $ docker run --rm --name my-cep --net=host -e APPLICATION_ID=my-cep-app -e KAFKA_BOOTSTRAP_SERVER=localhost:9092 gcr.io/wizzie-registry/cep:0.1.0
 ```
-Now you can follow the [base tutorial](http://www.wizzie.io/zz-cep/getting/getting-started.html) to test Cep!
+Now you can follow the [base tutorial](http://www.wizzie.io/zz-cep/getting/base-tutorial.html) to test Cep!
 
 ### Using environment variables in cep configuration
 

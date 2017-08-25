@@ -13,7 +13,7 @@ The metrics service has four properties to configure it:
 | Property   |      Description      |  Default Value |
 |----------|---------------|-------|
 | `metric.enable` |  Enable or disable metrics service | false|
-| `metric.listeners` | The listener to send the metrics. [Available listeners](https://wizzie.io/cep/metrics/listeners.html)  |   ["io.wizzie.ks.cep.metrics.ConsoleMetricListener"] |
+| `metric.listeners` | The listener to send the metrics. [Available listeners](https://wizzie.io/zz-cep/metrics/metrics.html)  |   ["io.wizzie.ks.cep.metrics.ConsoleMetricListener"] |
 | `metric.interval` | The interval time to report metrics (milliseconds) |  60000  |
 | `metric.verbose.mode`| Enable the verbose metric mode | false |
 
