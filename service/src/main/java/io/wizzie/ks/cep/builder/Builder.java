@@ -32,11 +32,7 @@ public class Builder implements Listener {
         metricsManager = new MetricsManager(config.clone());
         metricsManager.start();
 
-        bootstrapper = BootstrapperBuilder.makeBuilder()
-                .boostrapperClass(config.get(BOOTSTRAPER_CLASSNAME))
-                .withConfigInstance(config)
-                .listener(this)
-                .build();
+
         siddhiController = SiddhiController.getInstance();
 
         Properties consumerProperties = new Properties();
@@ -57,6 +53,12 @@ public class Builder implements Listener {
         producerProperties.put("key.serializer", "org.apache.kafka.common.serialization.StringSerializer");
         producerProperties.put("value.serializer", "org.apache.kafka.common.serialization.StringSerializer");
         siddhiController.initKafkaController(consumerProperties, producerProperties);
+
+        bootstrapper = BootstrapperBuilder.makeBuilder()
+                .boostrapperClass(config.get(BOOTSTRAPER_CLASSNAME))
+                .withConfigInstance(config)
+                .listener(this)
+                .build();
     }
 
     @Override

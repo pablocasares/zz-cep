@@ -3,7 +3,7 @@
   "bootstrap.servers": "localhost:9092",
   "num.stream.threads": 1,
   "bootstraper.classname": "io.wizzie.bootstrapper.bootstrappers.impl.KafkaBootstrapper",
-  "bootstrap.kafka.topics": ["__cep_stream_bootstrapper", "__cep_rules_bootstrapper"],
+  "bootstrap.kafka.topics": ["__cep_bootstrapper"],
   "metric.enable": true,
   "metric.listeners": ["io.wizzie.ks.cep.metrics.ConsoleMetricListener"],
   "metric.interval": 60000
