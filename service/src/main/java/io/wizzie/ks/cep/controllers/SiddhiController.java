@@ -183,8 +183,13 @@ public class SiddhiController {
         streamDefinition.append("@config(async = 'true') define stream ");
         streamDefinition.append(streamModel.getStreamName());
         streamDefinition.append(" (");
+        int i = 0;
         for (AttributeModel attributeModel : streamModel.getAttributes()) {
+            i++;
             streamDefinition.append(attributeModel.getName() + " " + attributeModel.getAttributeType());
+            if (i != streamModel.getAttributes().size()){
+                streamDefinition.append(", ");
+            }
         }
         streamDefinition.append(");");
 
