@@ -8,6 +8,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.wso2.siddhi.core.event.Event;
 import org.wso2.siddhi.core.stream.input.InputHandler;
+import org.wso2.siddhi.query.api.definition.StreamDefinition;
 
 import java.util.*;
 import java.util.concurrent.ExecutorService;
@@ -72,8 +73,8 @@ public class KafkaController {
     }
 
 
-    public void send2Kafka(String rule, Event event) {
-        producer.send(rule, event);
+    public void send2Kafka(String rule, Event event, Map<String, StreamDefinition> streamDefinitionMap) {
+        producer.send(rule, event, streamDefinitionMap);
     }
 
     public void shutdown(){

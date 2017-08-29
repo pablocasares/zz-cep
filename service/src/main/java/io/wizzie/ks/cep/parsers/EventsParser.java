@@ -8,6 +8,8 @@ import io.wizzie.ks.cep.model.StreamModel;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.wso2.siddhi.core.event.Event;
+import org.wso2.siddhi.query.api.definition.Attribute;
+import org.wso2.siddhi.query.api.definition.StreamDefinition;
 
 import java.io.IOException;
 import java.util.*;
@@ -66,23 +68,17 @@ public class EventsParser {
         return attributeList.toArray();
     }
 
-    public String parseToString(String streamName, Event event) {
+    public String parseToString(List<Attribute> attributeList, Event event) {
 
-        Map<String, Object> eventData = null;
+        Map<String, Object> eventData = new HashMap<>();
 
-        if (eventsFormat.containsKey(streamName)) {
-            eventData = new HashMap<>();
-            StreamModel streamModel = eventsFormat.get(streamName);
-            int i = 0;
-            for (AttributeModel attributeModel : streamModel.getAttributes()) {
-                Object element = event.getData()[i];
-                eventData.put(attributeModel.getName(), element);
-                i++;
-            }
-        } else {
-            log.debug("Events Parser doesn't contains stream: " + streamName);
-            log.debug("Current stream parsers: " + eventsFormat.keySet());
+        // Get all the attributes values from the list of attributes
+        int index = 0;
+        for (Object object : event.getData()) {
+            String columnName = attributeList.get(index++).getName();
+            eventData.put(columnName, object);
         }
+
         String eventString = null;
         try {
             eventString = objectMapper.writeValueAsString(eventData);

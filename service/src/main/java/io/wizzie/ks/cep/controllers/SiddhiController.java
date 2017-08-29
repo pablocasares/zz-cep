@@ -106,6 +106,13 @@ public class SiddhiController {
                 executionPlanRuntimes.remove(executionPlansEntry.getKey());
                 inputHandlers.remove(executionPlansEntry.getKey());
             }
+
+            if (expectedExecutionPlans.containsKey(executionPlansEntry.getKey()) && !expectedExecutionPlans.get(executionPlansEntry.getKey()).getVersion().equals(executionPlansEntry.getValue().getVersion())){
+                log.debug("Stopping execution plan: " + executionPlansEntry.getKey() + " as it has a different version");
+                executionPlanRuntimes.get(executionPlansEntry.getKey()).shutdown();
+                executionPlanRuntimes.remove(executionPlansEntry.getKey());
+                inputHandlers.remove(executionPlansEntry.getKey());
+            }
         }
         log.debug("Stopped the execution plan runtimes that are no longer needed");
 
@@ -153,7 +160,7 @@ public class SiddhiController {
                     public void receive(long timestamp, Event[] inEvents, Event[] removeEvents) {
                         for (Event event : inEvents) {
                             log.debug("Sending event from Siddhi to Kafka");
-                            kafkaController.send2Kafka(executionPlansEntry.getKey(), event);
+                            kafkaController.send2Kafka(executionPlansEntry.getKey(), event, siddhiAppRuntime.getStreamDefinitionMap());
                         }
                     }
                 });
@@ -167,7 +174,7 @@ public class SiddhiController {
 
     }
 
-    public synchronized void addProcessingModel2KafkaController(){
+    public synchronized void addProcessingModel2KafkaController() {
         if (newProcessingModel != null) {
             if (inputHandlers != null && !inputHandlers.isEmpty()) {
                 //Add kafka2sources and input handlers to KafkaController
@@ -187,7 +194,7 @@ public class SiddhiController {
         for (AttributeModel attributeModel : streamModel.getAttributes()) {
             i++;
             streamDefinition.append(attributeModel.getName() + " " + attributeModel.getAttributeType());
-            if (i != streamModel.getAttributes().size()){
+            if (i != streamModel.getAttributes().size()) {
                 streamDefinition.append(", ");
             }
         }
@@ -207,7 +214,7 @@ public class SiddhiController {
     }
 
 
-    public void shutdown(){
+    public void shutdown() {
         kafkaController.shutdown();
     }
 
