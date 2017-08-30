@@ -64,17 +64,14 @@ public class KafkaController {
                 siddhi2Kafka.put(sinkModel.getStreamName(), sinkModel.getKafkaTopic());
             }
         }
-        log.debug("Rules to add. " + processingModel.getRules());
         if (producer == null) {
             log.warn("KafkaController has not been initialized. Please exec init method before calling addProcessingModel.");
-        } else {
-            producer.addRules(processingModel.getRules());
         }
     }
 
 
-    public void send2Kafka(String rule, Event event, Map<String, StreamDefinition> streamDefinitionMap) {
-        producer.send(rule, event, streamDefinitionMap);
+    public void send2Kafka(String kafkaTopic, String streamName, Event event, Map<String, StreamDefinition> streamDefinitionMap) {
+        producer.send(kafkaTopic, streamName, event, streamDefinitionMap);
     }
 
     public void shutdown(){

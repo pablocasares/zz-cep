@@ -9,7 +9,9 @@ import org.wso2.siddhi.core.SiddhiManager;
 import org.wso2.siddhi.core.event.Event;
 import org.wso2.siddhi.core.query.output.callback.QueryCallback;
 import org.wso2.siddhi.core.stream.input.InputHandler;
+import org.wso2.siddhi.core.stream.output.StreamCallback;
 import org.wso2.siddhi.query.api.SiddhiApp;
+import org.wso2.siddhi.query.api.definition.StreamDefinition;
 
 
 import java.util.HashMap;
@@ -107,7 +109,7 @@ public class SiddhiController {
                 inputHandlers.remove(executionPlansEntry.getKey());
             }
 
-            if (expectedExecutionPlans.containsKey(executionPlansEntry.getKey()) && !expectedExecutionPlans.get(executionPlansEntry.getKey()).getVersion().equals(executionPlansEntry.getValue().getVersion())){
+            if (expectedExecutionPlans.containsKey(executionPlansEntry.getKey()) && !expectedExecutionPlans.get(executionPlansEntry.getKey()).getVersion().equals(executionPlansEntry.getValue().getVersion())) {
                 log.debug("Stopping execution plan: " + executionPlansEntry.getKey() + " as it has a different version");
                 executionPlanRuntimes.get(executionPlansEntry.getKey()).shutdown();
                 executionPlanRuntimes.remove(executionPlansEntry.getKey());
@@ -154,16 +156,31 @@ public class SiddhiController {
                     inputHandlerMap.put(streamModel.getStreamName(), inputHandler);
                     inputHandlers.put(executionPlansEntry.getKey(), inputHandlerMap);
                 }
-                //Add callback. This callback sends the Siddhi event to SiddhiController
-                siddhiAppRuntime.addCallback(executionPlansEntry.getKey(), new QueryCallback() {
-                    @Override
-                    public void receive(long timestamp, Event[] inEvents, Event[] removeEvents) {
-                        for (Event event : inEvents) {
-                            log.debug("Sending event from Siddhi to Kafka");
-                            kafkaController.send2Kafka(executionPlansEntry.getKey(), event, siddhiAppRuntime.getStreamDefinitionMap());
-                        }
+
+                for (SinkModel sinkModel : executionPlansEntry.getValue().getStreams().getSinkModel()) {
+                    //Add callbacks. These callbacks send the Siddhi event to KafkaController
+                    //This loop checks if an output have been defined at Siddhi. If not, it will log a warning.
+                    //It will try to create a relation beetween each rule "out" and Kafka.
+
+                    String streamName = sinkModel.getStreamName();
+                    String kafkaTopic = sinkModel.getKafkaTopic();
+
+                    StreamDefinition streamDefinition = siddhiAppRuntime.getStreamDefinitionMap().get(streamName);
+
+                    if (streamDefinition != null) {
+                        siddhiAppRuntime.addCallback(streamName, new StreamCallback() {
+                            @Override
+                            public void receive(Event[] events) {
+                                for (Event event : events) {
+                                    log.debug("Sending event from Siddhi to Kafka");
+                                    kafkaController.send2Kafka(kafkaTopic, streamName, event, siddhiAppRuntime.getStreamDefinitionMap());
+                                }
+                            }
+                        });
+                    } else {
+                        log.warn("You specified an output that is not present on the execution plan");
                     }
-                });
+                }
 
                 log.debug("Starting processing the rule: " + executionPlansEntry.getValue().getId());
                 //start processing this rule
