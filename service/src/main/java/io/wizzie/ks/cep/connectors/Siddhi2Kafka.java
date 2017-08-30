@@ -20,7 +20,6 @@ public class Siddhi2Kafka {
 
     Producer<String, String> producer;
     EventsParser eventsParser;
-    Map<String, RuleModel> rules = new HashMap<>();
     private static final Logger log = LoggerFactory.getLogger(Siddhi2Kafka.class);
 
 
@@ -30,30 +29,18 @@ public class Siddhi2Kafka {
     }
 
 
-    public void addRules(List<RuleModel> rulesModels) {
-        rules.clear();
-        log.debug("Adding rules" + rulesModels);
-        for (RuleModel rule : rulesModels) {
-            rules.put(rule.getId(), rule);
-        }
-    }
-
-    public void send(String rule, Event event, Map<String, StreamDefinition> streamDefinitionMap) {
+    public void send(String kafkaTopic, String streamName, Event event, Map<String, StreamDefinition> streamDefinitionMap) {
         //iterate over all rules
         log.debug("Sending event: " + event);
-        log.debug("Current rules: " + rules);
-        log.debug("Event rule: " + rule);
+        log.debug("Event streamName: " + streamName);
 
-        //Get sinks for this rule
-        RuleModel ruleModel = rules.get(rule);
-        //Send event to all rule sinks parsing it with the sink stream format
-        for (SinkModel sinkModel : ruleModel.getStreams().getSinkModel()) {
-            log.debug("Sending event to sink: " + sinkModel.getKafkaTopic());
-            List<Attribute> attributeList = streamDefinitionMap.get(sinkModel.getStreamName()).getAttributeList();
-            log.debug("Parsed event: " + eventsParser.parseToString(attributeList, event));
+        //Send event to kafkaTopic parsing it with the sink stream format
+        log.debug("Sending event to topic: " + kafkaTopic);
+        List<Attribute> attributeList = streamDefinitionMap.get(streamName).getAttributeList();
+        log.debug("Parsed event: " + eventsParser.parseToString(attributeList, event));
 
-            producer.send(new ProducerRecord<>(sinkModel.getKafkaTopic(), null, eventsParser.parseToString(attributeList, event)));
-        }
+        producer.send(new ProducerRecord<>(kafkaTopic, null, eventsParser.parseToString(attributeList, event)));
+
     }
 
 
