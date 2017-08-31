@@ -41,6 +41,10 @@ public class SiddhiControllerIntegrationTest {
         CLUSTER.createTopic("input3", 1, REPLICATION_FACTOR);
         CLUSTER.createTopic("input4", 1, REPLICATION_FACTOR);
         CLUSTER.createTopic("input5", 1, REPLICATION_FACTOR);
+        CLUSTER.createTopic("input6", 1, REPLICATION_FACTOR);
+        CLUSTER.createTopic("input7", 1, REPLICATION_FACTOR);
+
+
 
         // sinks
         CLUSTER.createTopic("output1", 1, REPLICATION_FACTOR);
@@ -48,6 +52,8 @@ public class SiddhiControllerIntegrationTest {
         CLUSTER.createTopic("output4", 1, REPLICATION_FACTOR);
         CLUSTER.createTopic("output5", 1, REPLICATION_FACTOR);
         CLUSTER.createTopic("output6", 1, REPLICATION_FACTOR);
+        CLUSTER.createTopic("output66", 1, REPLICATION_FACTOR);
+        CLUSTER.createTopic("output77", 1, REPLICATION_FACTOR);
 
 
 
@@ -101,17 +107,17 @@ public class SiddhiControllerIntegrationTest {
             e.printStackTrace();
         }
 
-        SourceModel sourceModel = new SourceModel("stream", "input1");
+        SourceModel sourceModel = new SourceModel("stream1", "input1");
         List<SourceModel> sourceModelList = new LinkedList<>();
         sourceModelList.add(sourceModel);
 
-        SinkModel sinkModel = new SinkModel("streamoutput", "output1");
+        SinkModel sinkModel = new SinkModel("streamoutput1", "output1");
         List<SinkModel> sinkModelList = new LinkedList<>();
         sinkModelList.add(sinkModel);
 
-        String id = "rule2";
+        String id = "rule1";
         String version = "v1";
-        String executionPlan = "from stream select * insert into streamoutput";
+        String executionPlan = "from stream1 select * insert into streamoutput1";
 
         StreamMapModel streamMapModel = new StreamMapModel(sourceModelList, sinkModelList);
 
@@ -122,9 +128,9 @@ public class SiddhiControllerIntegrationTest {
 
 
         List<StreamModel> streamsModel = Arrays.asList(
-                new StreamModel("stream", Arrays.asList(
+                new StreamModel("stream1", Arrays.asList(
                         new AttributeModel("attributeName", "string")
-                )), new StreamModel("stream2", Arrays.asList(
+                )), new StreamModel("stream11", Arrays.asList(
                         new AttributeModel("attributeName", "string")
                 )));
 
@@ -203,17 +209,17 @@ public class SiddhiControllerIntegrationTest {
 
         SiddhiController siddhiController = SiddhiController.getInstance();
 
-        SourceModel sourceModel = new SourceModel("stream", "input1");
+        SourceModel sourceModel = new SourceModel("stream2", "input2");
         List<SourceModel> sourceModelList = new LinkedList<>();
         sourceModelList.add(sourceModel);
 
-        SinkModel sinkModel = new SinkModel("streamoutput", "output1");
+        SinkModel sinkModel = new SinkModel("streamoutput2", "output2");
         List<SinkModel> sinkModelList = new LinkedList<>();
         sinkModelList.add(sinkModel);
 
-        String id = "rule1";
+        String id = "rule2";
         String version = "v1";
-        String executionPlan = "from stream select * insert into streamoutput";
+        String executionPlan = "from stream2 select * insert into streamoutput2";
 
         StreamMapModel streamMapModel = new StreamMapModel(Arrays.asList(sourceModel), Arrays.asList(sinkModel));
 
@@ -224,7 +230,7 @@ public class SiddhiControllerIntegrationTest {
 
 
         List<StreamModel> streamsModel = Arrays.asList(
-                new StreamModel("stream", Arrays.asList(
+                new StreamModel("stream2", Arrays.asList(
                         new AttributeModel("attributeName", "string")
                 )));
 
@@ -249,7 +255,7 @@ public class SiddhiControllerIntegrationTest {
 
         try {
             System.out.println("Producing KV: " + kvStream1);
-            IntegrationTestUtils.produceKeyValuesSynchronously("input1", Collections.singletonList(kvStream1), producerConfig, MOCK_TIME);
+            IntegrationTestUtils.produceKeyValuesSynchronously("input2", Collections.singletonList(kvStream1), producerConfig, MOCK_TIME);
         } catch (ExecutionException e) {
             e.printStackTrace();
         } catch (InterruptedException e) {
@@ -257,7 +263,7 @@ public class SiddhiControllerIntegrationTest {
         }
 
 
-        List<KeyValue<String, Map>> receivedMessagesFromOutput1 = IntegrationTestUtils.waitUntilMinKeyValueRecordsReceived(consumerConfigA, "output1", 1);
+        List<KeyValue<String, Map>> receivedMessagesFromOutput1 = IntegrationTestUtils.waitUntilMinKeyValueRecordsReceived(consumerConfigA, "output2", 1);
         System.out.println("Received after Siddhi: " + receivedMessagesFromOutput1);
         assertEquals(Collections.singletonList(expectedDataKv), receivedMessagesFromOutput1);
 
@@ -298,26 +304,26 @@ public class SiddhiControllerIntegrationTest {
 
         SiddhiController siddhiController = SiddhiController.getInstance();
 
-        SourceModel sourceModel = new SourceModel("stream", "input1");
+        SourceModel sourceModel = new SourceModel("stream3", "input3");
         List<SourceModel> sourceModelList = new LinkedList<>();
         sourceModelList.add(sourceModel);
 
-        SinkModel sinkModel = new SinkModel("streamoutput", "output1");
+        SinkModel sinkModel = new SinkModel("streamoutput3", "output3");
         List<SinkModel> sinkModelList = new LinkedList<>();
         sinkModelList.add(sinkModel);
 
-        String id = "rule2";
+        String id = "rule3";
         String version = "v1";
-        String executionPlan = "from stream select * insert into streamoutput";
+        String executionPlan = "from stream3 select * insert into streamoutput3";
 
         StreamMapModel streamMapModel = new StreamMapModel(sourceModelList, sinkModelList);
 
         RuleModel ruleModelObject = new RuleModel(id, version, streamMapModel, executionPlan);
 
 
-        String id2 = "rule3";
+        String id2 = "rule33";
         String version2 = "v1";
-        String executionPlan2 = "from stream select * insert into streamoutput";
+        String executionPlan2 = "from stream3 select * insert into streamoutput3";
 
         StreamMapModel streamMapModel2 = new StreamMapModel(sourceModelList, sinkModelList);
 
@@ -329,9 +335,9 @@ public class SiddhiControllerIntegrationTest {
 
 
         List<StreamModel> streamsModel = Arrays.asList(
-                new StreamModel("stream", Arrays.asList(
+                new StreamModel("stream3", Arrays.asList(
                         new AttributeModel("attributeName", "string")
-                )), new StreamModel("stream2", Arrays.asList(
+                )), new StreamModel("stream33", Arrays.asList(
                         new AttributeModel("attributeName", "string")
                 )));
 
@@ -361,8 +367,8 @@ public class SiddhiControllerIntegrationTest {
 
         try {
             System.out.println("Producing KVs: " + kvStream1 + kvStream2);
-            IntegrationTestUtils.produceKeyValuesSynchronously("input1", Collections.singletonList(kvStream1), producerConfig, MOCK_TIME);
-            IntegrationTestUtils.produceKeyValuesSynchronously("input1", Collections.singletonList(kvStream2), producerConfig, MOCK_TIME);
+            IntegrationTestUtils.produceKeyValuesSynchronously("input3", Collections.singletonList(kvStream1), producerConfig, MOCK_TIME);
+            IntegrationTestUtils.produceKeyValuesSynchronously("input3", Collections.singletonList(kvStream2), producerConfig, MOCK_TIME);
 
         } catch (ExecutionException e) {
             e.printStackTrace();
@@ -371,7 +377,7 @@ public class SiddhiControllerIntegrationTest {
         }
 
 
-        List<KeyValue<String, Map>> receivedMessagesFromOutput1 = IntegrationTestUtils.waitUntilMinKeyValueRecordsReceived(consumerConfigA, "output1", 1);
+        List<KeyValue<String, Map>> receivedMessagesFromOutput1 = IntegrationTestUtils.waitUntilMinKeyValueRecordsReceived(consumerConfigA, "output3", 1);
         System.out.println("Received after Siddhi: " + receivedMessagesFromOutput1);
         assertEquals(Arrays.asList(expectedDataKv, expectedDataKv, expectedDataKv2, expectedDataKv2), receivedMessagesFromOutput1);
 
@@ -404,17 +410,17 @@ public class SiddhiControllerIntegrationTest {
 
         SiddhiController siddhiController = SiddhiController.getInstance();
 
-        SourceModel sourceModel = new SourceModel("stream", "input1");
+        SourceModel sourceModel = new SourceModel("stream4", "input4");
         List<SourceModel> sourceModelList = new LinkedList<>();
         sourceModelList.add(sourceModel);
 
-        SinkModel sinkModel = new SinkModel("streamoutput", "output1");
+        SinkModel sinkModel = new SinkModel("streamoutput4", "output4");
         List<SinkModel> sinkModelList = new LinkedList<>();
         sinkModelList.add(sinkModel);
 
-        String id = "rule2";
-        String version = "v2";
-        String executionPlan = "from stream select avg(attributeName) as avg insert into streamoutput";
+        String id = "rule4";
+        String version = "v1";
+        String executionPlan = "from stream4 select avg(attributeName) as avg insert into streamoutput4";
 
         StreamMapModel streamMapModel = new StreamMapModel(sourceModelList, sinkModelList);
 
@@ -426,9 +432,9 @@ public class SiddhiControllerIntegrationTest {
 
 
         List<StreamModel> streamsModel = Arrays.asList(
-                new StreamModel("stream", Arrays.asList(
+                new StreamModel("stream4", Arrays.asList(
                         new AttributeModel("attributeName", "integer")
-                )), new StreamModel("stream2", Arrays.asList(
+                )), new StreamModel("stream44", Arrays.asList(
                         new AttributeModel("attributeName", "integer")
                 )));
 
@@ -456,7 +462,7 @@ public class SiddhiControllerIntegrationTest {
 
         try {
             System.out.println("Producing KVs: " + kvStream1);
-            IntegrationTestUtils.produceKeyValuesSynchronously("input1", Collections.singletonList(kvStream1), producerConfig, MOCK_TIME);
+            IntegrationTestUtils.produceKeyValuesSynchronously("input4", Collections.singletonList(kvStream1), producerConfig, MOCK_TIME);
         } catch (ExecutionException e) {
             e.printStackTrace();
         } catch (InterruptedException e) {
@@ -464,7 +470,7 @@ public class SiddhiControllerIntegrationTest {
         }
 
 
-        List<KeyValue<String, Map>> receivedMessagesFromOutput1 = IntegrationTestUtils.waitUntilMinKeyValueRecordsReceived(consumerConfigA, "output1", 1);
+        List<KeyValue<String, Map>> receivedMessagesFromOutput1 = IntegrationTestUtils.waitUntilMinKeyValueRecordsReceived(consumerConfigA, "output4", 1);
         System.out.println("Received after Siddhi: " + receivedMessagesFromOutput1);
         assertEquals(Arrays.asList(expectedDataKv), receivedMessagesFromOutput1);
 
@@ -497,17 +503,17 @@ public class SiddhiControllerIntegrationTest {
 
         SiddhiController siddhiController = SiddhiController.getInstance();
 
-        SourceModel sourceModel = new SourceModel("streaminput3", "input3");
+        SourceModel sourceModel = new SourceModel("streaminput5", "input5");
         List<SourceModel> sourceModelList = new LinkedList<>();
         sourceModelList.add(sourceModel);
 
-        SinkModel sinkModel = new SinkModel("streamoutput3", "output3");
+        SinkModel sinkModel = new SinkModel("streamoutput5", "output5");
         List<SinkModel> sinkModelList = new LinkedList<>();
         sinkModelList.add(sinkModel);
 
-        String id = "rule4";
+        String id = "rule5";
         String version = "v1";
-        String executionPlan = "partition with (fieldA of streaminput3) begin from streaminput3#window.timeBatch(5 sec) select avg(fieldB) as avg insert into streamoutput3 end";
+        String executionPlan = "partition with (fieldA of streaminput5) begin from streaminput5#window.timeBatch(5 sec) select avg(fieldB) as avg insert into streamoutput5 end";
 
         StreamMapModel streamMapModel = new StreamMapModel(sourceModelList, sinkModelList);
 
@@ -519,7 +525,7 @@ public class SiddhiControllerIntegrationTest {
 
 
         List<StreamModel> streamsModel = Arrays.asList(
-                new StreamModel("streaminput3", Arrays.asList(
+                new StreamModel("streaminput5", Arrays.asList(
                         new AttributeModel("fieldA", "integer"),
                         new AttributeModel("fieldB", "integer")
                 )));
@@ -548,7 +554,7 @@ public class SiddhiControllerIntegrationTest {
 
         try {
             System.out.println("Producing KVs: " + kvStream1);
-            IntegrationTestUtils.produceKeyValuesSynchronously("input3", Collections.singletonList(kvStream1), producerConfig, MOCK_TIME);
+            IntegrationTestUtils.produceKeyValuesSynchronously("input5", Collections.singletonList(kvStream1), producerConfig, MOCK_TIME);
         } catch (ExecutionException e) {
             e.printStackTrace();
         } catch (InterruptedException e) {
@@ -556,7 +562,7 @@ public class SiddhiControllerIntegrationTest {
         }
 
 
-        List<KeyValue<String, Map>> receivedMessagesFromOutput1 = IntegrationTestUtils.waitUntilMinKeyValueRecordsReceived(consumerConfigA, "output3", 1);
+        List<KeyValue<String, Map>> receivedMessagesFromOutput1 = IntegrationTestUtils.waitUntilMinKeyValueRecordsReceived(consumerConfigA, "output5", 1);
         System.out.println("Received after Siddhi: " + receivedMessagesFromOutput1);
         assertEquals(Arrays.asList(expectedDataKv), receivedMessagesFromOutput1);
 
@@ -592,19 +598,19 @@ public class SiddhiControllerIntegrationTest {
 
         SiddhiController siddhiController = SiddhiController.getInstance();
 
-        SourceModel sourceModel = new SourceModel("streaminput4", "input4");
+        SourceModel sourceModel = new SourceModel("streaminput6", "input6");
         List<SourceModel> sourceModelList = new LinkedList<>();
         sourceModelList.add(sourceModel);
 
-        SinkModel sinkModel = new SinkModel("streamoutput4", "output4");
-        SinkModel sinkModel2 = new SinkModel("streamoutput5", "output5");
+        SinkModel sinkModel = new SinkModel("streamoutput6", "output6");
+        SinkModel sinkModel2 = new SinkModel("streamoutput66", "output66");
         List<SinkModel> sinkModelList = new LinkedList<>();
         sinkModelList.add(sinkModel);
         sinkModelList.add(sinkModel2);
 
-        String id = "rule5";
+        String id = "rule6";
         String version = "v1";
-        String executionPlan = "from every e1=streaminput4[fieldA == 'yes'] -> e2=streaminput4[fieldB > 0] select 'Correct' as description insert into streamoutput4";
+        String executionPlan = "from every e1=streaminput6[fieldA == 'yes'] -> e2=streaminput6[fieldB > 0] select 'Correct' as description insert into streamoutput6";
         StreamMapModel streamMapModel = new StreamMapModel(sourceModelList, sinkModelList);
 
         RuleModel ruleModelObject = new RuleModel(id, version, streamMapModel, executionPlan);
@@ -615,7 +621,7 @@ public class SiddhiControllerIntegrationTest {
 
 
         List<StreamModel> streamsModel = Arrays.asList(
-                new StreamModel("streaminput4", Arrays.asList(
+                new StreamModel("streaminput6", Arrays.asList(
                         new AttributeModel("fieldA", "string"),
                         new AttributeModel("fieldB","integer")
                 )));
@@ -644,8 +650,8 @@ public class SiddhiControllerIntegrationTest {
 
         try {
             System.out.println("Producing KVs: " + kvStream1 + kvStream2);
-            IntegrationTestUtils.produceKeyValuesSynchronously("input4", Collections.singletonList(kvStream1), producerConfig, MOCK_TIME);
-            IntegrationTestUtils.produceKeyValuesSynchronously("input4", Collections.singletonList(kvStream2), producerConfig, MOCK_TIME);
+            IntegrationTestUtils.produceKeyValuesSynchronously("input6", Collections.singletonList(kvStream1), producerConfig, MOCK_TIME);
+            IntegrationTestUtils.produceKeyValuesSynchronously("input6", Collections.singletonList(kvStream2), producerConfig, MOCK_TIME);
         } catch (ExecutionException e) {
             e.printStackTrace();
         } catch (InterruptedException e) {
@@ -653,7 +659,7 @@ public class SiddhiControllerIntegrationTest {
         }
 
 
-        List<KeyValue<String, Map>> receivedMessagesFromOutput1 = IntegrationTestUtils.waitUntilMinKeyValueRecordsReceived(consumerConfigA, "output4", 1);
+        List<KeyValue<String, Map>> receivedMessagesFromOutput1 = IntegrationTestUtils.waitUntilMinKeyValueRecordsReceived(consumerConfigA, "output6", 1);
         System.out.println("Received after Siddhi: " + receivedMessagesFromOutput1);
         assertEquals(Arrays.asList(expectedDataKv), receivedMessagesFromOutput1);
 
@@ -684,19 +690,19 @@ public class SiddhiControllerIntegrationTest {
 
         SiddhiController siddhiController = SiddhiController.getInstance();
 
-        SourceModel sourceModel = new SourceModel("streaminput5", "input5");
+        SourceModel sourceModel = new SourceModel("streaminput7", "input7");
         List<SourceModel> sourceModelList = new LinkedList<>();
         sourceModelList.add(sourceModel);
 
-        SinkModel sinkModel = new SinkModel("streamoutput", "output5");
-        SinkModel sinkModel2 = new SinkModel("streamoutput", "output6");
+        SinkModel sinkModel = new SinkModel("streamoutput7", "output7");
+        SinkModel sinkModel2 = new SinkModel("streamoutput7", "output77");
         List<SinkModel> sinkModelList = new LinkedList<>();
         sinkModelList.add(sinkModel);
         sinkModelList.add(sinkModel2);
 
         String id = "rule6";
         String version = "v1";
-        String executionPlan = "from streaminput5 select * insert into streamoutput";
+        String executionPlan = "from streaminput7 select * insert into streamoutput7";
 
         StreamMapModel streamMapModel = new StreamMapModel(sourceModelList, sinkModelList);
         RuleModel ruleModelObject = new RuleModel(id, version, streamMapModel, executionPlan);
@@ -706,7 +712,7 @@ public class SiddhiControllerIntegrationTest {
 
 
         List<StreamModel> streamsModel = Arrays.asList(
-                new StreamModel("streaminput5", Arrays.asList(
+                new StreamModel("streaminput7", Arrays.asList(
                         new AttributeModel("attributeName", "string")
                 )));
 
@@ -731,7 +737,7 @@ public class SiddhiControllerIntegrationTest {
 
         try {
             System.out.println("Producing KV: " + kvStream1);
-            IntegrationTestUtils.produceKeyValuesSynchronously("input5", Collections.singletonList(kvStream1), producerConfig, MOCK_TIME);
+            IntegrationTestUtils.produceKeyValuesSynchronously("input7", Collections.singletonList(kvStream1), producerConfig, MOCK_TIME);
         } catch (ExecutionException e) {
             e.printStackTrace();
         } catch (InterruptedException e) {
@@ -739,8 +745,8 @@ public class SiddhiControllerIntegrationTest {
         }
 
 
-        List<KeyValue<String, Map>> receivedMessagesFromOutput1 = IntegrationTestUtils.waitUntilMinKeyValueRecordsReceived(consumerConfigA, "output5", 1);
-        List<KeyValue<String, Map>> receivedMessagesFromOutput2 = IntegrationTestUtils.waitUntilMinKeyValueRecordsReceived(consumerConfigA, "output6", 1);
+        List<KeyValue<String, Map>> receivedMessagesFromOutput1 = IntegrationTestUtils.waitUntilMinKeyValueRecordsReceived(consumerConfigA, "output7", 1);
+        List<KeyValue<String, Map>> receivedMessagesFromOutput2 = IntegrationTestUtils.waitUntilMinKeyValueRecordsReceived(consumerConfigA, "output77", 1);
         System.out.println("Received after Siddhi: " + receivedMessagesFromOutput1);
         System.out.println("Received after Siddhi: " + receivedMessagesFromOutput2);
 
