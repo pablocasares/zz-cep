@@ -70,8 +70,8 @@ public class KafkaController {
     }
 
 
-    public void send2Kafka(String kafkaTopic, String streamName, Event event, Map<String, StreamDefinition> streamDefinitionMap) {
-        producer.send(kafkaTopic, streamName, event, streamDefinitionMap);
+    public void send2Kafka(String kafkaTopic, String streamName, Event event, Map<String, StreamDefinition> streamDefinitionMap, Map<String, Object> options) {
+        producer.send(kafkaTopic, streamName, event, streamDefinitionMap, options);
     }
 
     public void shutdown(){
