@@ -16,8 +16,8 @@ public class ProcessingModelUnitTest {
         SinkModel sinkModel = new SinkModel("sinkName", "kafkaTopic");
         StreamMapModel streamMapModel = new StreamMapModel(Arrays.asList(sourceModel), Arrays.asList(sinkModel));
         List<RuleModel> rules = Arrays.asList(
-                new RuleModel("1", "v1", streamMapModel, "myExecutionPlan"),
-                new RuleModel("2", "v1", streamMapModel, "myOtherPlan")
+                new RuleModel("1", "v1", streamMapModel, "myExecutionPlan", null),
+                new RuleModel("2", "v1", streamMapModel, "myOtherPlan", null)
         );
 
         List<StreamModel> streamsModel = Arrays.asList(
@@ -39,8 +39,8 @@ public class ProcessingModelUnitTest {
         SinkModel sinkModel = new SinkModel("sinkName", "kafkaTopic");
         StreamMapModel streamMapModel = new StreamMapModel(Arrays.asList(sourceModel), Arrays.asList(sinkModel));
         List<RuleModel> rules = Arrays.asList(
-                new RuleModel("1", "v1", streamMapModel, "myExecutionPlan"),
-                new RuleModel("2", "v1", streamMapModel, "myOtherPlan")
+                new RuleModel("1", "v1", streamMapModel, "myExecutionPlan", null),
+                new RuleModel("2", "v1", streamMapModel, "myOtherPlan", null)
         );
 
         List<StreamModel> streamsModel = Arrays.asList(
@@ -62,8 +62,8 @@ public class ProcessingModelUnitTest {
         SinkModel sinkModel = new SinkModel("sinkName", "kafkaTopic");
         StreamMapModel streamMapModel = new StreamMapModel(Arrays.asList(sourceModel), Arrays.asList(sinkModel));
         List<RuleModel> rules = Arrays.asList(
-                new RuleModel("1", "v1", streamMapModel, "myExecutionPlan"),
-                new RuleModel("2", "v1", streamMapModel, "myOtherPlan")
+                new RuleModel("1", "v1", streamMapModel, "myExecutionPlan", null),
+                new RuleModel("2", "v1", streamMapModel, "myOtherPlan", null)
         );
 
         List<StreamModel> streamsModel = Arrays.asList(
@@ -83,9 +83,9 @@ public class ProcessingModelUnitTest {
 
         assertEquals("{streams: [{streamName: stream1, attributes: [{name: timestamp, type: long}]}], rules: [{id: 1, " +
                 "version: v1, streams: {in: [{streamName: streamName, kafkaTopic: kafkaTopic}], out: [{streamName: " +
-                "sinkName, kafkaTopic: kafkaTopic}]}, executionPlan: myExecutionPlan}, {id: 2, version: v1, streams: " +
+                "sinkName, kafkaTopic: kafkaTopic}]}, executionPlan: myExecutionPlan, options: null}, {id: 2, version: v1, streams: " +
                 "{in: [{streamName: streamName, kafkaTopic: kafkaTopic}], out: [{streamName: sinkName, kafkaTopic: " +
-                "kafkaTopic}]}, executionPlan: myOtherPlan}]}\n", processingModel.toString());
+                "kafkaTopic}]}, executionPlan: myOtherPlan, options: null}]}\n", processingModel.toString());
     }
 
 

@@ -129,6 +129,7 @@ public class SiddhiController {
                 log.debug("Processing app for rule: " + executionPlansEntry.getKey() + " is already created. Skip creating.");
             } else {
                 log.debug("Creating new processing app for rule: " + executionPlansEntry.getKey());
+                log.debug("Rule: "+ executionPlansEntry.getValue().toString());
                 StringBuilder fullExecutionPlan = new StringBuilder();
 
                 //Add every stream definition to the new Siddhi Plan
@@ -173,7 +174,7 @@ public class SiddhiController {
                             public void receive(Event[] events) {
                                 for (Event event : events) {
                                     log.debug("Sending event from Siddhi to Kafka");
-                                    kafkaController.send2Kafka(kafkaTopic, streamName, event, siddhiAppRuntime.getStreamDefinitionMap());
+                                    kafkaController.send2Kafka(kafkaTopic, streamName, event, siddhiAppRuntime.getStreamDefinitionMap(), executionPlansEntry.getValue().getOptions());
                                 }
                             }
                         });

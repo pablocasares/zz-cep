@@ -29,17 +29,17 @@ public class Siddhi2Kafka {
     }
 
 
-    public void send(String kafkaTopic, String streamName, Event event, Map<String, StreamDefinition> streamDefinitionMap) {
+    public void send(String kafkaTopic, String streamName, Event event, Map<String, StreamDefinition> streamDefinitionMap, Map<String, Object> options) {
         //iterate over all rules
-        log.debug("Sending event: " + event);
-        log.debug("Event streamName: " + streamName);
+        log.trace("Sending event: " + event);
+        log.trace("Event streamName: " + streamName);
 
         //Send event to kafkaTopic parsing it with the sink stream format
-        log.debug("Sending event to topic: " + kafkaTopic);
+        log.trace("Sending event to topic: " + kafkaTopic);
         List<Attribute> attributeList = streamDefinitionMap.get(streamName).getAttributeList();
-        log.debug("Parsed event: " + eventsParser.parseToString(attributeList, event));
+        log.trace("Parsed event: " + eventsParser.parseToString(attributeList, event, options));
 
-        producer.send(new ProducerRecord<>(kafkaTopic, null, eventsParser.parseToString(attributeList, event)));
+        producer.send(new ProducerRecord<>(kafkaTopic, null, eventsParser.parseToString(attributeList, event, options)));
 
     }
 

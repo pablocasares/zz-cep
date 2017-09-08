@@ -37,7 +37,7 @@ public class SiddhiControllerUnitTest {
 
         StreamMapModel streamMapModel = new StreamMapModel(Arrays.asList(sourceModel), Arrays.asList(sinkModel));
 
-        RuleModel ruleModelObject = new RuleModel(id, version, streamMapModel, executionPlan);
+        RuleModel ruleModelObject = new RuleModel(id, version, streamMapModel, executionPlan, null);
 
         List<RuleModel> ruleModelList = new LinkedList<>();
         ruleModelList.add(ruleModelObject);
@@ -78,7 +78,7 @@ public class SiddhiControllerUnitTest {
 
         StreamMapModel streamMapModel = new StreamMapModel(Arrays.asList(sourceModel), Arrays.asList(sinkModel));
 
-        RuleModel ruleModelObject = new RuleModel(id, version, streamMapModel, executionPlan);
+        RuleModel ruleModelObject = new RuleModel(id, version, streamMapModel, executionPlan, null);
 
         List<RuleModel> ruleModelList = new LinkedList<>();
         ruleModelList.add(ruleModelObject);
@@ -120,7 +120,7 @@ public class SiddhiControllerUnitTest {
 
         StreamMapModel streamMapModel = new StreamMapModel(sourceModelList, sinkModelList);
 
-        RuleModel ruleModelObject = new RuleModel(id, version, streamMapModel, executionPlan);
+        RuleModel ruleModelObject = new RuleModel(id, version, streamMapModel, executionPlan, null);
 
 
         String id2 = "ruleu33";
@@ -129,7 +129,7 @@ public class SiddhiControllerUnitTest {
 
         StreamMapModel streamMapModel2 = new StreamMapModel(sourceModelList, sinkModelList);
 
-        RuleModel ruleModelObject2 = new RuleModel(id2, version2, streamMapModel2, executionPlan2);
+        RuleModel ruleModelObject2 = new RuleModel(id2, version2, streamMapModel2, executionPlan2, null);
 
         List<RuleModel> ruleModelList = new LinkedList<>();
         ruleModelList.add(ruleModelObject);
@@ -172,7 +172,7 @@ public class SiddhiControllerUnitTest {
 
         StreamMapModel streamMapModel = new StreamMapModel(sourceModelList, sinkModelList);
 
-        RuleModel ruleModelObject = new RuleModel(id, version, streamMapModel, executionPlan);
+        RuleModel ruleModelObject = new RuleModel(id, version, streamMapModel, executionPlan, null);
 
 
         String id2 = "ruleu44";
@@ -181,7 +181,7 @@ public class SiddhiControllerUnitTest {
 
         StreamMapModel streamMapModel2 = new StreamMapModel(sourceModelList, sinkModelList);
 
-        RuleModel ruleModelObject2 = new RuleModel(id2, version2, streamMapModel2, executionPlan2);
+        RuleModel ruleModelObject2 = new RuleModel(id2, version2, streamMapModel2, executionPlan2, null);
 
         List<RuleModel> ruleModelList = new LinkedList<>();
         ruleModelList.add(ruleModelObject);
@@ -224,7 +224,7 @@ public class SiddhiControllerUnitTest {
 
         StreamMapModel streamMapModel = new StreamMapModel(sourceModelList, sinkModelList);
 
-        RuleModel ruleModelObject = new RuleModel(id, version, streamMapModel, executionPlan);
+        RuleModel ruleModelObject = new RuleModel(id, version, streamMapModel, executionPlan, null);
 
 
         String id2 = "ruleu55";
@@ -233,7 +233,7 @@ public class SiddhiControllerUnitTest {
 
         StreamMapModel streamMapModel2 = new StreamMapModel(sourceModelList, sinkModelList);
 
-        RuleModel ruleModelObject2 = new RuleModel(id2, version2, streamMapModel2, executionPlan2);
+        RuleModel ruleModelObject2 = new RuleModel(id2, version2, streamMapModel2, executionPlan2, null);
 
         List<RuleModel> ruleModelList = new LinkedList<>();
         ruleModelList.add(ruleModelObject);
@@ -257,7 +257,7 @@ public class SiddhiControllerUnitTest {
 
         streamMapModel = new StreamMapModel(Arrays.asList(sourceModel), Arrays.asList(sinkModel));
 
-        ruleModelObject = new RuleModel(id, version, streamMapModel, executionPlan);
+        ruleModelObject = new RuleModel(id, version, streamMapModel, executionPlan, null);
 
         ruleModelList = new LinkedList<>();
         ruleModelList.add(ruleModelObject);
@@ -299,7 +299,7 @@ public class SiddhiControllerUnitTest {
 
         StreamMapModel streamMapModel = new StreamMapModel(sourceModelList, sinkModelList);
 
-        RuleModel ruleModelObject = new RuleModel(id, version, streamMapModel, executionPlan);
+        RuleModel ruleModelObject = new RuleModel(id, version, streamMapModel, executionPlan, null);
 
 
         sourceModel = new SourceModel("streamu66", "input1");
@@ -316,7 +316,7 @@ public class SiddhiControllerUnitTest {
 
         StreamMapModel streamMapModel2 = new StreamMapModel(sourceModelList, sinkModelList);
 
-        RuleModel ruleModelObject2 = new RuleModel(id2, version2, streamMapModel2, executionPlan2);
+        RuleModel ruleModelObject2 = new RuleModel(id2, version2, streamMapModel2, executionPlan2, null);
 
         List<RuleModel> ruleModelList = new LinkedList<>();
         ruleModelList.add(ruleModelObject);
@@ -372,7 +372,7 @@ public class SiddhiControllerUnitTest {
 
         StreamMapModel streamMapModel = new StreamMapModel(sourceModelList, sinkModelList);
 
-        RuleModel ruleModelObject = new RuleModel(id, version, streamMapModel, executionPlan);
+        RuleModel ruleModelObject = new RuleModel(id, version, streamMapModel, executionPlan, null);
 
         List<RuleModel> ruleModelList = new LinkedList<>();
         ruleModelList.add(ruleModelObject);
@@ -420,7 +420,7 @@ public class SiddhiControllerUnitTest {
 
         StreamMapModel streamMapModel = new StreamMapModel(sourceModelList, sinkModelList);
 
-        RuleModel ruleModelObject = new RuleModel(id, version, streamMapModel, executionPlan);
+        RuleModel ruleModelObject = new RuleModel(id, version, streamMapModel, executionPlan, null);
 
 
         String id2 = "ruleu88";
@@ -429,7 +429,7 @@ public class SiddhiControllerUnitTest {
 
         StreamMapModel streamMapModel2 = new StreamMapModel(sourceModelList, sinkModelList);
 
-        RuleModel ruleModelObject2 = new RuleModel(id2, version2, streamMapModel2, executionPlan2);
+        RuleModel ruleModelObject2 = new RuleModel(id2, version2, streamMapModel2, executionPlan2, null);
 
         List<RuleModel> ruleModelList = new LinkedList<>();
         ruleModelList.add(ruleModelObject);
@@ -453,7 +453,7 @@ public class SiddhiControllerUnitTest {
 
         streamMapModel = new StreamMapModel(Arrays.asList(sourceModel), Arrays.asList(sinkModel));
 
-        ruleModelObject = new RuleModel(id, version, streamMapModel, executionPlan);
+        ruleModelObject = new RuleModel(id, version, streamMapModel, executionPlan, null);
 
         ruleModelList = new LinkedList<>();
         ruleModelList.add(ruleModelObject);
