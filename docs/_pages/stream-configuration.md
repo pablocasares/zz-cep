@@ -58,7 +58,8 @@ The `rules` section is made by processing rules:
                     }
                 ]
             },
-            "executionPlan": "from streaminput select * insert into streamoutput"
+            "executionPlan": "from streaminput select * insert into streamoutput",
+            "options": {"filterOutputNullDimension": true}
         },
         {
             "id": 2,
@@ -89,6 +90,11 @@ The rules objects are made by: `id`, `version`, `streams` and `executionPlan`
 * `version`: an string that identifies the version of the rule.
 * `streams`: a map that contains the `in` and `out` relations between Siddhi and Kafka.
 * `executionPlan`: the SiddhiQL query that will be used to process this rule.
+* `options`: An optional map field to modify the rule behaviour.
+
+The current `options` available value is:
+
+* `"filterOutputNullDimension"`: This value can be set to `true` if the rule should filter out the null values at the output when the event is sended to Kafka.
 
 
 
