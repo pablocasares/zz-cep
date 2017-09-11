@@ -53,6 +53,9 @@
             
                 <li class="nav-header">Configuration</li>
             
+            <li data-order=""><a href="/zz-cep/conf/multitenant.html">Multitenant</a></li>
+        
+            
             <li data-order="2"><a href="/zz-cep/conf/stream-configuration.html">Stream Configuration</a></li>
         
             
@@ -153,7 +156,8 @@
   </span><span class="nt">"bootstrap.kafka.topics"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="s2">"__cep_bootstrapper"</span><span class="p">],</span><span class="w">
   </span><span class="nt">"metric.enable"</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span><span class="w">
   </span><span class="nt">"metric.listeners"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="s2">"io.wizzie.ks.cep.metrics.ConsoleMetricListener"</span><span class="p">],</span><span class="w">
-  </span><span class="nt">"metric.interval"</span><span class="p">:</span><span class="w"> </span><span class="mi">60000</span><span class="w">
+  </span><span class="nt">"metric.interval"</span><span class="p">:</span><span class="w"> </span><span class="mi">60000</span><span class="p">,</span><span class="w">
+  </span><span class="nt">"multi.id"</span><span class="p">:</span><span class="w"> </span><span class="kc">false</span><span class="w">
 </span><span class="p">}</span><span class="w">
 </span></code></pre>
 </div>
@@ -205,6 +209,11 @@
     <tr>
       <td style="text-align: left"><code class="highlighter-rouge">metric.enable</code></td>
       <td style="text-align: left">Enable metrics system.</td>
+      <td style="text-align: center">false</td>
+    </tr>
+    <tr>
+      <td style="text-align: left"><code class="highlighter-rouge">multi.id</code></td>
+      <td style="text-align: left">This property is used when you have multiple cep instances with differences <code class="highlighter-rouge">application.id</code> and the cep uses the same topic names. More Info <a href="https://github.com/wizzie-io/zz-cep/zz-cep/conf/multitenant.html">Multi Tenant</a></td>
       <td style="text-align: center">false</td>
     </tr>
   </tbody>

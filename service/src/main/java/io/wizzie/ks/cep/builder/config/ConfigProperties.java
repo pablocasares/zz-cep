@@ -8,6 +8,8 @@ public class ConfigProperties {
     public static final String METRIC_VERBOSE_MODE = "metric.verbose.mode";
     public static final String MAX_KAFKA_OUTPUT_TOPICS = "max.kafka.output.topics";
     public static final String KAFKA_CLUSTER = "bootstrap.servers";
+    public static final String MULTI_ID = "multi.id";
+    public static final String APPLICATION_ID = "application.id";
 }
 
 
