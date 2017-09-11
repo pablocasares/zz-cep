@@ -16,20 +16,33 @@ import org.wso2.siddhi.query.api.definition.StreamDefinition;
 
 import java.util.*;
 
+import static io.wizzie.ks.cep.builder.config.ConfigProperties.APPLICATION_ID;
+import static io.wizzie.ks.cep.builder.config.ConfigProperties.MULTI_ID;
+
 public class Siddhi2Kafka {
 
     Producer<String, String> producer;
     EventsParser eventsParser;
     private static final Logger log = LoggerFactory.getLogger(Siddhi2Kafka.class);
-
+    private boolean multiId = false;
+    private String applicationId;
 
     public Siddhi2Kafka(Properties producerProperties) {
         producer = new KafkaProducer<>(producerProperties);
         eventsParser = EventsParser.getInstance();
+        if(producerProperties.get(MULTI_ID) != null && (Boolean)producerProperties.get(MULTI_ID)){
+            this.multiId = (boolean)producerProperties.get(MULTI_ID);
+            this.applicationId = (String)producerProperties.get(APPLICATION_ID);
+        }
     }
 
 
     public void send(String kafkaTopic, String streamName, Event event, Map<String, StreamDefinition> streamDefinitionMap, Map<String, Object> options) {
+
+        if(multiId){
+            kafkaTopic = String.format("%s_%s",applicationId, kafkaTopic);
+        }
+
         //iterate over all rules
         log.trace("Sending event: " + event);
         log.trace("Event streamName: " + streamName);

@@ -22,7 +22,7 @@ public class SiddhiController {
     private static SiddhiController instance = null;
 
     private static final Logger log = LoggerFactory.getLogger(SiddhiController.class);
-
+    private String multiId = "";
 
     ProcessingModel newProcessingModel;
 
@@ -233,6 +233,10 @@ public class SiddhiController {
         ruleDefinition.append(" ;");
 
         return ruleDefinition.toString();
+    }
+
+    public void setMultiId(String multiId){
+        this.multiId = multiId;
     }
 
 

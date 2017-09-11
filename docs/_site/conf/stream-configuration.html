@@ -53,6 +53,9 @@
             
                 <li class="nav-header">Configuration</li>
             
+            <li data-order=""><a href="/zz-cep/conf/multitenant.html">Multitenant</a></li>
+        
+            
             <li data-order="2"><a href="/zz-cep/conf/stream-configuration.html">Stream Configuration</a></li>
         
             
@@ -191,7 +194,8 @@ You can add the number of streams that you want. You must define an stream if yo
                     </span><span class="p">}</span><span class="w">
                 </span><span class="p">]</span><span class="w">
             </span><span class="p">},</span><span class="w">
-            </span><span class="nt">"executionPlan"</span><span class="p">:</span><span class="w"> </span><span class="s2">"from streaminput select * insert into streamoutput"</span><span class="w">
+            </span><span class="nt">"executionPlan"</span><span class="p">:</span><span class="w"> </span><span class="s2">"from streaminput select * insert into streamoutput"</span><span class="p">,</span><span class="w">
+            </span><span class="nt">"options"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="nt">"filterOutputNullDimension"</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">}</span><span class="w">
         </span><span class="p">},</span><span class="w">
         </span><span class="p">{</span><span class="w">
             </span><span class="nt">"id"</span><span class="p">:</span><span class="w"> </span><span class="mi">2</span><span class="p">,</span><span class="w">
@@ -224,6 +228,13 @@ You can add the number of streams that you want. You must define an stream if yo
   <li><code class="highlighter-rouge">version</code>: an string that identifies the version of the rule.</li>
   <li><code class="highlighter-rouge">streams</code>: a map that contains the <code class="highlighter-rouge">in</code> and <code class="highlighter-rouge">out</code> relations between Siddhi and Kafka.</li>
   <li><code class="highlighter-rouge">executionPlan</code>: the SiddhiQL query that will be used to process this rule.</li>
+  <li><code class="highlighter-rouge">options</code>: An optional map field to modify the rule behaviour.</li>
+</ul>
+
+<p>The current <code class="highlighter-rouge">options</code> available value is:</p>
+
+<ul>
+  <li><code class="highlighter-rouge">"filterOutputNullDimension"</code>: This value can be set to <code class="highlighter-rouge">true</code> if the rule should filter out the null values at the output when the event is sended to Kafka.</li>
 </ul>
 
 <p>So, the full stream configuration should be:</p>
