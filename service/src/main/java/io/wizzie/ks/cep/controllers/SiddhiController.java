@@ -47,6 +47,10 @@ public class SiddhiController {
         return instance;
     }
 
+    public static SiddhiController TEST_CreateInstance() {
+        return new SiddhiController();
+    }
+
     public void initKafkaController(Properties consumerProperties, Properties producerProperties) {
         this.kafkaController.init(consumerProperties, producerProperties);
     }
@@ -129,7 +133,7 @@ public class SiddhiController {
                 log.debug("Processing app for rule: " + executionPlansEntry.getKey() + " is already created. Skip creating.");
             } else {
                 log.debug("Creating new processing app for rule: " + executionPlansEntry.getKey());
-                log.debug("Rule: "+ executionPlansEntry.getValue().toString());
+                log.debug("Rule: " + executionPlansEntry.getValue().toString());
                 StringBuilder fullExecutionPlan = new StringBuilder();
 
                 //Add every stream definition to the new Siddhi Plan

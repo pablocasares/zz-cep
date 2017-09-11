@@ -21,7 +21,7 @@ public class SiddhiControllerUnitTest {
 
     @Test
     public void addProcessingDefinitionUnitTest() {
-        SiddhiController siddhiController = SiddhiController.getInstance();
+        SiddhiController siddhiController = SiddhiController.TEST_CreateInstance();
 
         SourceModel sourceModel = new SourceModel("streamu1", "inputu1");
         List<SourceModel> sourceModelList = new LinkedList<>();
@@ -62,7 +62,7 @@ public class SiddhiControllerUnitTest {
 
     @Test
     public void addProcessingDefinitionWithTwoAttributesUnitTest() {
-        SiddhiController siddhiController = SiddhiController.getInstance();
+        SiddhiController siddhiController = SiddhiController.TEST_CreateInstance();
 
         SourceModel sourceModel = new SourceModel("streamu2", "inputu2");
         List<SourceModel> sourceModelList = new LinkedList<>();
@@ -104,7 +104,7 @@ public class SiddhiControllerUnitTest {
 
     @Test
     public void addProcessingDefinitionWithTwoRulesUnitTest() {
-        SiddhiController siddhiController = SiddhiController.getInstance();
+        SiddhiController siddhiController = SiddhiController.TEST_CreateInstance();
 
         SourceModel sourceModel = new SourceModel("streamu3", "inputu3");
         List<SourceModel> sourceModelList = new LinkedList<>();
@@ -156,7 +156,7 @@ public class SiddhiControllerUnitTest {
 
     @Test
     public void addProcessingDefinitionWithTwoRulesAndTwoStreamsUnitTest() {
-        SiddhiController siddhiController = SiddhiController.getInstance();
+        SiddhiController siddhiController = SiddhiController.TEST_CreateInstance();
 
         SourceModel sourceModel = new SourceModel("streamu4", "inputu4");
         List<SourceModel> sourceModelList = new LinkedList<>();
@@ -208,7 +208,7 @@ public class SiddhiControllerUnitTest {
 
     @Test
     public void addProcessingDefinitionThenDeleteRuleUnitTest() {
-        SiddhiController siddhiController = SiddhiController.getInstance();
+        SiddhiController siddhiController = SiddhiController.TEST_CreateInstance();
 
         SourceModel sourceModel = new SourceModel("streamu5", "inputu5");
         List<SourceModel> sourceModelList = new LinkedList<>();
@@ -283,7 +283,7 @@ public class SiddhiControllerUnitTest {
 
     @Test
     public void addProcessingDefinitionThenDeleteStreamUnitTest() {
-        SiddhiController siddhiController = SiddhiController.getInstance();
+        SiddhiController siddhiController = SiddhiController.TEST_CreateInstance();
 
         SourceModel sourceModel = new SourceModel("streamu6", "inputu6");
         List<SourceModel> sourceModelList = new LinkedList<>();
@@ -354,7 +354,7 @@ public class SiddhiControllerUnitTest {
 
     @Test
     public void addProcessingDefinitionWithNoStreamAssociatedUnitTest() {
-        SiddhiController siddhiController = SiddhiController.getInstance();
+        SiddhiController siddhiController = SiddhiController.TEST_CreateInstance();
 
         //Add Sources and Sinks Definition
 
@@ -404,7 +404,7 @@ public class SiddhiControllerUnitTest {
 
     @Test
     public void addProcessingDefinitionThenUpdateRuleUnitTest() {
-        SiddhiController siddhiController = SiddhiController.getInstance();
+        SiddhiController siddhiController = SiddhiController.TEST_CreateInstance();
 
         SourceModel sourceModel = new SourceModel("streamu8", "inputu8");
         List<SourceModel> sourceModelList = new LinkedList<>();
