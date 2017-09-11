@@ -39,8 +39,12 @@ public class Siddhi2Kafka {
         List<Attribute> attributeList = streamDefinitionMap.get(streamName).getAttributeList();
         log.trace("Parsed event: " + eventsParser.parseToString(attributeList, event, options));
 
-        producer.send(new ProducerRecord<>(kafkaTopic, null, eventsParser.parseToString(attributeList, event, options)));
-
+        String parsedEvent = eventsParser.parseToString(attributeList, event, options);
+        if (parsedEvent == null) {
+            log.warn("The parsed event is empty. Not sending it.");
+        } else {
+            producer.send(new ProducerRecord<>(kafkaTopic, null, parsedEvent));
+        }
     }
 
 

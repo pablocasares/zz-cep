@@ -75,7 +75,7 @@ public class EventsParser {
         // Get all the attributes values from the list of attributes
         int index = 0;
         for (Object object : event.getData()) {
-            if (options != null && (Boolean)options.get(FILTER_OUTPUT_NULL_DIMENSION) && object == null) {
+            if (options != null && (Boolean) options.get(FILTER_OUTPUT_NULL_DIMENSION) && object == null) {
                 log.trace("Filtered null value");
             } else {
                 String columnName = attributeList.get(index).getName();
@@ -85,10 +85,12 @@ public class EventsParser {
         }
 
         String eventString = null;
-        try {
-            eventString = objectMapper.writeValueAsString(eventData);
-        } catch (JsonProcessingException e) {
-            e.printStackTrace();
+        if (!eventData.isEmpty()) {
+            try {
+                eventString = objectMapper.writeValueAsString(eventData);
+            } catch (JsonProcessingException e) {
+                e.printStackTrace();
+            }
         }
         return eventString;
     }
