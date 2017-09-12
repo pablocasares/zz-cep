@@ -22,7 +22,7 @@ public class SiddhiController {
     private static SiddhiController instance = null;
 
     private static final Logger log = LoggerFactory.getLogger(SiddhiController.class);
-
+    private String multiId = "";
 
     ProcessingModel newProcessingModel;
 
@@ -45,6 +45,10 @@ public class SiddhiController {
             instance = new SiddhiController();
         }
         return instance;
+    }
+
+    public static SiddhiController TEST_CreateInstance() {
+        return new SiddhiController();
     }
 
     public void initKafkaController(Properties consumerProperties, Properties producerProperties) {
@@ -129,7 +133,7 @@ public class SiddhiController {
                 log.debug("Processing app for rule: " + executionPlansEntry.getKey() + " is already created. Skip creating.");
             } else {
                 log.debug("Creating new processing app for rule: " + executionPlansEntry.getKey());
-                log.debug("Rule: "+ executionPlansEntry.getValue().toString());
+                log.debug("Rule: " + executionPlansEntry.getValue().toString());
                 StringBuilder fullExecutionPlan = new StringBuilder();
 
                 //Add every stream definition to the new Siddhi Plan
@@ -229,6 +233,10 @@ public class SiddhiController {
         ruleDefinition.append(" ;");
 
         return ruleDefinition.toString();
+    }
+
+    public void setMultiId(String multiId){
+        this.multiId = multiId;
     }
 
 

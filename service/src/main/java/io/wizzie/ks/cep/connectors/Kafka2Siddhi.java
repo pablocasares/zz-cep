@@ -11,6 +11,8 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.wso2.siddhi.core.stream.input.InputHandler;
 
+import static io.wizzie.ks.cep.builder.config.ConfigProperties.*;
+
 import java.util.*;
 import java.util.concurrent.Semaphore;
 
@@ -23,23 +25,29 @@ public class Kafka2Siddhi implements Runnable {
     EventsParser eventsParser;
     Semaphore mutex;
     private static final Logger log = LoggerFactory.getLogger(Kafka2Siddhi.class);
+    private boolean multiId = false;
+    private String applicationId;
 
 
     public Kafka2Siddhi(Properties consumerProperties) {
         mutex = new Semaphore(1);
         eventsParser = EventsParser.getInstance();
         this.consumer = new KafkaConsumer<>(consumerProperties);
+        if (consumerProperties.get(MULTI_ID) != null && (boolean) consumerProperties.get(MULTI_ID)) {
+            this.multiId = (Boolean) consumerProperties.get(MULTI_ID);
+            this.applicationId = (String) consumerProperties.get(APPLICATION_ID);
+        }
     }
 
     @Override
     public void run() {
         try {
             while (true) {
-                log.debug("Consumer acquiring mutex");
+                log.trace("Consumer acquiring mutex");
                 mutex.acquire();
                 ConsumerRecords<String, String> records = null;
                 try {
-                    log.debug("Consumer starts poll. It will stay at this line if the consumer can't connect to Kafka.");
+                    log.trace("Consumer starts poll. It will stay at this line if the consumer can't connect to Kafka.");
                     records = consumer.poll(100);
                 } catch (IllegalStateException e) {
                     //ignore if consumer not subscribed
@@ -71,7 +79,7 @@ public class Kafka2Siddhi implements Runnable {
                         }
                     }
                 }
-                log.debug("Consumer releasing mutex");
+                log.trace("Consumer releasing mutex");
                 mutex.release();
             }
         } catch (WakeupException e) {
@@ -95,7 +103,23 @@ public class Kafka2Siddhi implements Runnable {
             this.inputHandlers = inputHandlers;
             log.debug("Pausing consumer");
             log.debug("Subscribing to: " + topics2Siddhi.keySet());
-            consumer.subscribe(Arrays.asList(topics2Siddhi.keySet().toArray(new String[topics2Siddhi.keySet().size()])));
+            List<String> topics = Arrays.asList(topics2Siddhi.keySet().toArray(new String[topics2Siddhi.keySet().size()]));
+            List<String> topicsWithMultiId = new LinkedList<>();
+
+
+            Map<String, String> newTopics2Siddhi = new HashMap<>();
+            if (multiId) {
+                topics.forEach(topic -> {
+                    topicsWithMultiId.add(String.format("%s_%s", applicationId, topic));
+                    newTopics2Siddhi.put(String.format("%s_%s", applicationId, topic), topics2Siddhi.get(topic));
+                });
+                topics2Siddhi.clear();
+                topics2Siddhi.putAll(newTopics2Siddhi);
+                consumer.subscribe(topicsWithMultiId);
+            } else {
+                consumer.subscribe(topics);
+            }
+
             log.debug("Resuming consumer: " + consumer.assignment());
         } catch (InterruptedException e) {
             e.printStackTrace();

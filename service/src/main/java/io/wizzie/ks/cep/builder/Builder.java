@@ -14,8 +14,7 @@ import org.slf4j.LoggerFactory;
 import java.io.IOException;
 import java.util.Properties;
 
-import static io.wizzie.ks.cep.builder.config.ConfigProperties.BOOTSTRAPER_CLASSNAME;
-import static io.wizzie.ks.cep.builder.config.ConfigProperties.KAFKA_CLUSTER;
+import static io.wizzie.ks.cep.builder.config.ConfigProperties.*;
 
 
 public class Builder implements Listener {
@@ -42,6 +41,8 @@ public class Builder implements Listener {
         consumerProperties.put("auto.commit.interval.ms", "1000");
         consumerProperties.put("key.deserializer", StringDeserializer.class.getName());
         consumerProperties.put("value.deserializer", StringDeserializer.class.getName());
+        consumerProperties.put(MULTI_ID, config.getOrDefault(MULTI_ID, false));
+        consumerProperties.put(APPLICATION_ID, config.get(APPLICATION_ID));
 
         Properties producerProperties = new Properties();
         producerProperties.put("bootstrap.servers", config.get(KAFKA_CLUSTER));
@@ -52,6 +53,8 @@ public class Builder implements Listener {
         producerProperties.put("buffer.memory", 33554432);
         producerProperties.put("key.serializer", "org.apache.kafka.common.serialization.StringSerializer");
         producerProperties.put("value.serializer", "org.apache.kafka.common.serialization.StringSerializer");
+        producerProperties.put(MULTI_ID, config.getOrDefault(MULTI_ID, false));
+        producerProperties.put(APPLICATION_ID, config.get(APPLICATION_ID));
         siddhiController.initKafkaController(consumerProperties, producerProperties);
 
         bootstrapper = BootstrapperBuilder.makeBuilder()

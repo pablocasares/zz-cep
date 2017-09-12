@@ -22,6 +22,8 @@ import java.io.IOException;
 import java.util.*;
 import java.util.concurrent.ExecutionException;
 
+import static io.wizzie.ks.cep.builder.config.ConfigProperties.APPLICATION_ID;
+import static io.wizzie.ks.cep.builder.config.ConfigProperties.MULTI_ID;
 import static org.junit.Assert.*;
 
 public class SiddhiControllerIntegrationTest {
@@ -32,6 +34,11 @@ public class SiddhiControllerIntegrationTest {
     private final static MockTime MOCK_TIME = CLUSTER.time;
 
     private static final int REPLICATION_FACTOR = 1;
+
+    private static final Properties consumerNoMultiIdProperties = new Properties();
+    ;
+    private static final Properties producerNoMultiIdProperties = new Properties();
+
 
     @BeforeClass
     public static void startKafkaCluster() throws Exception {
@@ -45,7 +52,7 @@ public class SiddhiControllerIntegrationTest {
         CLUSTER.createTopic("input7", 1, REPLICATION_FACTOR);
         CLUSTER.createTopic("input8", 1, REPLICATION_FACTOR);
         CLUSTER.createTopic("input9", 1, REPLICATION_FACTOR);
-
+        CLUSTER.createTopic("aabb_input10", 1, REPLICATION_FACTOR);
 
 
         // sinks
@@ -58,34 +65,28 @@ public class SiddhiControllerIntegrationTest {
         CLUSTER.createTopic("output77", 1, REPLICATION_FACTOR);
         CLUSTER.createTopic("output8", 1, REPLICATION_FACTOR);
         CLUSTER.createTopic("output9", 1, REPLICATION_FACTOR);
+        CLUSTER.createTopic("aabb_output10", 1, REPLICATION_FACTOR);
 
 
-
-
-        Properties  consumerProperties = new Properties();
-        consumerProperties.put("bootstrap.servers", CLUSTER.bootstrapServers());
-        consumerProperties.put("group.id", "cep");
-        consumerProperties.put("enable.auto.commit", "true");
-        consumerProperties.put("auto.commit.interval.ms", "1000");
-        consumerProperties.put("key.deserializer", StringDeserializer.class.getName());
-        consumerProperties.put("value.deserializer", StringDeserializer.class.getName());
+        consumerNoMultiIdProperties.put("bootstrap.servers", CLUSTER.bootstrapServers());
+        consumerNoMultiIdProperties.put("group.id", "cep");
+        consumerNoMultiIdProperties.put("enable.auto.commit", "true");
+        consumerNoMultiIdProperties.put("auto.commit.interval.ms", "1000");
+        consumerNoMultiIdProperties.put("key.deserializer", StringDeserializer.class.getName());
+        consumerNoMultiIdProperties.put("value.deserializer", StringDeserializer.class.getName());
         //Property just needed for testing.
-        consumerProperties.put(ConsumerConfig.AUTO_OFFSET_RESET_CONFIG, "earliest");
+        consumerNoMultiIdProperties.put(ConsumerConfig.AUTO_OFFSET_RESET_CONFIG, "earliest");
 
-        Properties producerProperties = new Properties();
-        producerProperties.put("bootstrap.servers", CLUSTER.bootstrapServers());
-        producerProperties.put("acks", "all");
-        producerProperties.put("retries", 0);
-        producerProperties.put("batch.size", 16384);
-        producerProperties.put("linger.ms", 1);
-        producerProperties.put("buffer.memory", 33554432);
-        producerProperties.put("key.serializer", "org.apache.kafka.common.serialization.StringSerializer");
-        producerProperties.put("value.serializer", "org.apache.kafka.common.serialization.StringSerializer");
+        producerNoMultiIdProperties.put("bootstrap.servers", CLUSTER.bootstrapServers());
+        producerNoMultiIdProperties.put("acks", "all");
+        producerNoMultiIdProperties.put("retries", 0);
+        producerNoMultiIdProperties.put("batch.size", 16384);
+        producerNoMultiIdProperties.put("linger.ms", 1);
+        producerNoMultiIdProperties.put("buffer.memory", 33554432);
+        producerNoMultiIdProperties.put("key.serializer", "org.apache.kafka.common.serialization.StringSerializer");
+        producerNoMultiIdProperties.put("value.serializer", "org.apache.kafka.common.serialization.StringSerializer");
 
-
-        SiddhiController.getInstance().initKafkaController(consumerProperties, producerProperties);
     }
-
 
     @Test
     public void SiddhiControllerAddTwoStreamTest() throws InterruptedException {
@@ -140,7 +141,9 @@ public class SiddhiControllerIntegrationTest {
 
         ProcessingModel processingModel = new ProcessingModel(ruleModelList, streamsModel);
 
-        SiddhiController siddhiController = SiddhiController.getInstance();
+        SiddhiController siddhiController = SiddhiController.TEST_CreateInstance();
+        siddhiController.initKafkaController(consumerNoMultiIdProperties, producerNoMultiIdProperties);
+
         siddhiController.addProcessingDefinition(processingModel);
         siddhiController.generateExecutionPlans();
         siddhiController.addProcessingModel2KafkaController();
@@ -184,13 +187,14 @@ public class SiddhiControllerIntegrationTest {
 
         List<KeyValue<String, Map>> receivedMessagesFromOutput1 = IntegrationTestUtils.waitUntilMinKeyValueRecordsReceived(consumerConfigA, "output1", 1);
         System.out.println("Received after Siddhi: " + receivedMessagesFromOutput1);
-        assertEquals(Arrays.asList(expectedDataKv,expectedDataKv2), receivedMessagesFromOutput1);
+        assertEquals(Arrays.asList(expectedDataKv, expectedDataKv2), receivedMessagesFromOutput1);
 
     }
 
 
     @Test
     public void SiddhiControllerAddOneStreamTest() throws InterruptedException {
+
 
         String jsonData = "{\"attributeName\":\"VALUE\"}";
 
@@ -211,7 +215,8 @@ public class SiddhiControllerIntegrationTest {
         producerConfig.put(ProducerConfig.VALUE_SERIALIZER_CLASS_CONFIG, JsonSerializer.class);
 
 
-        SiddhiController siddhiController = SiddhiController.getInstance();
+        SiddhiController siddhiController = SiddhiController.TEST_CreateInstance();
+        siddhiController.initKafkaController(consumerNoMultiIdProperties, producerNoMultiIdProperties);
 
         SourceModel sourceModel = new SourceModel("stream2", "input2");
         List<SourceModel> sourceModelList = new LinkedList<>();
@@ -306,7 +311,8 @@ public class SiddhiControllerIntegrationTest {
         producerConfig.put(ProducerConfig.VALUE_SERIALIZER_CLASS_CONFIG, JsonSerializer.class);
 
 
-        SiddhiController siddhiController = SiddhiController.getInstance();
+        SiddhiController siddhiController = SiddhiController.TEST_CreateInstance();
+        siddhiController.initKafkaController(consumerNoMultiIdProperties, producerNoMultiIdProperties);
 
         SourceModel sourceModel = new SourceModel("stream3", "input3");
         List<SourceModel> sourceModelList = new LinkedList<>();
@@ -412,7 +418,8 @@ public class SiddhiControllerIntegrationTest {
         producerConfig.put(ProducerConfig.VALUE_SERIALIZER_CLASS_CONFIG, JsonSerializer.class);
 
 
-        SiddhiController siddhiController = SiddhiController.getInstance();
+        SiddhiController siddhiController = SiddhiController.TEST_CreateInstance();
+        siddhiController.initKafkaController(consumerNoMultiIdProperties, producerNoMultiIdProperties);
 
         SourceModel sourceModel = new SourceModel("stream4", "input4");
         List<SourceModel> sourceModelList = new LinkedList<>();
@@ -460,7 +467,6 @@ public class SiddhiControllerIntegrationTest {
         expectedData.put("avg", 2.0);
 
 
-
         KeyValue<String, Map<String, Object>> expectedDataKv = new KeyValue<>(null, expectedData);
 
 
@@ -505,7 +511,8 @@ public class SiddhiControllerIntegrationTest {
         producerConfig.put(ProducerConfig.VALUE_SERIALIZER_CLASS_CONFIG, JsonSerializer.class);
 
 
-        SiddhiController siddhiController = SiddhiController.getInstance();
+        SiddhiController siddhiController = SiddhiController.TEST_CreateInstance();
+        siddhiController.initKafkaController(consumerNoMultiIdProperties, producerNoMultiIdProperties);
 
         SourceModel sourceModel = new SourceModel("streaminput5", "input5");
         List<SourceModel> sourceModelList = new LinkedList<>();
@@ -550,7 +557,6 @@ public class SiddhiControllerIntegrationTest {
 
         Map<String, Object> expectedData = new HashMap<>();
         expectedData.put("avg", 2.0);
-
 
 
         KeyValue<String, Map<String, Object>> expectedDataKv = new KeyValue<>(null, expectedData);
@@ -600,7 +606,8 @@ public class SiddhiControllerIntegrationTest {
         producerConfig.put(ProducerConfig.VALUE_SERIALIZER_CLASS_CONFIG, JsonSerializer.class);
 
 
-        SiddhiController siddhiController = SiddhiController.getInstance();
+        SiddhiController siddhiController = SiddhiController.TEST_CreateInstance();
+        siddhiController.initKafkaController(consumerNoMultiIdProperties, producerNoMultiIdProperties);
 
         SourceModel sourceModel = new SourceModel("streaminput6", "input6");
         List<SourceModel> sourceModelList = new LinkedList<>();
@@ -627,7 +634,7 @@ public class SiddhiControllerIntegrationTest {
         List<StreamModel> streamsModel = Arrays.asList(
                 new StreamModel("streaminput6", Arrays.asList(
                         new AttributeModel("fieldA", "string"),
-                        new AttributeModel("fieldB","integer")
+                        new AttributeModel("fieldB", "integer")
                 )));
 
         ProcessingModel processingModel = new ProcessingModel(ruleModelList, streamsModel);
@@ -646,7 +653,6 @@ public class SiddhiControllerIntegrationTest {
 
         Map<String, Object> expectedData = new HashMap<>();
         expectedData.put("description", "Correct");
-
 
 
         KeyValue<String, Map<String, Object>> expectedDataKv = new KeyValue<>(null, expectedData);
@@ -692,7 +698,8 @@ public class SiddhiControllerIntegrationTest {
         producerConfig.put(ProducerConfig.VALUE_SERIALIZER_CLASS_CONFIG, JsonSerializer.class);
 
 
-        SiddhiController siddhiController = SiddhiController.getInstance();
+        SiddhiController siddhiController = SiddhiController.TEST_CreateInstance();
+        siddhiController.initKafkaController(consumerNoMultiIdProperties, producerNoMultiIdProperties);
 
         SourceModel sourceModel = new SourceModel("streaminput7", "input7");
         List<SourceModel> sourceModelList = new LinkedList<>();
@@ -783,7 +790,8 @@ public class SiddhiControllerIntegrationTest {
         producerConfig.put(ProducerConfig.VALUE_SERIALIZER_CLASS_CONFIG, JsonSerializer.class);
 
 
-        SiddhiController siddhiController = SiddhiController.getInstance();
+        SiddhiController siddhiController = SiddhiController.TEST_CreateInstance();
+        siddhiController.initKafkaController(consumerNoMultiIdProperties, producerNoMultiIdProperties);
 
         SourceModel sourceModel = new SourceModel("stream8", "input8");
         List<SourceModel> sourceModelList = new LinkedList<>();
@@ -831,7 +839,6 @@ public class SiddhiControllerIntegrationTest {
         expectedData.put("attributeName", 2);
 
 
-
         KeyValue<String, Map<String, Object>> expectedDataKv = new KeyValue<>(null, expectedData);
 
 
@@ -855,7 +862,7 @@ public class SiddhiControllerIntegrationTest {
     public void SiddhiControllerShouldNotSendAnEmptyMessageStreamTest() throws InterruptedException {
 
         String jsonData = "{\"attributeNotUsed\":2}";
-        String jsonData2 =  "{\"attributeName\":2}";
+        String jsonData2 = "{\"attributeName\":2}";
 
         KeyValue<String, Map<String, Object>> kvStream1 = null;
         KeyValue<String, Map<String, Object>> kvStream2 = null;
@@ -878,7 +885,8 @@ public class SiddhiControllerIntegrationTest {
         producerConfig.put(ProducerConfig.VALUE_SERIALIZER_CLASS_CONFIG, JsonSerializer.class);
 
 
-        SiddhiController siddhiController = SiddhiController.getInstance();
+        SiddhiController siddhiController = SiddhiController.TEST_CreateInstance();
+        siddhiController.initKafkaController(consumerNoMultiIdProperties, producerNoMultiIdProperties);
 
         SourceModel sourceModel = new SourceModel("stream9", "input9");
         List<SourceModel> sourceModelList = new LinkedList<>();
@@ -926,7 +934,6 @@ public class SiddhiControllerIntegrationTest {
         expectedData.put("attributeName", 2);
 
 
-
         KeyValue<String, Map<String, Object>> expectedDataKv = new KeyValue<>(null, expectedData);
 
 
@@ -944,6 +951,117 @@ public class SiddhiControllerIntegrationTest {
         List<KeyValue<String, Map>> receivedMessagesFromOutput1 = IntegrationTestUtils.waitUntilMinKeyValueRecordsReceived(consumerConfigA, "output9", 1);
         System.out.println("Received after Siddhi: " + receivedMessagesFromOutput1);
         assertEquals(Arrays.asList(expectedDataKv), receivedMessagesFromOutput1);
+
+    }
+
+
+    @Test
+    public void SiddhiControllerAddOneStreamWithMultiIdTest() throws InterruptedException {
+
+        String jsonData = "{\"attributeName\":\"VALUE\"}";
+
+        KeyValue<String, Map<String, Object>> kvStream1 = null;
+
+        ObjectMapper objectMapper = new ObjectMapper();
+        try {
+            kvStream1 = new KeyValue<>("KEY_A", objectMapper.readValue(jsonData, Map.class));
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        Properties producerConfig = new Properties();
+        producerConfig.put(ProducerConfig.BOOTSTRAP_SERVERS_CONFIG, CLUSTER.bootstrapServers());
+        producerConfig.put(ProducerConfig.ACKS_CONFIG, "all");
+        producerConfig.put(ProducerConfig.RETRIES_CONFIG, 0);
+        producerConfig.put(ProducerConfig.KEY_SERIALIZER_CLASS_CONFIG, Serdes.String().serializer().getClass());
+        producerConfig.put(ProducerConfig.VALUE_SERIALIZER_CLASS_CONFIG, JsonSerializer.class);
+
+
+        SiddhiController siddhiController = SiddhiController.TEST_CreateInstance();
+
+        Properties internalConsumerProperties = new Properties();
+        internalConsumerProperties.put("bootstrap.servers", CLUSTER.bootstrapServers());
+        internalConsumerProperties.put("group.id", "cep");
+        internalConsumerProperties.put("enable.auto.commit", "true");
+        internalConsumerProperties.put("auto.commit.interval.ms", "1000");
+        internalConsumerProperties.put("key.deserializer", StringDeserializer.class.getName());
+        internalConsumerProperties.put("value.deserializer", StringDeserializer.class.getName());
+        internalConsumerProperties.put(APPLICATION_ID, "aabb");
+        internalConsumerProperties.put(MULTI_ID, true);
+        //Property just needed for testing.
+        internalConsumerProperties.put(ConsumerConfig.AUTO_OFFSET_RESET_CONFIG, "earliest");
+
+        Properties internalProducerProperties = new Properties();
+        internalProducerProperties.put("bootstrap.servers", CLUSTER.bootstrapServers());
+        internalProducerProperties.put("acks", "all");
+        internalProducerProperties.put("retries", 0);
+        internalProducerProperties.put("batch.size", 16384);
+        internalProducerProperties.put("linger.ms", 1);
+        internalProducerProperties.put("buffer.memory", 33554432);
+        internalProducerProperties.put("key.serializer", "org.apache.kafka.common.serialization.StringSerializer");
+        internalProducerProperties.put("value.serializer", "org.apache.kafka.common.serialization.StringSerializer");
+        internalProducerProperties.put(APPLICATION_ID, "aabb");
+        internalProducerProperties.put(MULTI_ID, true);
+
+
+        siddhiController.initKafkaController(internalConsumerProperties, internalProducerProperties);
+
+        SourceModel sourceModel = new SourceModel("stream10", "input10");
+        List<SourceModel> sourceModelList = new LinkedList<>();
+        sourceModelList.add(sourceModel);
+
+        SinkModel sinkModel = new SinkModel("streamoutput10", "output10");
+        List<SinkModel> sinkModelList = new LinkedList<>();
+        sinkModelList.add(sinkModel);
+
+        String id = "rule10";
+        String version = "v1";
+        String executionPlan = "from stream10 select * insert into streamoutput10";
+
+        StreamMapModel streamMapModel = new StreamMapModel(Arrays.asList(sourceModel), Arrays.asList(sinkModel));
+
+        RuleModel ruleModelObject = new RuleModel(id, version, streamMapModel, executionPlan, null);
+
+        List<RuleModel> ruleModelList = new LinkedList<>();
+        ruleModelList.add(ruleModelObject);
+
+
+        List<StreamModel> streamsModel = Arrays.asList(
+                new StreamModel("stream10", Arrays.asList(
+                        new AttributeModel("attributeName", "string")
+                )));
+
+        ProcessingModel processingModel = new ProcessingModel(ruleModelList, streamsModel);
+
+        siddhiController.addProcessingDefinition(processingModel);
+        siddhiController.generateExecutionPlans();
+        siddhiController.addProcessingModel2KafkaController();
+
+        Properties consumerConfigA = new Properties();
+        consumerConfigA.put(ConsumerConfig.BOOTSTRAP_SERVERS_CONFIG, CLUSTER.bootstrapServers());
+        consumerConfigA.put(ConsumerConfig.GROUP_ID_CONFIG, "test-group-consumer-A");
+        consumerConfigA.put(ConsumerConfig.KEY_DESERIALIZER_CLASS_CONFIG, StringDeserializer.class);
+        consumerConfigA.put(ConsumerConfig.VALUE_DESERIALIZER_CLASS_CONFIG, JsonDeserializer.class);
+        consumerConfigA.put(ConsumerConfig.AUTO_OFFSET_RESET_CONFIG, "earliest");
+
+        Map<String, Object> expectedData = new HashMap<>();
+        expectedData.put("attributeName", "VALUE");
+
+        KeyValue<String, Map<String, Object>> expectedDataKv = new KeyValue<>(null, expectedData);
+
+        try {
+            System.out.println("Producing KV: " + kvStream1);
+            IntegrationTestUtils.produceKeyValuesSynchronously("aabb_input10", Collections.singletonList(kvStream1), producerConfig, MOCK_TIME);
+        } catch (ExecutionException e) {
+            e.printStackTrace();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+
+
+        List<KeyValue<String, Map>> receivedMessagesFromOutput1 = IntegrationTestUtils.waitUntilMinKeyValueRecordsReceived(consumerConfigA, "aabb_output10", 1);
+        System.out.println("Received after Siddhi: " + receivedMessagesFromOutput1);
+        assertEquals(Collections.singletonList(expectedDataKv), receivedMessagesFromOutput1);
 
     }
 
