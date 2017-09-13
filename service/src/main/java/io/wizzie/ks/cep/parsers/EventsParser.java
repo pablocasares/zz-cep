@@ -44,18 +44,12 @@ public class EventsParser {
         eventsFormat.clear();
     }
 
-    public Object[] parseToObjectArray(String streamName, String event) {
+    public Object[] parseToObjectArray(String streamName, Map<String, Object> eventData) {
 
         //get streamName related with topic
 
-
-        Map<String, Object> eventData = null;
         List<Object> attributeList = new LinkedList<>();
-        try {
-            eventData = objectMapper.readValue(event, Map.class);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+
         if (eventsFormat.containsKey(streamName)) {
             StreamModel streamModel = eventsFormat.get(streamName);
             attributeList = new ArrayList<>();
@@ -65,10 +59,11 @@ public class EventsParser {
             }
         }//maybe throw exception
 
+
         return attributeList.toArray();
     }
 
-    public String parseToString(List<Attribute> attributeList, Event event, Map<String, Object> options) {
+    public Map<String, Object> parseToMap(List<Attribute> attributeList, Event event, Map<String, Object> options) {
 
         Map<String, Object> eventData = new HashMap<>();
 
@@ -84,15 +79,7 @@ public class EventsParser {
             index++;
         }
 
-        String eventString = null;
-        if (!eventData.isEmpty()) {
-            try {
-                eventString = objectMapper.writeValueAsString(eventData);
-            } catch (JsonProcessingException e) {
-                e.printStackTrace();
-            }
-        }
-        return eventString;
+        return eventData;
     }
 
 }

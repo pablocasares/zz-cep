@@ -5,6 +5,7 @@ import io.wizzie.bootstrapper.builder.*;
 import io.wizzie.ks.cep.controllers.SiddhiController;
 import io.wizzie.ks.cep.metrics.MetricsManager;
 import io.wizzie.ks.cep.model.ProcessingModel;
+import io.wizzie.ks.cep.serializers.JsonDeserializer;
 import org.apache.kafka.clients.consumer.ConsumerConfig;
 import org.apache.kafka.common.serialization.StringDeserializer;
 import org.apache.kafka.streams.KafkaStreams;
@@ -35,26 +36,21 @@ public class Builder implements Listener {
         siddhiController = SiddhiController.getInstance();
 
         Properties consumerProperties = new Properties();
+        consumerProperties.putAll(config.getMapConf());
         consumerProperties.put("bootstrap.servers", config.get(KAFKA_CLUSTER));
-        consumerProperties.put("group.id", "cep");
+        consumerProperties.put("group.id", config.get(APPLICATION_ID));
         consumerProperties.put("enable.auto.commit", "true");
         consumerProperties.put("auto.commit.interval.ms", "1000");
-        consumerProperties.put("key.deserializer", StringDeserializer.class.getName());
-        consumerProperties.put("value.deserializer", StringDeserializer.class.getName());
+        consumerProperties.put("key.deserializer", "org.apache.kafka.common.serialization.StringDeserializer");
+        consumerProperties.put("value.deserializer", config.getOrDefault(VALUE_DESERIALIZER, "io.wizzie.ks.cep.serializers.JsonDeserializer"));
         consumerProperties.put(MULTI_ID, config.getOrDefault(MULTI_ID, false));
-        consumerProperties.put(APPLICATION_ID, config.get(APPLICATION_ID));
 
         Properties producerProperties = new Properties();
+        producerProperties.putAll(config.getMapConf());
         producerProperties.put("bootstrap.servers", config.get(KAFKA_CLUSTER));
-        producerProperties.put("acks", "all");
-        producerProperties.put("retries", 0);
-        producerProperties.put("batch.size", 16384);
-        producerProperties.put("linger.ms", 1);
-        producerProperties.put("buffer.memory", 33554432);
         producerProperties.put("key.serializer", "org.apache.kafka.common.serialization.StringSerializer");
-        producerProperties.put("value.serializer", "org.apache.kafka.common.serialization.StringSerializer");
+        producerProperties.put("value.serializer", config.getOrDefault(VALUE_SERIALIZER, "io.wizzie.ks.cep.serializers.JsonSerializer"));
         producerProperties.put(MULTI_ID, config.getOrDefault(MULTI_ID, false));
-        producerProperties.put(APPLICATION_ID, config.get(APPLICATION_ID));
         siddhiController.initKafkaController(consumerProperties, producerProperties);
 
         bootstrapper = BootstrapperBuilder.makeBuilder()

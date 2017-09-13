@@ -10,6 +10,8 @@ public class ConfigProperties {
     public static final String KAFKA_CLUSTER = "bootstrap.servers";
     public static final String MULTI_ID = "multi.id";
     public static final String APPLICATION_ID = "application.id";
+    public static final String VALUE_DESERIALIZER = "value.deserializer";
+    public static final String VALUE_SERIALIZER = "value.serializer";
 }
 
 
