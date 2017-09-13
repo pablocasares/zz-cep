@@ -6,7 +6,6 @@ import org.apache.kafka.clients.consumer.ConsumerRecord;
 import org.apache.kafka.clients.consumer.ConsumerRecords;
 import org.apache.kafka.clients.consumer.KafkaConsumer;
 import org.apache.kafka.common.errors.WakeupException;
-import org.apache.kafka.common.serialization.StringDeserializer;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.wso2.siddhi.core.stream.input.InputHandler;
@@ -45,7 +44,7 @@ public class Kafka2Siddhi implements Runnable {
             while (true) {
                 log.trace("Consumer acquiring mutex");
                 mutex.acquire();
-                ConsumerRecords<String, String> records = null;
+                ConsumerRecords<String, Map<String, Object>> records = null;
                 try {
                     log.trace("Consumer starts poll. It will stay at this line if the consumer can't connect to Kafka.");
                     records = consumer.poll(100);
@@ -56,7 +55,7 @@ public class Kafka2Siddhi implements Runnable {
 
                 if (records != null) {
                     //iterate over received events
-                    for (ConsumerRecord<String, String> record : records) {
+                    for (ConsumerRecord<String, Map<String, Object>> record : records) {
                         log.debug("Consumed event: " + record.key() + " --> " + record.value());
                         //iterate over topics-->stream names relations
                         log.debug("Current topics2Siddhi relations: " + topics2Siddhi.toString());
@@ -71,7 +70,10 @@ public class Kafka2Siddhi implements Runnable {
                                         //if this topic belongs to this stream2InputHandler send it:
                                         if (stream2InputHandler.getKey().equals(topics2SiddhiEntry.getValue())) {
                                             log.debug("This event from topic: " + record.topic() + " belongs to stream: " + stream2InputHandler.getKey() + ". Sending it to: " + stream2InputHandler.getValue().toString());
-                                            stream2InputHandler.getValue().send(eventsParser.parseToObjectArray(topics2SiddhiEntry.getValue(), record.value()));
+                                            if (record.value() != null) {
+                                                Object[] data = eventsParser.parseToObjectArray(topics2SiddhiEntry.getValue(), record.value());
+                                                stream2InputHandler.getValue().send(data);
+                                            }
                                         }
                                     }
                                 }

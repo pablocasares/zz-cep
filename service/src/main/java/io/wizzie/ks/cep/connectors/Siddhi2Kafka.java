@@ -1,9 +1,5 @@
 package io.wizzie.ks.cep.connectors;
 
-import io.wizzie.ks.cep.controllers.SiddhiController;
-import io.wizzie.ks.cep.model.RuleModel;
-import io.wizzie.ks.cep.model.SinkModel;
-import io.wizzie.ks.cep.model.SourceModel;
 import io.wizzie.ks.cep.parsers.EventsParser;
 import org.apache.kafka.clients.producer.KafkaProducer;
 import org.apache.kafka.clients.producer.Producer;
@@ -21,7 +17,7 @@ import static io.wizzie.ks.cep.builder.config.ConfigProperties.MULTI_ID;
 
 public class Siddhi2Kafka {
 
-    Producer<String, String> producer;
+    Producer<String, Map<String, Object>> producer;
     EventsParser eventsParser;
     private static final Logger log = LoggerFactory.getLogger(Siddhi2Kafka.class);
     private boolean multiId = false;
@@ -50,10 +46,10 @@ public class Siddhi2Kafka {
         //Send event to kafkaTopic parsing it with the sink stream format
         log.trace("Sending event to topic: " + kafkaTopic);
         List<Attribute> attributeList = streamDefinitionMap.get(streamName).getAttributeList();
-        log.trace("Parsed event: " + eventsParser.parseToString(attributeList, event, options));
+        log.trace("Parsed event: " + eventsParser.parseToMap(attributeList, event, options));
 
-        String parsedEvent = eventsParser.parseToString(attributeList, event, options);
-        if (parsedEvent == null) {
+        Map<String, Object> parsedEvent = eventsParser.parseToMap(attributeList, event, options);
+        if (parsedEvent.isEmpty()) {
             log.warn("The parsed event is empty. Not sending it.");
         } else {
             producer.send(new ProducerRecord<>(kafkaTopic, null, parsedEvent));
