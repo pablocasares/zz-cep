@@ -81,11 +81,7 @@ public class ProcessingModelUnitTest {
         assertEquals(streamsModel, processingModel.getStreams());
         assertEquals(1, processingModel.getStreams().size());
 
-        assertEquals("{streams: [{streamName: stream1, attributes: [{name: timestamp, type: long}]}], rules: [{id: 1, " +
-                "version: v1, streams: {in: [{streamName: streamName, kafkaTopic: kafkaTopic}], out: [{streamName: " +
-                "sinkName, kafkaTopic: kafkaTopic}]}, executionPlan: myExecutionPlan, options: null}, {id: 2, version: v1, streams: " +
-                "{in: [{streamName: streamName, kafkaTopic: kafkaTopic}], out: [{streamName: sinkName, kafkaTopic: " +
-                "kafkaTopic}]}, executionPlan: myOtherPlan, options: null}]}\n", processingModel.toString());
+        assertEquals("{streams: [{streamName: stream1, attributes: [{name: timestamp, type: long}, {name: KAFKA_KEY, type: string}]}], rules: [{id: 1, version: v1, streams: {in: [{streamName: streamName, kafkaTopic: kafkaTopic}], out: [{streamName: sinkName, kafkaTopic: kafkaTopic}]}, executionPlan: myExecutionPlan, options: null}, {id: 2, version: v1, streams: {in: [{streamName: streamName, kafkaTopic: kafkaTopic}], out: [{streamName: sinkName, kafkaTopic: kafkaTopic}]}, executionPlan: myOtherPlan, options: null}]}\n", processingModel.toString());
     }
 
 

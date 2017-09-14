@@ -71,7 +71,7 @@ public class Kafka2Siddhi implements Runnable {
                                         if (stream2InputHandler.getKey().equals(topics2SiddhiEntry.getValue())) {
                                             log.debug("This event from topic: " + record.topic() + " belongs to stream: " + stream2InputHandler.getKey() + ". Sending it to: " + stream2InputHandler.getValue().toString());
                                             if (record.value() != null) {
-                                                Object[] data = eventsParser.parseToObjectArray(topics2SiddhiEntry.getValue(), record.value());
+                                                Object[] data = eventsParser.parseToObjectArray(topics2SiddhiEntry.getValue(), record.key(), record.value());
                                                 stream2InputHandler.getValue().send(data);
                                             }
                                         }

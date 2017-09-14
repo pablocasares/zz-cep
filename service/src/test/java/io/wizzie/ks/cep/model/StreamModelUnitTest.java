@@ -2,14 +2,12 @@ package io.wizzie.ks.cep.model;
 
 import org.junit.Test;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.List;
+import java.util.*;
 import java.util.stream.Stream;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertTrue;
 
 public class StreamModelUnitTest {
 
@@ -35,9 +33,10 @@ public class StreamModelUnitTest {
                 );
 
         StreamModel streamModel = new StreamModel(streamName, attributes);
-
         assertNotNull(streamModel.attributes);
-        assertEquals(attributes, streamModel.getAttributes());
+        assertTrue(streamModel.getAttributes().containsAll(attributes));
+        assertTrue(streamModel.getAttributes().get(3).getName().equals("KAFKA_KEY"));
+        assertTrue(streamModel.getAttributes().get(3).getAttributeType().equals("string"));
     }
 
     @Test
@@ -56,10 +55,12 @@ public class StreamModelUnitTest {
         assertEquals(streamName, streamModel.getStreamName());
 
         assertNotNull(streamModel.attributes);
-        assertEquals(attributes, streamModel.getAttributes());
+        assertTrue(streamModel.getAttributes().containsAll(attributes));
+        assertTrue(streamModel.getAttributes().get(3).getName().equals("KAFKA_KEY"));
+        assertTrue(streamModel.getAttributes().get(3).getAttributeType().equals("string"));
 
         assertEquals(
-                "{streamName: myStream, attributes: [{name: attr1, type: float}, {name: attr2, type: integer}, {name: attr3, type: boolean}]}", streamModel.toString());
+                "{streamName: myStream, attributes: [{name: attr1, type: float}, {name: attr2, type: integer}, {name: attr3, type: boolean}, {name: KAFKA_KEY, type: string}]}", streamModel.toString());
     }
 
 

@@ -3,6 +3,7 @@ package io.wizzie.ks.cep.model;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
+import java.util.LinkedList;
 import java.util.List;
 
 public class StreamModel {
@@ -13,7 +14,10 @@ public class StreamModel {
     public StreamModel(@JsonProperty("streamName") String streamName,
                        @JsonProperty("attributes") List<AttributeModel> attributes) {
         this.streamName = streamName;
-        this.attributes = attributes;
+        List<AttributeModel> attributeModelList = new LinkedList<>();
+        attributeModelList.addAll(attributes);
+        attributeModelList.add(new AttributeModel("KAFKA_KEY", "string"));
+        this.attributes = attributeModelList;
     }
 
     @JsonProperty

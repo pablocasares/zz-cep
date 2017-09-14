@@ -52,7 +52,8 @@ public class Siddhi2Kafka {
         if (parsedEvent.isEmpty()) {
             log.warn("The parsed event is empty. Not sending it.");
         } else {
-            producer.send(new ProducerRecord<>(kafkaTopic, null, parsedEvent));
+            String kafkaKey = (String)parsedEvent.remove("KAFKA_KEY");
+            producer.send(new ProducerRecord<>(kafkaTopic, kafkaKey, parsedEvent));
         }
     }
 
