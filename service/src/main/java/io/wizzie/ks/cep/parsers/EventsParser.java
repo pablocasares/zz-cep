@@ -44,9 +44,10 @@ public class EventsParser {
         eventsFormat.clear();
     }
 
-    public Object[] parseToObjectArray(String streamName, Map<String, Object> eventData) {
+    public Object[] parseToObjectArray(String streamName, String key, Map<String, Object> eventData) {
 
-        //get streamName related with topic
+        //Insert key to eventData
+        eventData.put("KAFKA_KEY", key);
 
         List<Object> attributeList = new LinkedList<>();
 

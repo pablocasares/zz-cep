@@ -235,7 +235,7 @@ public class SiddhiController {
         return ruleDefinition.toString();
     }
 
-    public void setMultiId(String multiId){
+    public void setMultiId(String multiId) {
         this.multiId = multiId;
     }
 
