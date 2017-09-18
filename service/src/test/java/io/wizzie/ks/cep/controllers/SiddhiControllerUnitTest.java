@@ -1,21 +1,13 @@
 package io.wizzie.ks.cep.controllers;
 
 import io.wizzie.ks.cep.model.*;
-import kafka.utils.MockTime;
-import org.apache.kafka.clients.consumer.ConsumerConfig;
-import org.apache.kafka.common.serialization.StringDeserializer;
-import org.apache.kafka.streams.integration.utils.EmbeddedKafkaCluster;
-import org.junit.BeforeClass;
-import org.junit.ClassRule;
 import org.junit.Test;
 
 import java.util.Arrays;
 import java.util.LinkedList;
 import java.util.List;
-import java.util.Properties;
 
 import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotNull;
 
 public class SiddhiControllerUnitTest {
 
