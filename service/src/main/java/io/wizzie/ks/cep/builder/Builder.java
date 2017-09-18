@@ -5,9 +5,6 @@ import io.wizzie.bootstrapper.builder.*;
 import io.wizzie.ks.cep.controllers.SiddhiController;
 import io.wizzie.ks.cep.metrics.MetricsManager;
 import io.wizzie.ks.cep.model.ProcessingModel;
-import io.wizzie.ks.cep.serializers.JsonDeserializer;
-import org.apache.kafka.clients.consumer.ConsumerConfig;
-import org.apache.kafka.common.serialization.StringDeserializer;
 import org.apache.kafka.streams.KafkaStreams;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -16,6 +13,9 @@ import java.io.IOException;
 import java.util.Properties;
 
 import static io.wizzie.ks.cep.builder.config.ConfigProperties.*;
+import static org.apache.kafka.clients.CommonClientConfigs.BOOTSTRAP_SERVERS_CONFIG;
+import static org.apache.kafka.clients.consumer.ConsumerConfig.*;
+import static org.apache.kafka.clients.producer.ProducerConfig.*;
 
 
 public class Builder implements Listener {
@@ -37,19 +37,20 @@ public class Builder implements Listener {
 
         Properties consumerProperties = new Properties();
         consumerProperties.putAll(config.getMapConf());
-        consumerProperties.put("bootstrap.servers", config.get(KAFKA_CLUSTER));
-        consumerProperties.put("group.id", config.get(APPLICATION_ID));
-        consumerProperties.put("enable.auto.commit", "true");
-        consumerProperties.put("auto.commit.interval.ms", "1000");
-        consumerProperties.put("key.deserializer", "org.apache.kafka.common.serialization.StringDeserializer");
-        consumerProperties.put("value.deserializer", config.getOrDefault(VALUE_DESERIALIZER, "io.wizzie.ks.cep.serializers.JsonDeserializer"));
+        consumerProperties.put(BOOTSTRAP_SERVERS_CONFIG, config.get(KAFKA_CLUSTER));
+        consumerProperties.put(GROUP_ID_CONFIG, config.get(APPLICATION_ID));
+        consumerProperties.put(ENABLE_AUTO_COMMIT_CONFIG, "true");
+        consumerProperties.put(AUTO_COMMIT_INTERVAL_MS_CONFIG, "1000");
+        consumerProperties.put(KEY_DESERIALIZER_CLASS_CONFIG, "org.apache.kafka.common.serialization.StringDeserializer");
+        consumerProperties.put(VALUE_DESERIALIZER_CLASS_CONFIG, config.getOrDefault(VALUE_DESERIALIZER, "io.wizzie.ks.cep.serializers.JsonDeserializer"));
         consumerProperties.put(MULTI_ID, config.getOrDefault(MULTI_ID, false));
 
         Properties producerProperties = new Properties();
         producerProperties.putAll(config.getMapConf());
-        producerProperties.put("bootstrap.servers", config.get(KAFKA_CLUSTER));
-        producerProperties.put("key.serializer", "org.apache.kafka.common.serialization.StringSerializer");
-        producerProperties.put("value.serializer", config.getOrDefault(VALUE_SERIALIZER, "io.wizzie.ks.cep.serializers.JsonSerializer"));
+        producerProperties.put(BOOTSTRAP_SERVERS_CONFIG, config.get(KAFKA_CLUSTER));
+        producerProperties.put(KEY_SERIALIZER_CLASS_CONFIG, "org.apache.kafka.common.serialization.StringSerializer");
+        producerProperties.put(PARTITIONER_CLASS_CONFIG, "io.wizzie.ks.cep.connectors.kafka.KafkaPartitioner");
+        producerProperties.put(VALUE_SERIALIZER_CLASS_CONFIG, config.getOrDefault(VALUE_SERIALIZER, "io.wizzie.ks.cep.serializers.JsonSerializer"));
         producerProperties.put(MULTI_ID, config.getOrDefault(MULTI_ID, false));
         siddhiController.initKafkaController(consumerProperties, producerProperties);
 

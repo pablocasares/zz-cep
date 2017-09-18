@@ -1,9 +1,11 @@
 package io.wizzie.ks.cep.controllers;
 
-import io.wizzie.ks.cep.connectors.Kafka2Siddhi;
-import io.wizzie.ks.cep.connectors.Siddhi2Kafka;
-import io.wizzie.ks.cep.model.*;
-import org.apache.kafka.clients.consumer.KafkaConsumer;
+import io.wizzie.ks.cep.connectors.kafka.Kafka2Siddhi;
+import io.wizzie.ks.cep.connectors.kafka.Siddhi2Kafka;
+import io.wizzie.ks.cep.model.ProcessingModel;
+import io.wizzie.ks.cep.model.RuleModel;
+import io.wizzie.ks.cep.model.SinkModel;
+import io.wizzie.ks.cep.model.SourceModel;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.wso2.siddhi.core.event.Event;

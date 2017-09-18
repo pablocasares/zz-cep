@@ -1,7 +1,6 @@
 package io.wizzie.ks.cep.controllers;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-
 import io.wizzie.ks.cep.model.*;
 import io.wizzie.ks.cep.serializers.JsonDeserializer;
 import io.wizzie.ks.cep.serializers.JsonSerializer;
@@ -24,7 +23,7 @@ import java.util.concurrent.ExecutionException;
 
 import static io.wizzie.ks.cep.builder.config.ConfigProperties.APPLICATION_ID;
 import static io.wizzie.ks.cep.builder.config.ConfigProperties.MULTI_ID;
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
 
 public class SiddhiControllerIntegrationTest {
     private final static int NUM_BROKERS = 1;

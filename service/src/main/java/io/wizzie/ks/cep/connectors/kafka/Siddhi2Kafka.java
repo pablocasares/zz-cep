@@ -1,4 +1,4 @@
-package io.wizzie.ks.cep.connectors;
+package io.wizzie.ks.cep.connectors.kafka;
 
 import io.wizzie.ks.cep.parsers.EventsParser;
 import org.apache.kafka.clients.producer.KafkaProducer;
@@ -10,7 +10,9 @@ import org.wso2.siddhi.core.event.Event;
 import org.wso2.siddhi.query.api.definition.Attribute;
 import org.wso2.siddhi.query.api.definition.StreamDefinition;
 
-import java.util.*;
+import java.util.List;
+import java.util.Map;
+import java.util.Properties;
 
 import static io.wizzie.ks.cep.builder.config.ConfigProperties.APPLICATION_ID;
 import static io.wizzie.ks.cep.builder.config.ConfigProperties.MULTI_ID;

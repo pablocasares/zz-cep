@@ -1,4 +1,4 @@
-package io.wizzie.ks.cep.connectors;
+package io.wizzie.ks.cep.connectors.kafka;
 
 
 import io.wizzie.ks.cep.parsers.EventsParser;
@@ -10,10 +10,11 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.wso2.siddhi.core.stream.input.InputHandler;
 
-import static io.wizzie.ks.cep.builder.config.ConfigProperties.*;
-
 import java.util.*;
 import java.util.concurrent.Semaphore;
+
+import static io.wizzie.ks.cep.builder.config.ConfigProperties.APPLICATION_ID;
+import static io.wizzie.ks.cep.builder.config.ConfigProperties.MULTI_ID;
 
 
 public class Kafka2Siddhi implements Runnable {
