@@ -38,7 +38,8 @@ public class Builder implements Listener {
         Properties consumerProperties = new Properties();
         consumerProperties.putAll(config.getMapConf());
         consumerProperties.put(BOOTSTRAP_SERVERS_CONFIG, config.get(KAFKA_CLUSTER));
-        consumerProperties.put(GROUP_ID_CONFIG, config.get(APPLICATION_ID));
+
+        consumerProperties.put(GROUP_ID_CONFIG,  String.format("%s_%s", config.get(APPLICATION_ID), "zz-cep"));
         consumerProperties.put(ENABLE_AUTO_COMMIT_CONFIG, "true");
         consumerProperties.put(AUTO_COMMIT_INTERVAL_MS_CONFIG, "1000");
         consumerProperties.put(KEY_DESERIALIZER_CLASS_CONFIG, "org.apache.kafka.common.serialization.StringDeserializer");
