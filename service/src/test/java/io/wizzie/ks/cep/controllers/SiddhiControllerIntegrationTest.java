@@ -23,6 +23,7 @@ import java.util.concurrent.ExecutionException;
 
 import static io.wizzie.ks.cep.builder.config.ConfigProperties.APPLICATION_ID;
 import static io.wizzie.ks.cep.builder.config.ConfigProperties.MULTI_ID;
+import static org.apache.kafka.clients.producer.ProducerConfig.PARTITIONER_CLASS_CONFIG;
 import static org.junit.Assert.assertEquals;
 
 public class SiddhiControllerIntegrationTest {
@@ -86,6 +87,8 @@ public class SiddhiControllerIntegrationTest {
         producerNoMultiIdProperties.put("bootstrap.servers", CLUSTER.bootstrapServers());
         producerNoMultiIdProperties.put("key.serializer", "org.apache.kafka.common.serialization.StringSerializer");
         producerNoMultiIdProperties.put("value.serializer", "io.wizzie.ks.cep.serializers.JsonSerializer");
+        producerNoMultiIdProperties.put(PARTITIONER_CLASS_CONFIG, "io.wizzie.ks.cep.connectors.kafka.KafkaPartitioner");
+
 
     }
 
@@ -996,6 +999,7 @@ public class SiddhiControllerIntegrationTest {
         internalProducerProperties.put("bootstrap.servers", CLUSTER.bootstrapServers());
         internalProducerProperties.put("key.serializer", "org.apache.kafka.common.serialization.StringSerializer");
         internalProducerProperties.put("value.serializer", "io.wizzie.ks.cep.serializers.JsonSerializer");
+        internalProducerProperties.put(PARTITIONER_CLASS_CONFIG, "io.wizzie.ks.cep.connectors.kafka.KafkaPartitioner");
         internalProducerProperties.put(APPLICATION_ID, "aabb");
         internalProducerProperties.put(MULTI_ID, true);
 
