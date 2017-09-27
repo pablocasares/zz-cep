@@ -108,17 +108,17 @@
         <dependency>
             <groupId>org.wso2.siddhi</groupId>
             <artifactId>siddhi-core</artifactId>
-            <version>4.0.0-M33</version>
+            <version>4.0.0-M84</version>
         </dependency>
         <dependency>
             <groupId>org.wso2.siddhi</groupId>
             <artifactId>siddhi-query-api</artifactId>
-            <version>4.0.0-M33</version>
+            <version>4.0.0-M84</version>
         </dependency>
         <dependency>
             <groupId>org.wso2.siddhi</groupId>
             <artifactId>siddhi-query-compiler</artifactId>
-            <version>4.0.0-M33</version>
+            <version>4.0.0-M84</version>
         </dependency>
 
     </dependencies>
