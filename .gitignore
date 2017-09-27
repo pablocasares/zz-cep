@@ -79,6 +79,7 @@ release.properties
 dependency-reduced-pom.xml
 buildNumber.properties
 .mvn/timing.properties
+cep-service.iml
 
 # Exclude maven wrapper
 !/.mvn/wrapper/maven-wrapper.jar
