@@ -1,5 +1,6 @@
 package io.wizzie.ks.cep.serializers;
 
+import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.apache.kafka.common.serialization.Deserializer;
 import org.slf4j.Logger;
@@ -14,12 +15,12 @@ public class JsonDeserializer implements Deserializer<Map<String, Object>> {
     ObjectMapper mapper = new ObjectMapper();
 
     public void configure(Map configs, boolean isKey) {
-
+        mapper.enable(DeserializationFeature.USE_LONG_FOR_INTS);
     }
 
     public Map<String, Object> deserialize(String topic, byte[] data) {
         Map<String, Object> json = null;
-        if(data != null) {
+        if (data != null) {
             try {
                 json = mapper.readValue(data, Map.class);
             } catch (IOException e) {
