@@ -36,7 +36,6 @@ public class SiddhiControllerIntegrationTest {
     private static final int REPLICATION_FACTOR = 1;
 
     private static final Properties consumerNoMultiIdProperties = new Properties();
-    ;
     private static final Properties producerNoMultiIdProperties = new Properties();
 
 
@@ -56,6 +55,7 @@ public class SiddhiControllerIntegrationTest {
         CLUSTER.createTopic("input11", 1, REPLICATION_FACTOR);
         CLUSTER.createTopic("input12", 1, REPLICATION_FACTOR);
         CLUSTER.createTopic("input13", 1, REPLICATION_FACTOR);
+        CLUSTER.createTopic("input14", 1, REPLICATION_FACTOR);
 
 
 
@@ -73,6 +73,7 @@ public class SiddhiControllerIntegrationTest {
         CLUSTER.createTopic("output11", 1, REPLICATION_FACTOR);
         CLUSTER.createTopic("output12", 1, REPLICATION_FACTOR);
         CLUSTER.createTopic("output13", 1, REPLICATION_FACTOR);
+        CLUSTER.createTopic("output14", 1, REPLICATION_FACTOR);
 
 
         consumerNoMultiIdProperties.put("bootstrap.servers", CLUSTER.bootstrapServers());
@@ -320,7 +321,9 @@ public class SiddhiControllerIntegrationTest {
 
         SourceModel sourceModel = new SourceModel("stream3", "input3");
         List<SourceModel> sourceModelList = new LinkedList<>();
+        SourceModel sourceModel2 = new SourceModel("stream33", "input3");
         sourceModelList.add(sourceModel);
+        sourceModelList.add(sourceModel2);
 
         SinkModel sinkModel = new SinkModel("streamoutput3", "output3");
         List<SinkModel> sinkModelList = new LinkedList<>();
@@ -337,7 +340,7 @@ public class SiddhiControllerIntegrationTest {
 
         String id2 = "rule33";
         String version2 = "v1";
-        String executionPlan2 = "from stream3 select * insert into streamoutput3";
+        String executionPlan2 = "from stream33 select * insert into streamoutput3";
 
         StreamMapModel streamMapModel2 = new StreamMapModel(sourceModelList, sinkModelList);
 
@@ -391,9 +394,9 @@ public class SiddhiControllerIntegrationTest {
         }
 
 
-        List<KeyValue<String, Map>> receivedMessagesFromOutput1 = IntegrationTestUtils.waitUntilMinKeyValueRecordsReceived(consumerConfigA, "output3", 1);
+        List<KeyValue<String, Map>> receivedMessagesFromOutput1 = IntegrationTestUtils.waitUntilMinKeyValueRecordsReceived(consumerConfigA, "output3", 2);
         System.out.println("Received after Siddhi: " + receivedMessagesFromOutput1);
-        assertEquals(Arrays.asList(expectedDataKv, expectedDataKv, expectedDataKv2, expectedDataKv2), receivedMessagesFromOutput1);
+        assertEquals(Arrays.asList(expectedDataKv, expectedDataKv2), receivedMessagesFromOutput1);
 
     }
 
@@ -448,9 +451,9 @@ public class SiddhiControllerIntegrationTest {
 
         List<StreamModel> streamsModel = Arrays.asList(
                 new StreamModel("stream4", Arrays.asList(
-                        new AttributeModel("attributeName", "integer")
+                        new AttributeModel("attributeName", "long")
                 )), new StreamModel("stream44", Arrays.asList(
-                        new AttributeModel("attributeName", "integer")
+                        new AttributeModel("attributeName", "long")
                 )));
 
         ProcessingModel processingModel = new ProcessingModel(ruleModelList, streamsModel);
@@ -541,8 +544,8 @@ public class SiddhiControllerIntegrationTest {
 
         List<StreamModel> streamsModel = Arrays.asList(
                 new StreamModel("streaminput5", Arrays.asList(
-                        new AttributeModel("fieldA", "integer"),
-                        new AttributeModel("fieldB", "integer")
+                        new AttributeModel("fieldA", "long"),
+                        new AttributeModel("fieldB", "long")
                 )));
 
         ProcessingModel processingModel = new ProcessingModel(ruleModelList, streamsModel);
@@ -638,7 +641,7 @@ public class SiddhiControllerIntegrationTest {
         List<StreamModel> streamsModel = Arrays.asList(
                 new StreamModel("streaminput6", Arrays.asList(
                         new AttributeModel("fieldA", "string"),
-                        new AttributeModel("fieldB", "integer")
+                        new AttributeModel("fieldB", "long")
                 )));
 
         ProcessingModel processingModel = new ProcessingModel(ruleModelList, streamsModel);
@@ -822,7 +825,7 @@ public class SiddhiControllerIntegrationTest {
 
         List<StreamModel> streamsModel = Arrays.asList(
                 new StreamModel("stream8", Arrays.asList(
-                        new AttributeModel("attributeName", "integer"), new AttributeModel("attributeName2", "integer")
+                        new AttributeModel("attributeName", "long"), new AttributeModel("attributeName2", "long")
                 )));
 
         ProcessingModel processingModel = new ProcessingModel(ruleModelList, streamsModel);
@@ -840,7 +843,7 @@ public class SiddhiControllerIntegrationTest {
 
 
         Map<String, Object> expectedData = new HashMap<>();
-        expectedData.put("attributeName", 2);
+        expectedData.put("attributeName", 2L);
 
 
         KeyValue<String, Map<String, Object>> expectedDataKv = new KeyValue<>(null, expectedData);
@@ -917,7 +920,7 @@ public class SiddhiControllerIntegrationTest {
 
         List<StreamModel> streamsModel = Arrays.asList(
                 new StreamModel("stream9", Arrays.asList(
-                        new AttributeModel("attributeName", "integer"), new AttributeModel("attributeName2", "integer")
+                        new AttributeModel("attributeName", "long"), new AttributeModel("attributeName2", "long")
                 )));
 
         ProcessingModel processingModel = new ProcessingModel(ruleModelList, streamsModel);
@@ -935,7 +938,7 @@ public class SiddhiControllerIntegrationTest {
 
 
         Map<String, Object> expectedData = new HashMap<>();
-        expectedData.put("attributeName", 2);
+        expectedData.put("attributeName", 2L);
 
 
         KeyValue<String, Map<String, Object>> expectedDataKv = new KeyValue<>(null, expectedData);
@@ -1307,6 +1310,94 @@ public class SiddhiControllerIntegrationTest {
 
 
         List<KeyValue<String, Map>> receivedMessagesFromOutput1 = IntegrationTestUtils.waitUntilMinKeyValueRecordsReceived(consumerConfigA, "output13", 1);
+        System.out.println("Received after Siddhi: " + receivedMessagesFromOutput1);
+        assertEquals(Collections.singletonList(expectedDataKv), receivedMessagesFromOutput1);
+
+    }
+
+    @Test
+    public void SiddhiControllerCorrectDeserializationTest() throws InterruptedException {
+
+
+        String jsonData = "{\"timestamp\":1,\"bytes\":30}";
+
+        KeyValue<String, Map<String, Object>> kvStream1 = null;
+
+        ObjectMapper objectMapper = new ObjectMapper();
+        try {
+            kvStream1 = new KeyValue<>(null, objectMapper.readValue(jsonData, Map.class));
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        Properties producerConfig = new Properties();
+        producerConfig.put(ProducerConfig.BOOTSTRAP_SERVERS_CONFIG, CLUSTER.bootstrapServers());
+        producerConfig.put(ProducerConfig.ACKS_CONFIG, "all");
+        producerConfig.put(ProducerConfig.RETRIES_CONFIG, 0);
+        producerConfig.put(ProducerConfig.KEY_SERIALIZER_CLASS_CONFIG, Serdes.String().serializer().getClass());
+        producerConfig.put(ProducerConfig.VALUE_SERIALIZER_CLASS_CONFIG, JsonSerializer.class);
+
+
+        SiddhiController siddhiController = SiddhiController.TEST_CreateInstance();
+        siddhiController.initKafkaController(consumerNoMultiIdProperties, producerNoMultiIdProperties);
+
+        SourceModel sourceModel = new SourceModel("stream14", "input14");
+        List<SourceModel> sourceModelList = new LinkedList<>();
+        sourceModelList.add(sourceModel);
+
+        SinkModel sinkModel = new SinkModel("streamoutput14", "output14");
+        List<SinkModel> sinkModelList = new LinkedList<>();
+        sinkModelList.add(sinkModel);
+
+        String id = "rule14";
+        String version = "v1";
+        String executionPlan = "from stream14#window.timeBatch(1 sec) select timestamp, sum(bytes) as sumbytes insert into streamoutput14";
+
+        StreamMapModel streamMapModel = new StreamMapModel(Arrays.asList(sourceModel), Arrays.asList(sinkModel));
+
+        RuleModel ruleModelObject = new RuleModel(id, version, streamMapModel, executionPlan, null);
+
+        List<RuleModel> ruleModelList = new LinkedList<>();
+        ruleModelList.add(ruleModelObject);
+
+
+        List<StreamModel> streamsModel = Arrays.asList(
+                new StreamModel("stream14", Arrays.asList(
+                        new AttributeModel("timestamp", "long"),
+                        new AttributeModel("bytes", "long")
+                )));
+
+        ProcessingModel processingModel = new ProcessingModel(ruleModelList, streamsModel);
+
+        siddhiController.addProcessingDefinition(processingModel);
+        siddhiController.generateExecutionPlans();
+        siddhiController.addProcessingModel2KafkaController();
+
+        Properties consumerConfigA = new Properties();
+        consumerConfigA.put(ConsumerConfig.BOOTSTRAP_SERVERS_CONFIG, CLUSTER.bootstrapServers());
+        consumerConfigA.put(ConsumerConfig.GROUP_ID_CONFIG, "test-group-consumer-A");
+        consumerConfigA.put(ConsumerConfig.KEY_DESERIALIZER_CLASS_CONFIG, StringDeserializer.class);
+        consumerConfigA.put(ConsumerConfig.VALUE_DESERIALIZER_CLASS_CONFIG, JsonDeserializer.class);
+        consumerConfigA.put(ConsumerConfig.AUTO_OFFSET_RESET_CONFIG, "earliest");
+
+
+        Map<String, Object> expectedData = new HashMap<>();
+        expectedData.put("sumbytes", 30L);
+        expectedData.put("timestamp", 1L);
+
+        KeyValue<String, Map<String, Object>> expectedDataKv = new KeyValue<>(null, expectedData);
+
+        try {
+            System.out.println("Producing KV: " + kvStream1);
+            IntegrationTestUtils.produceKeyValuesSynchronously("input14", Collections.singletonList(kvStream1), producerConfig, MOCK_TIME);
+        } catch (ExecutionException e) {
+            e.printStackTrace();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+
+
+        List<KeyValue<String, Map>> receivedMessagesFromOutput1 = IntegrationTestUtils.waitUntilMinKeyValueRecordsReceived(consumerConfigA, "output14", 1);
         System.out.println("Received after Siddhi: " + receivedMessagesFromOutput1);
         assertEquals(Collections.singletonList(expectedDataKv), receivedMessagesFromOutput1);
 

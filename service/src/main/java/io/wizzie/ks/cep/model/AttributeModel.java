@@ -9,7 +9,6 @@ public class AttributeModel {
 
     enum AttributeType {
         STRING("string"),
-        INTEGER("int"),
         LONG("long"),
         FLOAT("float"),
         DOUBLE("double"),

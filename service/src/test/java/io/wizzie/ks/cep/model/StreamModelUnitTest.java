@@ -27,7 +27,7 @@ public class StreamModelUnitTest {
         List<AttributeModel> attributes =
                 Arrays.asList(
                         new AttributeModel("attr1", "float"),
-                        new AttributeModel("attr2", "integer"),
+                        new AttributeModel("attr2", "long"),
                         new AttributeModel("attr3", "boolean")
                 );
 
@@ -44,7 +44,7 @@ public class StreamModelUnitTest {
         List<AttributeModel> attributes =
                 Arrays.asList(
                         new AttributeModel("attr1", "float"),
-                        new AttributeModel("attr2", "integer"),
+                        new AttributeModel("attr2", "long"),
                         new AttributeModel("attr3", "boolean")
                 );
 
@@ -59,7 +59,7 @@ public class StreamModelUnitTest {
         assertTrue(streamModel.getAttributes().get(3).getAttributeType().equals("string"));
 
         assertEquals(
-                "{streamName: myStream, attributes: [{name: attr1, type: float}, {name: attr2, type: integer}, {name: attr3, type: boolean}, {name: KAFKA_KEY, type: string}]}", streamModel.toString());
+                "{streamName: myStream, attributes: [{name: attr1, type: float}, {name: attr2, type: long}, {name: attr3, type: boolean}, {name: KAFKA_KEY, type: string}]}", streamModel.toString());
     }
 
 

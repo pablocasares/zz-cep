@@ -31,6 +31,14 @@ This section is used to define the streams attributes and types.
 ```
 
 This example defines a stream called `streaminput` with a one field called `timestamp` of type `long`.
+The supported attributes types are:
+* boolean
+* long
+* string
+* float
+* double
+* object
+
 You can add the number of streams that you want. You must define an stream if you will use it on the next section.
 
 
