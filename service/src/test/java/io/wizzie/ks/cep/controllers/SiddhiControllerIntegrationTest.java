@@ -190,7 +190,7 @@ public class SiddhiControllerIntegrationTest {
         }
 
 
-        List<KeyValue<String, Map>> receivedMessagesFromOutput1 = IntegrationTestUtils.waitUntilMinKeyValueRecordsReceived(consumerConfigA, "output1", 1);
+        List<KeyValue<String, Map>> receivedMessagesFromOutput1 = IntegrationTestUtils.waitUntilMinKeyValueRecordsReceived(consumerConfigA, "output1", 2);
         System.out.println("Received after Siddhi: " + receivedMessagesFromOutput1);
         assertEquals(Arrays.asList(expectedDataKv, expectedDataKv2), receivedMessagesFromOutput1);
 
@@ -1401,11 +1401,6 @@ public class SiddhiControllerIntegrationTest {
         System.out.println("Received after Siddhi: " + receivedMessagesFromOutput1);
         assertEquals(Collections.singletonList(expectedDataKv), receivedMessagesFromOutput1);
 
-    }
-
-    @AfterClass
-    public static void stop() {
-        CLUSTER.stop();
     }
 
 
