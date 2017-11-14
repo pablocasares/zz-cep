@@ -20,7 +20,7 @@ First of all, we need define a the config for launch a cep application.
   "bootstraper.classname": "io.wizzie.bootstrapper.bootstrappers.impl.KafkaBootstrapper",
   "bootstrap.kafka.topics": ["__cep__bootstrapper"],
   "metric.enable": true,
-  "metric.listeners": ["io.wizzie.ks.cep.metrics.ConsoleMetricListener"],
+  "metric.listeners": ["io.wizzie.metrics.ConsoleMetricListener"],
   "metric.interval": 60000
 }
 ```
