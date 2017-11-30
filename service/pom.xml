@@ -13,6 +13,7 @@
         <kafka.version>1.0.0</kafka.version>
         <dropwizard.version>3.1.0</dropwizard.version>
         <precondition.version>0.1.5</precondition.version>
+        <config-bootstrapper.version>0.0.2</config-bootstrapper.version>
     </properties>
 
     <dependencies>
@@ -20,7 +21,7 @@
         <dependency>
             <groupId>io.wizzie</groupId>
             <artifactId>config-bootstrapper</artifactId>
-            <version>0.0.1</version>
+            <version>${config-bootstrapper.version}</version>
         </dependency>
 
         <dependency>
@@ -44,7 +45,7 @@
         <!-- https://mvnrepository.com/artifact/org.apache.kafka/kafka_2.11 -->
         <dependency>
             <groupId>org.apache.kafka</groupId>
-            <artifactId>kafka_2.11</artifactId>
+            <artifactId>kafka_2.12</artifactId>
             <version>${kafka.version}</version>
         </dependency>
 
@@ -78,14 +79,14 @@
 
         <dependency>
             <groupId>org.apache.kafka</groupId>
-            <artifactId>kafka_2.11</artifactId>
+            <artifactId>kafka_2.12</artifactId>
             <version>${kafka.version}</version>
             <scope>test</scope>
         </dependency>
 
         <dependency>
             <groupId>org.apache.kafka</groupId>
-            <artifactId>kafka_2.11</artifactId>
+            <artifactId>kafka_2.12</artifactId>
             <version>${kafka.version}</version>
             <classifier>test</classifier>
             <scope>test</scope>
@@ -107,7 +108,7 @@
         </dependency>
         <dependency>
             <groupId>org.apache.kafka</groupId>
-            <artifactId>kafka_2.11</artifactId>
+            <artifactId>kafka_2.12</artifactId>
             <version>${kafka.version}</version>
         </dependency>
 
