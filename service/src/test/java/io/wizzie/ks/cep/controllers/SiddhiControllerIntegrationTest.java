@@ -1403,5 +1403,7 @@ public class SiddhiControllerIntegrationTest {
 
     }
 
-
+    @AfterClass
+    public static void stop() {
+    }
 }
