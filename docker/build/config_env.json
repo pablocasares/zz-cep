@@ -6,6 +6,6 @@
   "bootstrap.kafka.topics": ["__cep_bootstrapper"],
   "multi.id": ${MULTI_ID},
   "metric.enable": ${METRIC_ENABLE},
-  "metric.listeners": ["io.wizzie.ks.cep.metrics.ConsoleMetricListener"],
+  "metric.listeners": ["io.wizzie.metrics.listeners.KafkaMetricListener"],
   "metric.interval": ${METRIC_INTERVAL}
 }
