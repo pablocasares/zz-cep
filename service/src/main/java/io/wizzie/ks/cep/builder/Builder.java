@@ -4,6 +4,7 @@ import com.codahale.metrics.JmxAttributeGauge;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import io.wizzie.bootstrapper.builder.*;
 import io.wizzie.ks.cep.controllers.SiddhiController;
+import io.wizzie.ks.cep.model.SiddhiAppBuilder;
 import io.wizzie.metrics.MetricsManager;
 import io.wizzie.ks.cep.model.ProcessingModel;
 import org.apache.kafka.streams.KafkaStreams;
@@ -31,6 +32,7 @@ public class Builder implements Listener {
     MetricsManager metricsManager;
     Bootstrapper bootstrapper;
     SiddhiController siddhiController;
+    SiddhiAppBuilder siddhiAppBuilder;
 
     public Builder(Config config) throws Exception {
         this.config = config;
@@ -81,11 +83,13 @@ public class Builder implements Listener {
         try {
             ProcessingModel processingModel = objectMapper.readValue(bootstrapConfig, ProcessingModel.class);
             log.info("Processing plan: {}", processingModel);
-            siddhiController.addProcessingDefinition(processingModel);
-            siddhiController.generateExecutionPlans();
-            siddhiController.addProcessingModel2KafkaController();
-        } catch (IOException e) {
-            e.printStackTrace();
+            if(siddhiAppBuilder.validateSiddhiPlan(processingModel)) {
+                siddhiController.addProcessingDefinition(processingModel);
+                siddhiController.generateExecutionPlans();
+                siddhiController.addProcessingModel2KafkaController();
+            }
+        } catch (Exception e) {
+            log.error(e.getMessage());
         }
 
         log.info("Started CEP with conf {}", config.getProperties());
