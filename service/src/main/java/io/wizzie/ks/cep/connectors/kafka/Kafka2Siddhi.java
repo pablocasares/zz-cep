@@ -88,7 +88,7 @@ public class Kafka2Siddhi implements Runnable {
         } catch (WakeupException e) {
             // ignore for shutdown
         } catch (InterruptedException e) {
-            e.printStackTrace();
+            log.error(e.getMessage());
         } finally {
             consumer.close();
         }
@@ -125,7 +125,7 @@ public class Kafka2Siddhi implements Runnable {
 
             log.debug("Resuming consumer: " + consumer.assignment());
         } catch (InterruptedException e) {
-            e.printStackTrace();
+            log.error(e.getMessage());
         } finally {
             log.debug("Subscriber releasing mutex");
             mutex.release();

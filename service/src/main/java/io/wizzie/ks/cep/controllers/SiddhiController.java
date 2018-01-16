@@ -29,6 +29,7 @@ public class SiddhiController {
     KafkaController kafkaController;
     Map<String, Map<String, InputHandler>> inputHandlers = new HashMap<>();
     EventsParser eventsParser = EventsParser.getInstance();
+    SiddhiAppBuilder siddhiAppBuilder = new SiddhiAppBuilder();
 
     SiddhiManager siddhiManager;
 
@@ -62,13 +63,12 @@ public class SiddhiController {
         log.debug("Generating execution plans.");
         Map<String, RuleModel> expectedExecutionPlans = new HashMap<>();
 
-
         //Create every streamDefinition and create eventParsers for each stream.
         eventsParser.clear();
         streamDefinitions.clear();
         for (StreamModel streamModel : newProcessingModel.getStreams()) {
             //create stream definition
-            String streamDefinition = generateStreamDefinition(streamModel);
+            String streamDefinition = siddhiAppBuilder.generateStreamDefinition(streamModel);
             log.debug("Adding stream definition for: " + streamModel.getStreamName());
             streamDefinitions.put(streamModel.getStreamName(), streamDefinition);
 
@@ -140,7 +140,7 @@ public class SiddhiController {
                 }
 
                 //Add rule
-                fullExecutionPlan.append(generateRuleDefinition(executionPlansEntry.getValue()));
+                fullExecutionPlan.append(siddhiAppBuilder.generateRuleDefinition(executionPlansEntry.getValue()));
 
                 //Create runtime
                 SiddhiAppRuntime siddhiAppRuntime = siddhiManager.createSiddhiAppRuntime(fullExecutionPlan.toString());
@@ -189,8 +189,6 @@ public class SiddhiController {
                 siddhiAppRuntime.start();
             }
         }
-
-
     }
 
     public synchronized void addProcessingModel2KafkaController() {
@@ -201,35 +199,6 @@ public class SiddhiController {
                 kafkaController.addProcessingModel(newProcessingModel, inputHandlers);
             }
         }
-    }
-
-    private String generateStreamDefinition(StreamModel streamModel) {
-
-        StringBuilder streamDefinition = new StringBuilder();
-        streamDefinition.append("@config(async = 'true') define stream ");
-        streamDefinition.append(streamModel.getStreamName());
-        streamDefinition.append(" (");
-        int i = 0;
-        for (AttributeModel attributeModel : streamModel.getAttributes()) {
-            i++;
-            streamDefinition.append(attributeModel.getName() + " " + attributeModel.getAttributeType());
-            if (i != streamModel.getAttributes().size()) {
-                streamDefinition.append(", ");
-            }
-        }
-        streamDefinition.append(");");
-
-        return streamDefinition.toString();
-    }
-
-    private String generateRuleDefinition(RuleModel ruleModel) {
-
-        StringBuilder ruleDefinition = new StringBuilder();
-        ruleDefinition.append("@info(name = '" + ruleModel.getId() + "') ");
-        ruleDefinition.append(ruleModel.getExecutionPlan());
-        ruleDefinition.append(" ;");
-
-        return ruleDefinition.toString();
     }
 
     public void setMultiId(String multiId) {
