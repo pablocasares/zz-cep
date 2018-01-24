@@ -4,7 +4,7 @@
 
     <groupId>io.wizzie.ks.cep</groupId>
     <artifactId>zz-cep</artifactId>
-    <version>0.2.3-SNAPSHOT</version>
+    <version>0.2.3</version>
 
     <packaging>pom</packaging>
 
@@ -31,7 +31,7 @@
 
     <scm>
         <developerConnection>scm:git:git@github.com:wizzie-io/zz-cep.git</developerConnection>
-        <tag>HEAD</tag>
+        <tag>zz-cep-0.2.3</tag>
     </scm>
 
     <modules>
