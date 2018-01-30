@@ -3,7 +3,7 @@
   "bootstrap.servers": "${KAFKA_BOOTSTRAP_SERVER}",
   "num.stream.threads": ${NUM_STREAM_THREADS},
   "bootstraper.classname": "io.wizzie.bootstrapper.bootstrappers.impl.KafkaBootstrapper",
-  "bootstrap.kafka.topics": ["__cep_bootstrapper"],
+  "bootstrap.kafka.topics": ["__cep_bootstrap"],
   "multi.id": ${MULTI_ID},
   "metric.enable": ${METRIC_ENABLE},
   "metric.listeners": ["io.wizzie.metrics.listeners.KafkaMetricListener"],
