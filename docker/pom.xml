@@ -8,7 +8,7 @@
     <parent>
         <artifactId>zz-cep</artifactId>
         <groupId>io.wizzie.ks.cep</groupId>
-        <version>0.2.4</version>
+        <version>0.2.5-SNAPSHOT</version>
     </parent>
 
     <artifactId>docker</artifactId>
