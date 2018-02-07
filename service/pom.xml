@@ -14,6 +14,7 @@
         <dropwizard.version>3.1.0</dropwizard.version>
         <precondition.version>0.1.5</precondition.version>
         <config-bootstrapper.version>0.0.2</config-bootstrapper.version>
+        <metrics-library.version>0.0.2</metrics-library.version>
     </properties>
 
     <dependencies>
@@ -28,18 +29,6 @@
             <groupId>com.cookingfox</groupId>
             <artifactId>guava-preconditions</artifactId>
             <version>${precondition.version}</version>
-        </dependency>
-
-        <dependency>
-            <groupId>io.dropwizard.metrics</groupId>
-            <artifactId>metrics-core</artifactId>
-            <version>${dropwizard.version}</version>
-        </dependency>
-
-        <dependency>
-            <groupId>io.dropwizard.metrics</groupId>
-            <artifactId>metrics-jvm</artifactId>
-            <version>${dropwizard.version}</version>
         </dependency>
 
         <!-- https://mvnrepository.com/artifact/org.apache.kafka/kafka_2.11 -->
@@ -58,7 +47,7 @@
         <dependency>
             <groupId>io.wizzie.metrics</groupId>
             <artifactId>metrics-library</artifactId>
-            <version>0.0.1</version>
+            <version>${metrics-library.version}</version>
         </dependency>
 
         <!-- Testing -->
