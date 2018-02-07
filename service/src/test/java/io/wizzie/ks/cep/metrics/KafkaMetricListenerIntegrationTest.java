@@ -32,7 +32,7 @@ public class KafkaMetricListenerIntegrationTest {
 
     private static final int REPLICATION_FACTOR = 1;
 
-    private static final String INPUT_TOPIC = "__cep_metrics";
+    private static final String INPUT_TOPIC = "__metrics";
     private static final String DUMMY_TOPIC = "dummy_topic";
 
     @BeforeClass
@@ -58,7 +58,6 @@ public class KafkaMetricListenerIntegrationTest {
         config.put("metric.listeners", Collections.singletonList("io.wizzie.metrics.listeners.KafkaMetricListener"));
         config.put("metric.enable", true);
         config.put("file.bootstraper.path", Thread.currentThread().getContextClassLoader().getResource("sample_config.json").getFile());
-        config.put("metric.kafka.topic", "__cep_metrics");
         config.put(ConfigProperties.BOOTSTRAPER_CLASSNAME, "io.wizzie.bootstrapper.bootstrappers.impl.FileBootstrapper");
 
         Builder builder = new Builder(config);

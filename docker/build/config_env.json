@@ -7,5 +7,6 @@
   "multi.id": ${MULTI_ID},
   "metric.enable": ${METRIC_ENABLE},
   "metric.listeners": ["io.wizzie.metrics.listeners.KafkaMetricListener"],
-  "metric.interval": ${METRIC_INTERVAL}
+  "metric.interval": ${METRIC_INTERVAL},
+  "metric.databag": {"component":"zz-cep"}
 }
