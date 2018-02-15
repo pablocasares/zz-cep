@@ -1,0 +1,60 @@
+{
+  "streams": [
+    {
+      "streamName": "streaminput4",
+      "attributes": [
+        {
+          "name": "timestamp",
+          "type": "long"
+        }
+      ]
+    },
+    {
+      "streamName": "streaminput5",
+      "attributes": [
+        {
+          "name": "timestamp",
+          "type": "long"
+        }
+      ]
+    },
+    {
+      "streamName": "streaminput6",
+      "attributes": [
+        {
+          "name": "timestamp",
+          "type": "long"
+        }
+      ]
+    }
+  ],
+  "rules": [
+    {
+      "id": "2",
+      "version": "v1",
+      "streams": {
+        "in": [
+          {
+            "streamName": "streaminput4",
+            "kafkaTopic": "kafkainput4"
+          },
+          {
+            "streamName": "streaminput5",
+            "kafkaTopic": "kafkainput5"
+          },
+          {
+            "streamName": "streaminput6",
+            "kafkaTopic": "kafkainput6"
+          }
+        ],
+        "out": [
+          {
+            "streamName": "streamoutput4",
+            "kafkaTopic": "kafkaoutput4"
+          }
+        ]
+      },
+      "executionPlan": "from streaminput4 select * insert into streamoutput4; from streaminput5 select * insert into streamoutput4; from streaminput6 select * insert into streamoutput4"
+    }
+  ]
+}

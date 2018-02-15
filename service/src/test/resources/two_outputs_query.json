@@ -1,0 +1,53 @@
+{
+  "streams": [
+    {
+      "streamName": "streaminput7",
+      "attributes": [
+        {
+          "name": "timestamp",
+          "type": "long"
+        }
+      ]
+    }
+  ],
+  "rules": [
+    {
+      "id": "4",
+      "version": "v1",
+      "streams": {
+        "in": [
+          {
+            "streamName": "streaminput7",
+            "kafkaTopic": "kafkainput"
+          }
+        ],
+        "out": [
+          {
+            "streamName": "streamoutput6",
+            "kafkaTopic": "kafkaoutput6"
+          }
+        ]
+      },
+      "executionPlan": "from streaminput7 select * insert into streamoutput6"
+    },
+    {
+      "id": "5",
+      "version": "v1",
+      "streams": {
+        "in": [
+          {
+            "streamName": "streaminput7",
+            "kafkaTopic": "kafkainput7"
+          }
+        ],
+        "out": [
+          {
+            "streamName": "streamoutput7",
+            "kafkaTopic": "kafkaoutput7"
+          }
+        ]
+      },
+      "executionPlan": "from streaminput7 select * insert into streamoutput7"
+    }
+  ]
+}
