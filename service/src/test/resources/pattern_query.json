@@ -1,0 +1,42 @@
+{
+  "streams": [
+    {
+      "streamName": "streaminput3",
+      "attributes": [
+        {
+          "name": "timestamp",
+          "type": "long"
+        },
+        {
+          "name": "roomNo",
+          "type": "long"
+        },
+        {
+          "name": "temp",
+          "type": "long"
+        }
+      ]
+    }
+  ],
+  "rules": [
+    {
+      "id": "3",
+      "version": "v1",
+      "streams": {
+        "in": [
+          {
+            "streamName": "streaminput3",
+            "kafkaTopic": "kafkainput3"
+          }
+        ],
+        "out": [
+          {
+            "streamName": "streamoutput3",
+            "kafkaTopic": "kafkaoutput3"
+          }
+        ]
+      },
+      "executionPlan": "from every( e1=streaminput3 ) -> e2=streaminput3[ e1.roomNo == roomNo and (e1.temp + 5) <= temp ] within 10 min select e1.roomNo, e1.temp as initialTemp, e2.temp as finalTemp insert into streamoutput3"
+    }
+  ]
+}

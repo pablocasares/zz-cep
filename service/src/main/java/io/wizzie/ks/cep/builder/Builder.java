@@ -34,14 +34,31 @@ public class Builder implements Listener {
     SiddhiController siddhiController;
     SiddhiAppBuilder siddhiAppBuilder;
 
+    //Prevent invalid instantiation
+    private Builder(){
+    }
+
+    //Use this constructor for production code
     public Builder(Config config) throws Exception {
+        startBuilder(config);
+    }
+
+    //Use this constructor for testing code in order to avoid collisions with SiddhiController static instances
+    public Builder(Config config, SiddhiController siddhiController) throws Exception {
+        this.siddhiController = siddhiController;
+        startBuilder(config);
+    }
+
+    private void startBuilder(Config config) throws Exception {
+        this.siddhiAppBuilder = new SiddhiAppBuilder();
         this.config = config;
         metricsManager = new MetricsManager(config.getMapConf());
         registerKafkaMetrics(config, metricsManager);
         metricsManager.start();
 
-
-        siddhiController = SiddhiController.getInstance();
+        if(siddhiController == null) {
+            siddhiController = SiddhiController.getInstance();
+        }
 
         Properties consumerProperties = new Properties();
         consumerProperties.putAll(config.getMapConf());
@@ -145,8 +162,9 @@ public class Builder implements Listener {
         }
     }
 
-    public void close() {
+    public void close() throws Exception {
         metricsManager.interrupt();
+        bootstrapper.close();
         if (streams != null) streams.close();
         siddhiController.shutdown();
     }

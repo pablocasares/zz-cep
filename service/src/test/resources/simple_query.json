@@ -1,0 +1,34 @@
+{
+  "streams": [
+    {
+      "streamName": "streaminput",
+      "attributes": [
+        {
+          "name": "timestamp",
+          "type": "long"
+        }
+      ]
+    }
+  ],
+  "rules": [
+    {
+      "id": "1",
+      "version": "v1",
+      "streams": {
+        "in": [
+          {
+            "streamName": "streaminput",
+            "kafkaTopic": "kafkainput"
+          }
+        ],
+        "out": [
+          {
+            "streamName": "streamoutput",
+            "kafkaTopic": "kafkaoutput"
+          }
+        ]
+      },
+      "executionPlan": "from streaminput select * insert into streamoutput"
+    }
+  ]
+}
