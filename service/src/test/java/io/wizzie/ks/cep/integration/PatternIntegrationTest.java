@@ -38,16 +38,15 @@ public class PatternIntegrationTest {
 
     @Test
     public void patternTest() throws Exception {
-
         Config config = new Config();
 
-        config.put("application.id","test3");
+        config.put("application.id", "test3");
         config.put("bootstrap.servers", CLUSTER.bootstrapServers());
         config.put("num.stream.threads", 1);
-        config.put("bootstraper.classname",  "io.wizzie.bootstrapper.bootstrappers.impl.KafkaBootstrapper");
+        config.put("bootstraper.classname", "io.wizzie.bootstrapper.bootstrappers.impl.KafkaBootstrapper");
         List<String> bootstrapTopics = new LinkedList<>();
         bootstrapTopics.add("__cep_bootstrap");
-        config.put("bootstrap.kafka.topics",bootstrapTopics);
+        config.put("bootstrap.kafka.topics", bootstrapTopics);
         config.put("multi.id", false);
         config.put("metric.enable", true);
         List<String> listeners = new LinkedList<>();
@@ -120,14 +119,10 @@ public class PatternIntegrationTest {
         BufferedReader bufferedReader = new BufferedReader(new FileReader(file));
 
         StringBuilder stringBuffer = new StringBuilder();
-
         String line;
-
         while ((line = bufferedReader.readLine()) != null) {
-
             stringBuffer.append(line).append("\n");
         }
-
         return stringBuffer.toString();
     }
 }
