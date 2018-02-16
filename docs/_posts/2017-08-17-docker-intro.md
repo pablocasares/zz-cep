@@ -51,7 +51,6 @@ You can configure the docker image using these environment properties:
 |----------|---------------|-------|
 | `APPLICATION_ID` |  This id is used to identify a group of cep instances | null |
 | `KAFKA_BOOTSTRAP_SERVER` |  Kafka servers list | null |
-| `NUM_STREAM_THREADS` |  Number parallelism | 1|
 | `METRIC_ENABLE` | Enable the metrics |  true  |
 | `METRIC_INTERVAL`|The interval time to report metrics (milliseconds) | 60000 |
 
