@@ -15,11 +15,52 @@ public class SiddhiControllerUnitTest {
     public void addProcessingDefinitionUnitTest() {
         SiddhiController siddhiController = SiddhiController.TEST_CreateInstance();
 
-        SourceModel sourceModel = new SourceModel("streamu1", "inputu1");
+        SourceModel sourceModel = new SourceModel("streamu1", "inputu1", null);
         List<SourceModel> sourceModelList = new LinkedList<>();
         sourceModelList.add(sourceModel);
 
-        SinkModel sinkModel = new SinkModel("streamoutputu1", "outputu1");
+        SinkModel sinkModel = new SinkModel("streamoutputu1", "outputu1", null);
+        List<SinkModel> sinkModelList = new LinkedList<>();
+        sinkModelList.add(sinkModel);
+
+        String id = "ruleu1";
+        String version = "v1";
+        String executionPlan = "from streamu1 select * insert into streamoutputu1";
+
+        StreamMapModel streamMapModel = new StreamMapModel(Arrays.asList(sourceModel), Arrays.asList(sinkModel));
+
+        RuleModel ruleModelObject = new RuleModel(id, version, streamMapModel, executionPlan, null);
+
+        List<RuleModel> ruleModelList = new LinkedList<>();
+        ruleModelList.add(ruleModelObject);
+
+
+        List<StreamModel> streamsModel = Arrays.asList(
+                new StreamModel("streamu1", Arrays.asList(
+                        new AttributeModel("timestamp",  "long")
+                )));
+
+        ProcessingModel processingModel = new ProcessingModel(ruleModelList, streamsModel);
+
+        siddhiController.addProcessingDefinition(processingModel);
+        siddhiController.generateExecutionPlans();
+
+        assertEquals(1, siddhiController.inputHandlers.size());
+        assertEquals(1, siddhiController.executionPlanRuntimes.size());
+        assertEquals(1, siddhiController.streamDefinitions.size());
+        assertEquals(1, siddhiController.currentExecutionPlans.size());
+
+    }
+
+    @Test
+    public void addProcessingDefinitionUnitWithDashTest() {
+        SiddhiController siddhiController = SiddhiController.TEST_CreateInstance();
+
+        SourceModel sourceModel = new SourceModel("streamu1", "inputu1", null);
+        List<SourceModel> sourceModelList = new LinkedList<>();
+        sourceModelList.add(sourceModel);
+
+        SinkModel sinkModel = new SinkModel("streamoutputu1", "outputu1", null);
         List<SinkModel> sinkModelList = new LinkedList<>();
         sinkModelList.add(sinkModel);
 
@@ -56,11 +97,11 @@ public class SiddhiControllerUnitTest {
     public void addProcessingDefinitionWithTwoAttributesUnitTest() {
         SiddhiController siddhiController = SiddhiController.TEST_CreateInstance();
 
-        SourceModel sourceModel = new SourceModel("streamu2", "inputu2");
+        SourceModel sourceModel = new SourceModel("streamu2", "inputu2", null);
         List<SourceModel> sourceModelList = new LinkedList<>();
         sourceModelList.add(sourceModel);
 
-        SinkModel sinkModel = new SinkModel("streamoutputu2", "outputu2");
+        SinkModel sinkModel = new SinkModel("streamoutputu2", "outputu2", null);
         List<SinkModel> sinkModelList = new LinkedList<>();
         sinkModelList.add(sinkModel);
 
@@ -98,11 +139,11 @@ public class SiddhiControllerUnitTest {
     public void addProcessingDefinitionWithTwoRulesUnitTest() {
         SiddhiController siddhiController = SiddhiController.TEST_CreateInstance();
 
-        SourceModel sourceModel = new SourceModel("streamu3", "inputu3");
+        SourceModel sourceModel = new SourceModel("streamu3", "inputu3", null);
         List<SourceModel> sourceModelList = new LinkedList<>();
         sourceModelList.add(sourceModel);
 
-        SinkModel sinkModel = new SinkModel("streamoutputu3", "outputu3");
+        SinkModel sinkModel = new SinkModel("streamoutputu3", "outputu3", null);
         List<SinkModel> sinkModelList = new LinkedList<>();
         sinkModelList.add(sinkModel);
 
@@ -150,11 +191,11 @@ public class SiddhiControllerUnitTest {
     public void addProcessingDefinitionWithTwoRulesAndTwoStreamsUnitTest() {
         SiddhiController siddhiController = SiddhiController.TEST_CreateInstance();
 
-        SourceModel sourceModel = new SourceModel("streamu4", "inputu4");
+        SourceModel sourceModel = new SourceModel("streamu4", "inputu4", null);
         List<SourceModel> sourceModelList = new LinkedList<>();
         sourceModelList.add(sourceModel);
 
-        SinkModel sinkModel = new SinkModel("streamoutputu4", "outputu4");
+        SinkModel sinkModel = new SinkModel("streamoutputu4", "outputu4", null);
         List<SinkModel> sinkModelList = new LinkedList<>();
         sinkModelList.add(sinkModel);
 
@@ -184,7 +225,7 @@ public class SiddhiControllerUnitTest {
                 new StreamModel("streamu4", Arrays.asList(
                         new AttributeModel("timestamp", "long")
                 )), new StreamModel("streamu44", Arrays.asList(
-                        new AttributeModel("attribute2", "long"))));
+                        new AttributeModel("attribute2","long"))));
 
         ProcessingModel processingModel = new ProcessingModel(ruleModelList, streamsModel);
 
@@ -202,11 +243,11 @@ public class SiddhiControllerUnitTest {
     public void addProcessingDefinitionThenDeleteRuleUnitTest() {
         SiddhiController siddhiController = SiddhiController.TEST_CreateInstance();
 
-        SourceModel sourceModel = new SourceModel("streamu5", "inputu5");
+        SourceModel sourceModel = new SourceModel("streamu5", "inputu5", null);
         List<SourceModel> sourceModelList = new LinkedList<>();
         sourceModelList.add(sourceModel);
 
-        SinkModel sinkModel = new SinkModel("streamoutputu5", "outputu5");
+        SinkModel sinkModel = new SinkModel("streamoutputu5", "outputu5", null);
         List<SinkModel> sinkModelList = new LinkedList<>();
         sinkModelList.add(sinkModel);
 
@@ -234,9 +275,9 @@ public class SiddhiControllerUnitTest {
 
         List<StreamModel> streamsModel = Arrays.asList(
                 new StreamModel("streamu5", Arrays.asList(
-                        new AttributeModel("timestamp", "long")
+                        new AttributeModel("timestamp","long")
                 )), new StreamModel("streamu55", Arrays.asList(
-                        new AttributeModel("attribute2", "long"))));
+                        new AttributeModel("attribute2","long"))));
 
         ProcessingModel processingModel = new ProcessingModel(ruleModelList, streamsModel);
 
@@ -257,7 +298,7 @@ public class SiddhiControllerUnitTest {
 
         streamsModel = Arrays.asList(
                 new StreamModel("streamu5", Arrays.asList(
-                        new AttributeModel("timestamp", "long")
+                        new AttributeModel("timestamp","long")
                 )));
 
         processingModel = new ProcessingModel(ruleModelList, streamsModel);
@@ -277,11 +318,11 @@ public class SiddhiControllerUnitTest {
     public void addProcessingDefinitionThenDeleteStreamUnitTest() {
         SiddhiController siddhiController = SiddhiController.TEST_CreateInstance();
 
-        SourceModel sourceModel = new SourceModel("streamu6", "inputu6");
+        SourceModel sourceModel = new SourceModel("streamu6", "inputu6", null);
         List<SourceModel> sourceModelList = new LinkedList<>();
         sourceModelList.add(sourceModel);
 
-        SinkModel sinkModel = new SinkModel("streamoutputu6", "outputu6");
+        SinkModel sinkModel = new SinkModel("streamoutputu6", "outputu6", null);
         List<SinkModel> sinkModelList = new LinkedList<>();
         sinkModelList.add(sinkModel);
 
@@ -294,11 +335,11 @@ public class SiddhiControllerUnitTest {
         RuleModel ruleModelObject = new RuleModel(id, version, streamMapModel, executionPlan, null);
 
 
-        sourceModel = new SourceModel("streamu66", "input1");
+        sourceModel = new SourceModel("streamu66", "input1", null);
         sourceModelList = new LinkedList<>();
         sourceModelList.add(sourceModel);
 
-        sinkModel = new SinkModel("streamoutputu66", "output1");
+        sinkModel = new SinkModel("streamoutputu66", "output1", null);
         sinkModelList = new LinkedList<>();
         sinkModelList.add(sinkModel);
 
@@ -317,9 +358,9 @@ public class SiddhiControllerUnitTest {
 
         List<StreamModel> streamsModel = Arrays.asList(
                 new StreamModel("streamu6", Arrays.asList(
-                        new AttributeModel("timestamp", "long")
+                        new AttributeModel("timestamp","long")
                 )), new StreamModel("streamu66", Arrays.asList(
-                        new AttributeModel("attribute2", "long"))));
+                        new AttributeModel("attribute2","long"))));
 
         ProcessingModel processingModel = new ProcessingModel(ruleModelList, streamsModel);
 
@@ -328,7 +369,7 @@ public class SiddhiControllerUnitTest {
 
         streamsModel = Arrays.asList(
                 new StreamModel("streamu6", Arrays.asList(
-                        new AttributeModel("timestamp", "long")
+                        new AttributeModel("timestamp","long")
                 )));
 
         processingModel = new ProcessingModel(ruleModelList, streamsModel);
@@ -350,11 +391,11 @@ public class SiddhiControllerUnitTest {
 
         //Add Sources and Sinks Definition
 
-        SourceModel sourceModel = new SourceModel("streamnotdefinedu7", "inputu7");
+        SourceModel sourceModel = new SourceModel("streamnotdefinedu7", "inputu7", null);
         List<SourceModel> sourceModelList = new LinkedList<>();
         sourceModelList.add(sourceModel);
 
-        SinkModel sinkModel = new SinkModel("streamoutputu7", "outputu7");
+        SinkModel sinkModel = new SinkModel("streamoutputu7", "outputu7", null);
         List<SinkModel> sinkModelList = new LinkedList<>();
         sinkModelList.add(sinkModel);
 
@@ -372,9 +413,9 @@ public class SiddhiControllerUnitTest {
 
         List<StreamModel> streamsModel = Arrays.asList(
                 new StreamModel("streamu7", Arrays.asList(
-                        new AttributeModel("timestamp", "long")
+                        new AttributeModel("timestamp","long")
                 )), new StreamModel("streamu77", Arrays.asList(
-                        new AttributeModel("attribute2", "long"))));
+                        new AttributeModel("attribute2","long"))));
 
 
         ProcessingModel processingModel = new ProcessingModel(ruleModelList, streamsModel);
@@ -398,11 +439,11 @@ public class SiddhiControllerUnitTest {
     public void addProcessingDefinitionThenUpdateRuleUnitTest() {
         SiddhiController siddhiController = SiddhiController.TEST_CreateInstance();
 
-        SourceModel sourceModel = new SourceModel("streamu8", "inputu8");
+        SourceModel sourceModel = new SourceModel("streamu8", "inputu8", null);
         List<SourceModel> sourceModelList = new LinkedList<>();
         sourceModelList.add(sourceModel);
 
-        SinkModel sinkModel = new SinkModel("streamoutputu8", "outputu8");
+        SinkModel sinkModel = new SinkModel("streamoutputu8", "outputu8", null);
         List<SinkModel> sinkModelList = new LinkedList<>();
         sinkModelList.add(sinkModel);
 
@@ -430,9 +471,9 @@ public class SiddhiControllerUnitTest {
 
         List<StreamModel> streamsModel = Arrays.asList(
                 new StreamModel("streamu8", Arrays.asList(
-                        new AttributeModel("timestamp", "long")
+                        new AttributeModel("timestamp","long")
                 )), new StreamModel("streamu88", Arrays.asList(
-                        new AttributeModel("attribute2", "long"))));
+                        new AttributeModel("attribute2","long"))));
 
         ProcessingModel processingModel = new ProcessingModel(ruleModelList, streamsModel);
 
@@ -453,7 +494,7 @@ public class SiddhiControllerUnitTest {
 
         streamsModel = Arrays.asList(
                 new StreamModel("streamu8", Arrays.asList(
-                        new AttributeModel("timestamp", "long")
+                        new AttributeModel("timestamp","long")
                 )));
 
         processingModel = new ProcessingModel(ruleModelList, streamsModel);

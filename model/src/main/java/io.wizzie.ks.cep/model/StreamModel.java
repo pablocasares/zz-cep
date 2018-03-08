@@ -16,7 +16,7 @@ public class StreamModel {
         this.streamName = streamName;
         List<AttributeModel> attributeModelList = new LinkedList<>();
         attributeModelList.addAll(attributes);
-        attributeModelList.add(new AttributeModel("KAFKA_KEY", "string"));
+        attributeModelList.add(new AttributeModel("KAFKA_KEY","string"));
         this.attributes = attributeModelList;
     }
 

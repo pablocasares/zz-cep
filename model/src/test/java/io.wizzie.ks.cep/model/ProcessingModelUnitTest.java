@@ -12,8 +12,8 @@ public class ProcessingModelUnitTest {
 
     @Test
     public void rulesIsNotNullTest() {
-        SourceModel sourceModel = new SourceModel("streamName", "kafkaTopic");
-        SinkModel sinkModel = new SinkModel("sinkName", "kafkaTopic");
+        SourceModel sourceModel = new SourceModel("streamName", "kafkaTopic", null);
+        SinkModel sinkModel = new SinkModel("sinkName", "kafkaTopic", null);
         StreamMapModel streamMapModel = new StreamMapModel(Arrays.asList(sourceModel), Arrays.asList(sinkModel));
         List<RuleModel> rules = Arrays.asList(
                 new RuleModel("1", "v1", streamMapModel, "myExecutionPlan", null),
@@ -22,7 +22,7 @@ public class ProcessingModelUnitTest {
 
         List<StreamModel> streamsModel = Arrays.asList(
                 new StreamModel("stream1", Arrays.asList(
-                        new AttributeModel("timestamp", "long")
+                        new AttributeModel("timestamp","long")
                 )));
 
         ProcessingModel processingModel = new ProcessingModel(rules,streamsModel);
@@ -35,8 +35,8 @@ public class ProcessingModelUnitTest {
 
     @Test
     public void streamsIsNotNullTest() {
-        SourceModel sourceModel = new SourceModel("streamName", "kafkaTopic");
-        SinkModel sinkModel = new SinkModel("sinkName", "kafkaTopic");
+        SourceModel sourceModel = new SourceModel("streamName", "kafkaTopic", null);
+        SinkModel sinkModel = new SinkModel("sinkName", "kafkaTopic", null);
         StreamMapModel streamMapModel = new StreamMapModel(Arrays.asList(sourceModel), Arrays.asList(sinkModel));
         List<RuleModel> rules = Arrays.asList(
                 new RuleModel("1", "v1", streamMapModel, "myExecutionPlan", null),
@@ -58,8 +58,8 @@ public class ProcessingModelUnitTest {
 
     @Test
     public void toStringIsCorrectTest() {
-        SourceModel sourceModel = new SourceModel("streamName", "kafkaTopic");
-        SinkModel sinkModel = new SinkModel("sinkName", "kafkaTopic");
+        SourceModel sourceModel = new SourceModel("streamName", "kafkaTopic", null);
+        SinkModel sinkModel = new SinkModel("sinkName", "kafkaTopic", null);
         StreamMapModel streamMapModel = new StreamMapModel(Arrays.asList(sourceModel), Arrays.asList(sinkModel));
         List<RuleModel> rules = Arrays.asList(
                 new RuleModel("1", "v1", streamMapModel, "myExecutionPlan", null),

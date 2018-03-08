@@ -3,15 +3,21 @@ package io.wizzie.ks.cep.model;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
+import java.util.Map;
+
 public class StreamKafkaModel {
     String streamName;
     String kafkaTopic;
+    Map<String, String> dimMapper;
 
     @JsonCreator
     public StreamKafkaModel(@JsonProperty("streamName") String streamName,
-                            @JsonProperty("kafkaTopic") String kafkaTopic) {
+                            @JsonProperty("kafkaTopic") String kafkaTopic,
+                            @JsonProperty("dimMapper") Map<String, String> dimMapper) {
         this.streamName = streamName;
         this.kafkaTopic = kafkaTopic;
+        this.dimMapper = dimMapper;
+
     }
 
     @JsonProperty
@@ -22,6 +28,16 @@ public class StreamKafkaModel {
     @JsonProperty
     public void setStreamName(String streamName) {
         this.streamName = streamName;
+    }
+
+    @JsonProperty
+    public Map<String, String> getDimMapper() {
+        return dimMapper;
+    }
+
+    @JsonProperty
+    public void setDimMapper(Map<String, String> dimMapper) {
+        this.dimMapper = dimMapper;
     }
 
     @JsonProperty

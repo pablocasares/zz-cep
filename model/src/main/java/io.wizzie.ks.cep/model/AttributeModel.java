@@ -44,7 +44,6 @@ public class AttributeModel {
         this.name = name;
     }
 
-
     @JsonProperty
     public void setAttributeType(AttributeType attributeType) {
         this.attributeType = attributeType;

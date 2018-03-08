@@ -117,11 +117,11 @@ public class SiddhiControllerIntegrationTest {
             e.printStackTrace();
         }
 
-        SourceModel sourceModel = new SourceModel("stream1", "input1");
+        SourceModel sourceModel = new SourceModel("stream1", "input1", null);
         List<SourceModel> sourceModelList = new LinkedList<>();
         sourceModelList.add(sourceModel);
 
-        SinkModel sinkModel = new SinkModel("streamoutput1", "output1");
+        SinkModel sinkModel = new SinkModel("streamoutput1", "output1", null);
         List<SinkModel> sinkModelList = new LinkedList<>();
         sinkModelList.add(sinkModel);
 
@@ -141,7 +141,7 @@ public class SiddhiControllerIntegrationTest {
                 new StreamModel("stream1", Arrays.asList(
                         new AttributeModel("attributeName", "string")
                 )), new StreamModel("stream11", Arrays.asList(
-                        new AttributeModel("attributeName", "string")
+                        new AttributeModel("attributeName","string")
                 )));
 
         ProcessingModel processingModel = new ProcessingModel(ruleModelList, streamsModel);
@@ -223,11 +223,11 @@ public class SiddhiControllerIntegrationTest {
         SiddhiController siddhiController = SiddhiController.TEST_CreateInstance();
         siddhiController.initKafkaController(consumerNoMultiIdProperties, producerNoMultiIdProperties);
 
-        SourceModel sourceModel = new SourceModel("stream2", "input2");
+        SourceModel sourceModel = new SourceModel("stream2", "input2", null);
         List<SourceModel> sourceModelList = new LinkedList<>();
         sourceModelList.add(sourceModel);
 
-        SinkModel sinkModel = new SinkModel("streamoutput2", "output2");
+        SinkModel sinkModel = new SinkModel("streamoutput2", "output2", null);
         List<SinkModel> sinkModelList = new LinkedList<>();
         sinkModelList.add(sinkModel);
 
@@ -245,7 +245,7 @@ public class SiddhiControllerIntegrationTest {
 
         List<StreamModel> streamsModel = Arrays.asList(
                 new StreamModel("stream2", Arrays.asList(
-                        new AttributeModel("attributeName", "string")
+                        new AttributeModel("attributeName","string")
                 )));
 
         ProcessingModel processingModel = new ProcessingModel(ruleModelList, streamsModel);
@@ -319,13 +319,13 @@ public class SiddhiControllerIntegrationTest {
         SiddhiController siddhiController = SiddhiController.TEST_CreateInstance();
         siddhiController.initKafkaController(consumerNoMultiIdProperties, producerNoMultiIdProperties);
 
-        SourceModel sourceModel = new SourceModel("stream3", "input3");
+        SourceModel sourceModel = new SourceModel("stream3", "input3", null);
         List<SourceModel> sourceModelList = new LinkedList<>();
-        SourceModel sourceModel2 = new SourceModel("stream33", "input3");
+        SourceModel sourceModel2 = new SourceModel("stream33", "input3", null);
         sourceModelList.add(sourceModel);
         sourceModelList.add(sourceModel2);
 
-        SinkModel sinkModel = new SinkModel("streamoutput3", "output3");
+        SinkModel sinkModel = new SinkModel("streamoutput3", "output3", null);
         List<SinkModel> sinkModelList = new LinkedList<>();
         sinkModelList.add(sinkModel);
 
@@ -353,9 +353,9 @@ public class SiddhiControllerIntegrationTest {
 
         List<StreamModel> streamsModel = Arrays.asList(
                 new StreamModel("stream3", Arrays.asList(
-                        new AttributeModel("attributeName", "string")
+                        new AttributeModel("attributeName","string")
                 )), new StreamModel("stream33", Arrays.asList(
-                        new AttributeModel("attributeName", "string")
+                        new AttributeModel("attributeName","string")
                 )));
 
         ProcessingModel processingModel = new ProcessingModel(ruleModelList, streamsModel);
@@ -428,11 +428,11 @@ public class SiddhiControllerIntegrationTest {
         SiddhiController siddhiController = SiddhiController.TEST_CreateInstance();
         siddhiController.initKafkaController(consumerNoMultiIdProperties, producerNoMultiIdProperties);
 
-        SourceModel sourceModel = new SourceModel("stream4", "input4");
+        SourceModel sourceModel = new SourceModel("stream4", "input4", null);
         List<SourceModel> sourceModelList = new LinkedList<>();
         sourceModelList.add(sourceModel);
 
-        SinkModel sinkModel = new SinkModel("streamoutput4", "output4");
+        SinkModel sinkModel = new SinkModel("streamoutput4", "output4", null);
         List<SinkModel> sinkModelList = new LinkedList<>();
         sinkModelList.add(sinkModel);
 
@@ -451,9 +451,9 @@ public class SiddhiControllerIntegrationTest {
 
         List<StreamModel> streamsModel = Arrays.asList(
                 new StreamModel("stream4", Arrays.asList(
-                        new AttributeModel("attributeName", "long")
+                        new AttributeModel("attributeName","long")
                 )), new StreamModel("stream44", Arrays.asList(
-                        new AttributeModel("attributeName", "long")
+                        new AttributeModel("attributeName","long")
                 )));
 
         ProcessingModel processingModel = new ProcessingModel(ruleModelList, streamsModel);
@@ -521,11 +521,11 @@ public class SiddhiControllerIntegrationTest {
         SiddhiController siddhiController = SiddhiController.TEST_CreateInstance();
         siddhiController.initKafkaController(consumerNoMultiIdProperties, producerNoMultiIdProperties);
 
-        SourceModel sourceModel = new SourceModel("streaminput5", "input5");
+        SourceModel sourceModel = new SourceModel("streaminput5", "input5", null);
         List<SourceModel> sourceModelList = new LinkedList<>();
         sourceModelList.add(sourceModel);
 
-        SinkModel sinkModel = new SinkModel("streamoutput5", "output5");
+        SinkModel sinkModel = new SinkModel("streamoutput5", "output5", null);
         List<SinkModel> sinkModelList = new LinkedList<>();
         sinkModelList.add(sinkModel);
 
@@ -544,8 +544,8 @@ public class SiddhiControllerIntegrationTest {
 
         List<StreamModel> streamsModel = Arrays.asList(
                 new StreamModel("streaminput5", Arrays.asList(
-                        new AttributeModel("fieldA", "long"),
-                        new AttributeModel("fieldB", "long")
+                        new AttributeModel("fieldA","long"),
+                        new AttributeModel("fieldB","long")
                 )));
 
         ProcessingModel processingModel = new ProcessingModel(ruleModelList, streamsModel);
@@ -616,12 +616,12 @@ public class SiddhiControllerIntegrationTest {
         SiddhiController siddhiController = SiddhiController.TEST_CreateInstance();
         siddhiController.initKafkaController(consumerNoMultiIdProperties, producerNoMultiIdProperties);
 
-        SourceModel sourceModel = new SourceModel("streaminput6", "input6");
+        SourceModel sourceModel = new SourceModel("streaminput6", "input6", null);
         List<SourceModel> sourceModelList = new LinkedList<>();
         sourceModelList.add(sourceModel);
 
-        SinkModel sinkModel = new SinkModel("streamoutput6", "output6");
-        SinkModel sinkModel2 = new SinkModel("streamoutput66", "output66");
+        SinkModel sinkModel = new SinkModel("streamoutput6", "output6", null);
+        SinkModel sinkModel2 = new SinkModel("streamoutput66", "output66", null);
         List<SinkModel> sinkModelList = new LinkedList<>();
         sinkModelList.add(sinkModel);
         sinkModelList.add(sinkModel2);
@@ -640,8 +640,8 @@ public class SiddhiControllerIntegrationTest {
 
         List<StreamModel> streamsModel = Arrays.asList(
                 new StreamModel("streaminput6", Arrays.asList(
-                        new AttributeModel("fieldA", "string"),
-                        new AttributeModel("fieldB", "long")
+                        new AttributeModel("fieldA","string"),
+                        new AttributeModel("fieldB","long")
                 )));
 
         ProcessingModel processingModel = new ProcessingModel(ruleModelList, streamsModel);
@@ -708,12 +708,12 @@ public class SiddhiControllerIntegrationTest {
         SiddhiController siddhiController = SiddhiController.TEST_CreateInstance();
         siddhiController.initKafkaController(consumerNoMultiIdProperties, producerNoMultiIdProperties);
 
-        SourceModel sourceModel = new SourceModel("streaminput7", "input7");
+        SourceModel sourceModel = new SourceModel("streaminput7", "input7", null);
         List<SourceModel> sourceModelList = new LinkedList<>();
         sourceModelList.add(sourceModel);
 
-        SinkModel sinkModel = new SinkModel("streamoutput7", "output7");
-        SinkModel sinkModel2 = new SinkModel("streamoutput7", "output77");
+        SinkModel sinkModel = new SinkModel("streamoutput7", "output7", null);
+        SinkModel sinkModel2 = new SinkModel("streamoutput7", "output77", null);
         List<SinkModel> sinkModelList = new LinkedList<>();
         sinkModelList.add(sinkModel);
         sinkModelList.add(sinkModel2);
@@ -731,7 +731,7 @@ public class SiddhiControllerIntegrationTest {
 
         List<StreamModel> streamsModel = Arrays.asList(
                 new StreamModel("streaminput7", Arrays.asList(
-                        new AttributeModel("attributeName", "string")
+                        new AttributeModel("attributeName","string")
                 )));
 
         ProcessingModel processingModel = new ProcessingModel(ruleModelList, streamsModel);
@@ -800,11 +800,11 @@ public class SiddhiControllerIntegrationTest {
         SiddhiController siddhiController = SiddhiController.TEST_CreateInstance();
         siddhiController.initKafkaController(consumerNoMultiIdProperties, producerNoMultiIdProperties);
 
-        SourceModel sourceModel = new SourceModel("stream8", "input8");
+        SourceModel sourceModel = new SourceModel("stream8", "input8", null);
         List<SourceModel> sourceModelList = new LinkedList<>();
         sourceModelList.add(sourceModel);
 
-        SinkModel sinkModel = new SinkModel("streamoutput8", "output8");
+        SinkModel sinkModel = new SinkModel("streamoutput8", "output8", null);
         List<SinkModel> sinkModelList = new LinkedList<>();
         sinkModelList.add(sinkModel);
 
@@ -825,7 +825,8 @@ public class SiddhiControllerIntegrationTest {
 
         List<StreamModel> streamsModel = Arrays.asList(
                 new StreamModel("stream8", Arrays.asList(
-                        new AttributeModel("attributeName", "long"), new AttributeModel("attributeName2", "long")
+                        new AttributeModel("attributeName","long"),
+                        new AttributeModel("attributeName2","long")
                 )));
 
         ProcessingModel processingModel = new ProcessingModel(ruleModelList, streamsModel);
@@ -895,11 +896,11 @@ public class SiddhiControllerIntegrationTest {
         SiddhiController siddhiController = SiddhiController.TEST_CreateInstance();
         siddhiController.initKafkaController(consumerNoMultiIdProperties, producerNoMultiIdProperties);
 
-        SourceModel sourceModel = new SourceModel("stream9", "input9");
+        SourceModel sourceModel = new SourceModel("stream9", "input9", null);
         List<SourceModel> sourceModelList = new LinkedList<>();
         sourceModelList.add(sourceModel);
 
-        SinkModel sinkModel = new SinkModel("streamoutput9", "output9");
+        SinkModel sinkModel = new SinkModel("streamoutput9", "output9", null);
         List<SinkModel> sinkModelList = new LinkedList<>();
         sinkModelList.add(sinkModel);
 
@@ -920,7 +921,8 @@ public class SiddhiControllerIntegrationTest {
 
         List<StreamModel> streamsModel = Arrays.asList(
                 new StreamModel("stream9", Arrays.asList(
-                        new AttributeModel("attributeName", "long"), new AttributeModel("attributeName2", "long")
+                        new AttributeModel("attributeName","long"),
+                        new AttributeModel("attributeName2","long")
                 )));
 
         ProcessingModel processingModel = new ProcessingModel(ruleModelList, streamsModel);
@@ -1009,11 +1011,11 @@ public class SiddhiControllerIntegrationTest {
 
         siddhiController.initKafkaController(internalConsumerProperties, internalProducerProperties);
 
-        SourceModel sourceModel = new SourceModel("stream10", "input10");
+        SourceModel sourceModel = new SourceModel("stream10", "input10", null);
         List<SourceModel> sourceModelList = new LinkedList<>();
         sourceModelList.add(sourceModel);
 
-        SinkModel sinkModel = new SinkModel("streamoutput10", "output10");
+        SinkModel sinkModel = new SinkModel("streamoutput10", "output10", null);
         List<SinkModel> sinkModelList = new LinkedList<>();
         sinkModelList.add(sinkModel);
 
@@ -1031,7 +1033,7 @@ public class SiddhiControllerIntegrationTest {
 
         List<StreamModel> streamsModel = Arrays.asList(
                 new StreamModel("stream10", Arrays.asList(
-                        new AttributeModel("attributeName", "string")
+                        new AttributeModel("attributeName","string")
                 )));
 
         ProcessingModel processingModel = new ProcessingModel(ruleModelList, streamsModel);
@@ -1092,11 +1094,11 @@ public class SiddhiControllerIntegrationTest {
         SiddhiController siddhiController = SiddhiController.TEST_CreateInstance();
         siddhiController.initKafkaController(consumerNoMultiIdProperties, producerNoMultiIdProperties);
 
-        SourceModel sourceModel = new SourceModel("stream11", "input11");
+        SourceModel sourceModel = new SourceModel("stream11", "input11", null);
         List<SourceModel> sourceModelList = new LinkedList<>();
         sourceModelList.add(sourceModel);
 
-        SinkModel sinkModel = new SinkModel("streamoutput11", "output11");
+        SinkModel sinkModel = new SinkModel("streamoutput11", "output11", null);
         List<SinkModel> sinkModelList = new LinkedList<>();
         sinkModelList.add(sinkModel);
 
@@ -1114,7 +1116,7 @@ public class SiddhiControllerIntegrationTest {
 
         List<StreamModel> streamsModel = Arrays.asList(
                 new StreamModel("stream11", Arrays.asList(
-                        new AttributeModel("attributeName", "string")
+                        new AttributeModel("attributeName","string")
                 )));
 
         ProcessingModel processingModel = new ProcessingModel(ruleModelList, streamsModel);
@@ -1174,11 +1176,11 @@ public class SiddhiControllerIntegrationTest {
         SiddhiController siddhiController = SiddhiController.TEST_CreateInstance();
         siddhiController.initKafkaController(consumerNoMultiIdProperties, producerNoMultiIdProperties);
 
-        SourceModel sourceModel = new SourceModel("stream12", "input12");
+        SourceModel sourceModel = new SourceModel("stream12", "input12", null);
         List<SourceModel> sourceModelList = new LinkedList<>();
         sourceModelList.add(sourceModel);
 
-        SinkModel sinkModel = new SinkModel("streamoutput12", "output12");
+        SinkModel sinkModel = new SinkModel("streamoutput12", "output12", null);
         List<SinkModel> sinkModelList = new LinkedList<>();
         sinkModelList.add(sinkModel);
 
@@ -1196,7 +1198,7 @@ public class SiddhiControllerIntegrationTest {
 
         List<StreamModel> streamsModel = Arrays.asList(
                 new StreamModel("stream12", Arrays.asList(
-                        new AttributeModel("attributeName", "string")
+                        new AttributeModel("attributeName","string")
                 )));
 
         ProcessingModel processingModel = new ProcessingModel(ruleModelList, streamsModel);
@@ -1255,11 +1257,11 @@ public class SiddhiControllerIntegrationTest {
         SiddhiController siddhiController = SiddhiController.TEST_CreateInstance();
         siddhiController.initKafkaController(consumerNoMultiIdProperties, producerNoMultiIdProperties);
 
-        SourceModel sourceModel = new SourceModel("stream13", "input13");
+        SourceModel sourceModel = new SourceModel("stream13", "input13", null);
         List<SourceModel> sourceModelList = new LinkedList<>();
         sourceModelList.add(sourceModel);
 
-        SinkModel sinkModel = new SinkModel("streamoutput13", "output13");
+        SinkModel sinkModel = new SinkModel("streamoutput13", "output13", null);
         List<SinkModel> sinkModelList = new LinkedList<>();
         sinkModelList.add(sinkModel);
 
@@ -1277,7 +1279,7 @@ public class SiddhiControllerIntegrationTest {
 
         List<StreamModel> streamsModel = Arrays.asList(
                 new StreamModel("stream13", Arrays.asList(
-                        new AttributeModel("attributeName", "string")
+                        new AttributeModel("attributeName","string")
                 )));
 
         ProcessingModel processingModel = new ProcessingModel(ruleModelList, streamsModel);
@@ -1341,11 +1343,11 @@ public class SiddhiControllerIntegrationTest {
         SiddhiController siddhiController = SiddhiController.TEST_CreateInstance();
         siddhiController.initKafkaController(consumerNoMultiIdProperties, producerNoMultiIdProperties);
 
-        SourceModel sourceModel = new SourceModel("stream14", "input14");
+        SourceModel sourceModel = new SourceModel("stream14", "input14", null);
         List<SourceModel> sourceModelList = new LinkedList<>();
         sourceModelList.add(sourceModel);
 
-        SinkModel sinkModel = new SinkModel("streamoutput14", "output14");
+        SinkModel sinkModel = new SinkModel("streamoutput14", "output14", null);
         List<SinkModel> sinkModelList = new LinkedList<>();
         sinkModelList.add(sinkModel);
 
@@ -1363,8 +1365,8 @@ public class SiddhiControllerIntegrationTest {
 
         List<StreamModel> streamsModel = Arrays.asList(
                 new StreamModel("stream14", Arrays.asList(
-                        new AttributeModel("timestamp", "long"),
-                        new AttributeModel("bytes", "long")
+                        new AttributeModel("timestamp","long"),
+                        new AttributeModel("bytes","long")
                 )));
 
         ProcessingModel processingModel = new ProcessingModel(ruleModelList, streamsModel);
@@ -1398,6 +1400,94 @@ public class SiddhiControllerIntegrationTest {
 
 
         List<KeyValue<String, Map>> receivedMessagesFromOutput1 = IntegrationTestUtils.waitUntilMinKeyValueRecordsReceived(consumerConfigA, "output14", 1);
+        System.out.println("Received after Siddhi: " + receivedMessagesFromOutput1);
+        assertEquals(Collections.singletonList(expectedDataKv), receivedMessagesFromOutput1);
+
+    }
+
+    @Test
+    public void SiddhiControllerAttributeWithDash() throws InterruptedException {
+
+
+        String jsonData = "{\"attribute-Name\":\"VALUE\"}";
+
+        KeyValue<String, Map<String, Object>> kvStream1 = null;
+
+        ObjectMapper objectMapper = new ObjectMapper();
+        try {
+            kvStream1 = new KeyValue<>(null, objectMapper.readValue(jsonData, Map.class));
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        Properties producerConfig = new Properties();
+        producerConfig.put(ProducerConfig.BOOTSTRAP_SERVERS_CONFIG, CLUSTER.bootstrapServers());
+        producerConfig.put(ProducerConfig.ACKS_CONFIG, "all");
+        producerConfig.put(ProducerConfig.RETRIES_CONFIG, 0);
+        producerConfig.put(ProducerConfig.KEY_SERIALIZER_CLASS_CONFIG, Serdes.String().serializer().getClass());
+        producerConfig.put(ProducerConfig.VALUE_SERIALIZER_CLASS_CONFIG, JsonSerializer.class);
+
+
+        SiddhiController siddhiController = SiddhiController.TEST_CreateInstance();
+        siddhiController.initKafkaController(consumerNoMultiIdProperties, producerNoMultiIdProperties);
+
+        Map<String, String> sourceDimMapper = new HashMap<>();
+        sourceDimMapper.put("attributeName", "attribute-Name");
+        SourceModel sourceModel = new SourceModel("stream15", "input15", sourceDimMapper);
+        List<SourceModel> sourceModelList = new LinkedList<>();
+        sourceModelList.add(sourceModel);
+
+        SinkModel sinkModel = new SinkModel("streamoutput15", "output15", null);
+        List<SinkModel> sinkModelList = new LinkedList<>();
+        sinkModelList.add(sinkModel);
+
+        String id = "rule15";
+        String version = "v1";
+        String executionPlan = "from stream15 select * insert into streamoutput15";
+
+        StreamMapModel streamMapModel = new StreamMapModel(Arrays.asList(sourceModel), Arrays.asList(sinkModel));
+
+        RuleModel ruleModelObject = new RuleModel(id, version, streamMapModel, executionPlan, null);
+
+        List<RuleModel> ruleModelList = new LinkedList<>();
+        ruleModelList.add(ruleModelObject);
+
+
+        List<StreamModel> streamsModel = Arrays.asList(
+                new StreamModel("stream15", Arrays.asList(
+                        new AttributeModel("attributeName","string")
+                )));
+
+        ProcessingModel processingModel = new ProcessingModel(ruleModelList, streamsModel);
+
+        siddhiController.addProcessingDefinition(processingModel);
+        siddhiController.generateExecutionPlans();
+        siddhiController.addProcessingModel2KafkaController();
+
+        Properties consumerConfigA = new Properties();
+        consumerConfigA.put(ConsumerConfig.BOOTSTRAP_SERVERS_CONFIG, CLUSTER.bootstrapServers());
+        consumerConfigA.put(ConsumerConfig.GROUP_ID_CONFIG, "test-group-consumer-A");
+        consumerConfigA.put(ConsumerConfig.KEY_DESERIALIZER_CLASS_CONFIG, StringDeserializer.class);
+        consumerConfigA.put(ConsumerConfig.VALUE_DESERIALIZER_CLASS_CONFIG, JsonDeserializer.class);
+        consumerConfigA.put(ConsumerConfig.AUTO_OFFSET_RESET_CONFIG, "earliest");
+
+
+        Map<String, Object> expectedData = new HashMap<>();
+        expectedData.put("attributeName", "VALUE");
+
+        KeyValue<String, Map<String, Object>> expectedDataKv = new KeyValue<>(null, expectedData);
+
+        try {
+            System.out.println("Producing KV: " + kvStream1);
+            IntegrationTestUtils.produceKeyValuesSynchronously("input15", Collections.singletonList(kvStream1), producerConfig, MOCK_TIME);
+        } catch (ExecutionException e) {
+            e.printStackTrace();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+
+
+        List<KeyValue<String, Map>> receivedMessagesFromOutput1 = IntegrationTestUtils.waitUntilMinKeyValueRecordsReceived(consumerConfigA, "output15", 1);
         System.out.println("Received after Siddhi: " + receivedMessagesFromOutput1);
         assertEquals(Collections.singletonList(expectedDataKv), receivedMessagesFromOutput1);
 

@@ -24,6 +24,7 @@ public class KafkaController {
 
     private Map<String, String> kafka2Siddhi = new HashMap<>();
     private Map<String, String> siddhi2Kafka = new HashMap<>();
+    private Map<String, Map<String, String>> inputMapper = new HashMap<>();
     final List<Kafka2Siddhi> consumers = new ArrayList<>();
     Siddhi2Kafka producer;
 
@@ -50,12 +51,13 @@ public class KafkaController {
         for (RuleModel rule : processingModel.getRules()) {
             for (SourceModel sourceModel : rule.getStreams().getSourceModel()) {
                 kafka2Siddhi.put(sourceModel.getKafkaTopic(), sourceModel.getStreamName());
+                inputMapper.put(sourceModel.getStreamName(), sourceModel.getDimMapper());
             }
         }
         //subscribe to the topics.
         for (Kafka2Siddhi consumer : consumers) {
             //Subscribe to the topics associated with the streams.
-            consumer.subscribe(kafka2Siddhi, inputHandlers);
+            consumer.subscribe(kafka2Siddhi, inputHandlers, inputMapper);
         }
 
         //clear existing sinks

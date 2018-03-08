@@ -21,6 +21,7 @@ public class Kafka2Siddhi implements Runnable {
 
     private KafkaConsumer consumer;
     private Map<String, String> topics2Siddhi = new HashMap<>();
+    private Map<String, Map<String,String>> inputMapper = new HashMap<>();
     Map<String, Map<String, InputHandler>> inputHandlers = new HashMap<>();
     EventsParser eventsParser;
     Semaphore mutex;
@@ -72,7 +73,7 @@ public class Kafka2Siddhi implements Runnable {
                                         if (stream2InputHandler.getKey().equals(topics2SiddhiEntry.getValue())) {
                                             log.debug("This event from topic: " + record.topic() + " belongs to stream: " + stream2InputHandler.getKey() + ". Sending it to: " + stream2InputHandler.getValue().toString());
                                             if (record.value() != null) {
-                                                Object[] data = eventsParser.parseToObjectArray(topics2SiddhiEntry.getValue(), record.key(), record.value());
+                                                Object[] data = eventsParser.parseToObjectArray(topics2SiddhiEntry.getValue(), record.key(), record.value(), inputMapper);
                                                 stream2InputHandler.getValue().send(data);
                                             }
                                         }
@@ -95,12 +96,14 @@ public class Kafka2Siddhi implements Runnable {
 
     }
 
-    public void subscribe(Map<String, String> kafka2Siddhi, Map<String, Map<String, InputHandler>> inputHandlers) {
+    public void subscribe(Map<String, String> kafka2Siddhi, Map<String, Map<String, InputHandler>> inputHandlers, Map<String, Map<String, String>> inputRenames) {
         log.debug("Subscribing");
         try {
             log.debug("Subscriber acquiring mutex");
             mutex.acquire();
             log.debug("Subscriber entered exclusion zone");
+            this.inputMapper.clear();
+            this.inputMapper.putAll(inputRenames);
             this.topics2Siddhi.clear();
             this.topics2Siddhi.putAll(kafka2Siddhi);
             this.inputHandlers = inputHandlers;
