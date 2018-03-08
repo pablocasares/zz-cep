@@ -2,6 +2,9 @@ package io.wizzie.ks.cep.model;
 
 import org.junit.Test;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 
@@ -12,7 +15,7 @@ public class StreamKafkaModelUnitTest {
         String streamName = "stream";
         String kafkaTopic = "topic";
 
-        StreamKafkaModel streamKafkaModel = new StreamKafkaModel(streamName, kafkaTopic);
+        StreamKafkaModel streamKafkaModel = new StreamKafkaModel(streamName, kafkaTopic, null);
 
         assertNotNull(streamKafkaModel.streamName);
         assertEquals(streamName, streamKafkaModel.getStreamName());
@@ -23,10 +26,22 @@ public class StreamKafkaModelUnitTest {
         String streamName = "stream";
         String kafkaTopic = "topic";
 
-        StreamKafkaModel streamKafkaModel = new StreamKafkaModel(streamName, kafkaTopic);
+        StreamKafkaModel streamKafkaModel = new StreamKafkaModel(streamName, kafkaTopic, null);
 
         assertNotNull(streamKafkaModel.kafkaTopic);
         assertEquals(kafkaTopic, streamKafkaModel.getKafkaTopic());
+    }
+
+    @Test
+    public void dimMapperNotNullTest() {
+        String streamName = "stream";
+        String kafkaTopic = "topic";
+        Map<String, String> dimMapper = new HashMap<>();
+
+        StreamKafkaModel streamKafkaModel = new StreamKafkaModel(streamName, kafkaTopic, dimMapper);
+
+        assertNotNull(streamKafkaModel.dimMapper);
+        assertEquals(dimMapper, streamKafkaModel.getDimMapper());
     }
 
     @Test
@@ -34,7 +49,7 @@ public class StreamKafkaModelUnitTest {
         String streamName = "stream";
         String kafkaTopic = "topic";
 
-        StreamKafkaModel streamKafkaModel = new StreamKafkaModel(streamName, kafkaTopic);
+        StreamKafkaModel streamKafkaModel = new StreamKafkaModel(streamName, kafkaTopic, null);
 
         assertNotNull(streamKafkaModel.streamName);
         assertEquals(streamName, streamKafkaModel.getStreamName());

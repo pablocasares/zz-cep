@@ -166,6 +166,7 @@ public class SiddhiController {
 
                     String streamName = sinkModel.getStreamName();
                     String kafkaTopic = sinkModel.getKafkaTopic();
+                    Map<String, String> outputMapper = sinkModel.getDimMapper();
 
                     StreamDefinition streamDefinition = siddhiAppRuntime.getStreamDefinitionMap().get(streamName);
 

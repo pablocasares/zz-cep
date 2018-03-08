@@ -27,8 +27,8 @@ public class SiddhiAppBuilderUnitTest {
     public void generateRuleDefinition() {
 
         SiddhiAppBuilder siddhiAppBuilder = new SiddhiAppBuilder();
-        SourceModel sourceModel = new SourceModel("streamName", "kafkaTopic");
-        SinkModel sinkModel = new SinkModel("sinkName", "kafkaTopic");
+        SourceModel sourceModel = new SourceModel("streamName", "kafkaTopic", null);
+        SinkModel sinkModel = new SinkModel("sinkName", "kafkaTopic", null);
         StreamMapModel streamMapModel = new StreamMapModel(Arrays.asList(sourceModel), Arrays.asList(sinkModel));
         String streamDefinition = siddhiAppBuilder.generateRuleDefinition(new RuleModel("1", "v1", streamMapModel, "myExecutionPlan", null));
 
@@ -37,8 +37,8 @@ public class SiddhiAppBuilderUnitTest {
 
     @Test
     public void validateSiddhiPlan() {
-        SourceModel sourceModel = new SourceModel("streamName", "kafkaTopic");
-        SinkModel sinkModel = new SinkModel("sinkName", "kafkaTopic");
+        SourceModel sourceModel = new SourceModel("streamName", "kafkaTopic", null);
+        SinkModel sinkModel = new SinkModel("sinkName", "kafkaTopic", null);
         StreamMapModel streamMapModel = new StreamMapModel(Arrays.asList(sourceModel), Arrays.asList(sinkModel));
         List<RuleModel> rules = Arrays.asList(
                 new RuleModel("1", "v1", streamMapModel, "from streamName select * insert into sinkName", null)
@@ -57,8 +57,8 @@ public class SiddhiAppBuilderUnitTest {
 
     @Test
     public void noValidateSiddhiPlan() {
-        SourceModel sourceModel = new SourceModel("streamName", "kafkaTopic");
-        SinkModel sinkModel = new SinkModel("sinkName", "kafkaTopic");
+        SourceModel sourceModel = new SourceModel("streamName", "kafkaTopic", null);
+        SinkModel sinkModel = new SinkModel("sinkName", "kafkaTopic", null);
         StreamMapModel streamMapModel = new StreamMapModel(Arrays.asList(sourceModel), Arrays.asList(sinkModel));
         List<RuleModel> rules = Arrays.asList(
                 new RuleModel("1", "v1", streamMapModel, "from streamName selecst * insert into sinkName", null)

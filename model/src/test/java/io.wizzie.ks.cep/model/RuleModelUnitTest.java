@@ -15,8 +15,8 @@ public class RuleModelUnitTest {
     public void idIsNotNullTest() {
         String id = "1";
         String version = "v1";
-        SourceModel sourceModel = new SourceModel("streamName", "kafkaTopic");
-        SinkModel sinkModel = new SinkModel("sinkName", "kafkaTopic");
+        SourceModel sourceModel = new SourceModel("streamName", "kafkaTopic", null);
+        SinkModel sinkModel = new SinkModel("sinkName", "kafkaTopic", null);
         StreamMapModel streamMapModel = new StreamMapModel(Arrays.asList(sourceModel), Arrays.asList(sinkModel));
         String executionPlan = "placeholder";
 
@@ -30,8 +30,8 @@ public class RuleModelUnitTest {
     public void versionIsNotNullTest() {
         String id = "1";
         String version = "v1";
-        SourceModel sourceModel = new SourceModel("streamName", "kafkaTopic");
-        SinkModel sinkModel = new SinkModel("sinkName", "kafkaTopic");
+        SourceModel sourceModel = new SourceModel("streamName", "kafkaTopic", null);
+        SinkModel sinkModel = new SinkModel("sinkName", "kafkaTopic", null);
         StreamMapModel streamMapModel = new StreamMapModel(Arrays.asList(sourceModel), Arrays.asList(sinkModel));
         String executionPlan = "placeholder";
 
@@ -45,8 +45,8 @@ public class RuleModelUnitTest {
     public void streamsIsNotNullTest() {
         String id = "1";
         String version = "v1";
-        SourceModel sourceModel = new SourceModel("streamName", "kafkaTopic");
-        SinkModel sinkModel = new SinkModel("sinkName", "kafkaTopic");
+        SourceModel sourceModel = new SourceModel("streamName", "kafkaTopic", null);
+        SinkModel sinkModel = new SinkModel("sinkName", "kafkaTopic", null);
         StreamMapModel streamMapModel = new StreamMapModel(Arrays.asList(sourceModel), Arrays.asList(sinkModel));
         String executionPlan = "placeholder";
 
@@ -60,8 +60,8 @@ public class RuleModelUnitTest {
     public void executionPlanIsNotNullTest() {
         String id = "1";
         String version = "v1";
-        SourceModel sourceModel = new SourceModel("streamName", "kafkaTopic");
-        SinkModel sinkModel = new SinkModel("sinkName", "kafkaTopic");
+        SourceModel sourceModel = new SourceModel("streamName", "kafkaTopic", null);
+        SinkModel sinkModel = new SinkModel("sinkName", "kafkaTopic", null);
         StreamMapModel streamMapModel = new StreamMapModel(Arrays.asList(sourceModel), Arrays.asList(sinkModel));
         String executionPlan = "placeholder";
 
@@ -75,8 +75,8 @@ public class RuleModelUnitTest {
     public void optionsIsNotNullTest() {
         String id = "1";
         String version = "v1";
-        SourceModel sourceModel = new SourceModel("streamName", "kafkaTopic");
-        SinkModel sinkModel = new SinkModel("sinkName", "kafkaTopic");
+        SourceModel sourceModel = new SourceModel("streamName", "kafkaTopic", null);
+        SinkModel sinkModel = new SinkModel("sinkName", "kafkaTopic", null);
         StreamMapModel streamMapModel = new StreamMapModel(Arrays.asList(sourceModel), Arrays.asList(sinkModel));
         String executionPlan = "placeholder";
         Map<String, Object> options = new HashMap<>();
@@ -92,8 +92,8 @@ public class RuleModelUnitTest {
     public void toStringIsCorrectTest() {
         String id = "1";
         String version = "v1";
-        SourceModel sourceModel = new SourceModel("streamName", "kafkaTopic");
-        SinkModel sinkModel = new SinkModel("sinkName", "kafkaTopic");
+        SourceModel sourceModel = new SourceModel("streamName", "kafkaTopic", null);
+        SinkModel sinkModel = new SinkModel("sinkName", "kafkaTopic", null);
         StreamMapModel streamMapModel = new StreamMapModel(Arrays.asList(sourceModel), Arrays.asList(sinkModel));
         String executionPlan = "placeholder";
 
@@ -122,8 +122,8 @@ public class RuleModelUnitTest {
     public void toStringWithOptionsIsCorrectTest() {
         String id = "1";
         String version = "v1";
-        SourceModel sourceModel = new SourceModel("streamName", "kafkaTopic");
-        SinkModel sinkModel = new SinkModel("sinkName", "kafkaTopic");
+        SourceModel sourceModel = new SourceModel("streamName", "kafkaTopic", null);
+        SinkModel sinkModel = new SinkModel("sinkName", "kafkaTopic", null);
         StreamMapModel streamMapModel = new StreamMapModel(Arrays.asList(sourceModel), Arrays.asList(sinkModel));
         String executionPlan = "placeholder";
         Map<String, Object> options = new HashMap<>();

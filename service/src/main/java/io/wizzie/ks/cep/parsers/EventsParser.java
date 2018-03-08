@@ -20,7 +20,6 @@ public class EventsParser {
 
 
     Map<String, StreamModel> eventsFormat = new HashMap<>();
-    ObjectMapper objectMapper = new ObjectMapper();
 
     //Prevent instantiation
     private EventsParser() {
@@ -42,7 +41,7 @@ public class EventsParser {
         eventsFormat.clear();
     }
 
-    public Object[] parseToObjectArray(String streamName, String key, Map<String, Object> eventData) {
+    public Object[] parseToObjectArray(String streamName, String key, Map<String, Object> eventData, Map<String, Map<String, String>> inputRenames) {
 
         //Insert key to eventData
         eventData.put("KAFKA_KEY", key);
@@ -53,7 +52,12 @@ public class EventsParser {
             StreamModel streamModel = eventsFormat.get(streamName);
             attributeList = new ArrayList<>();
             for (AttributeModel attributeModel : streamModel.getAttributes()) {
-                Object element = eventData.get(attributeModel.getName());
+                Object element;
+                if(inputRenames.get(streamName) != null && inputRenames.get(streamName).containsKey(attributeModel.getName())){
+                    element = eventData.get(inputRenames.get(streamName).get(attributeModel.getName()));
+                }else{
+                    element = eventData.get(attributeModel.getName());
+                }
                 attributeList.add(element);
             }
         }//maybe throw exception

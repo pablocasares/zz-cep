@@ -12,7 +12,7 @@ public class SinkModelUnitTest {
         String streamName = "stream";
         String kafkaTopic = "topic";
 
-        SinkModel sinkModel = new SinkModel(streamName, kafkaTopic);
+        SinkModel sinkModel = new SinkModel(streamName, kafkaTopic, null);
 
         assertNotNull(sinkModel.streamName);
         assertEquals(streamName, sinkModel.getStreamName());
@@ -23,7 +23,7 @@ public class SinkModelUnitTest {
         String streamName = "stream";
         String kafkaTopic = "topic";
 
-        SinkModel sinkModel = new SinkModel(streamName, kafkaTopic);
+        SinkModel sinkModel = new SinkModel(streamName, kafkaTopic, null);
 
         assertNotNull(sinkModel.kafkaTopic);
         assertEquals(kafkaTopic, sinkModel.getKafkaTopic());
@@ -34,7 +34,7 @@ public class SinkModelUnitTest {
         String streamName = "stream";
         String kafkaTopic = "topic";
 
-        SinkModel sinkModel = new SinkModel(streamName, kafkaTopic);
+        SinkModel sinkModel = new SinkModel(streamName, kafkaTopic, null);
 
         assertNotNull(sinkModel.streamName);
         assertEquals(streamName, sinkModel.getStreamName());

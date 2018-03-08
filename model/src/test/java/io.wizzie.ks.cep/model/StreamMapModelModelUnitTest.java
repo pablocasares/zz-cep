@@ -12,11 +12,11 @@ public class StreamMapModelModelUnitTest {
 
     @Test
     public void sourcesIsNotNullTest() {
-        SourceModel sourceModel = new SourceModel("stream", "input1");
+        SourceModel sourceModel = new SourceModel("stream", "input1", null);
         List<SourceModel> sourceModelList = new LinkedList<>();
         sourceModelList.add(sourceModel);
 
-        SinkModel sinkModel = new SinkModel("streamoutput", "output1");
+        SinkModel sinkModel = new SinkModel("streamoutput", "output1", null);
         List<SinkModel> sinkModelList = new LinkedList<>();
         sinkModelList.add(sinkModel);
 
@@ -27,11 +27,11 @@ public class StreamMapModelModelUnitTest {
 
     @Test
     public void sinksNotNullTest() {
-        SourceModel sourceModel = new SourceModel("stream", "input1");
+        SourceModel sourceModel = new SourceModel("stream", "input1", null);
         List<SourceModel> sourceModelList = new LinkedList<>();
         sourceModelList.add(sourceModel);
 
-        SinkModel sinkModel = new SinkModel("streamoutput", "output1");
+        SinkModel sinkModel = new SinkModel("streamoutput", "output1", null);
         List<SinkModel> sinkModelList = new LinkedList<>();
         sinkModelList.add(sinkModel);
 
@@ -42,11 +42,11 @@ public class StreamMapModelModelUnitTest {
 
     @Test
     public void toStringIsCorrectTest() {
-        SourceModel sourceModel = new SourceModel("stream", "input1");
+        SourceModel sourceModel = new SourceModel("stream", "input1", null);
         List<SourceModel> sourceModelList = new LinkedList<>();
         sourceModelList.add(sourceModel);
 
-        SinkModel sinkModel = new SinkModel("streamoutput", "output1");
+        SinkModel sinkModel = new SinkModel("streamoutput", "output1", null);
         List<SinkModel> sinkModelList = new LinkedList<>();
         sinkModelList.add(sinkModel);
 
