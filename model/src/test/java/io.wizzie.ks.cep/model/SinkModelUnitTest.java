@@ -2,6 +2,9 @@ package io.wizzie.ks.cep.model;
 
 import org.junit.Test;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 
@@ -27,6 +30,18 @@ public class SinkModelUnitTest {
 
         assertNotNull(sinkModel.kafkaTopic);
         assertEquals(kafkaTopic, sinkModel.getKafkaTopic());
+    }
+
+    @Test
+    public void dimMapperNotNullTest() {
+        String streamName = "stream";
+        String kafkaTopic = "topic";
+        Map<String, String> dimMapper = new HashMap<>();
+
+        SinkModel sinkModel = new SinkModel(streamName, kafkaTopic, dimMapper);
+
+        assertNotNull(sinkModel.dimMapper);
+        assertEquals(dimMapper, sinkModel.getDimMapper());
     }
 
     @Test

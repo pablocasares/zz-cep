@@ -176,7 +176,10 @@ public class SiddhiController {
                             public void receive(Event[] events) {
                                 for (Event event : events) {
                                     log.debug("Sending event from Siddhi to Kafka");
-                                    kafkaController.send2Kafka(kafkaTopic, streamName, event, siddhiAppRuntime.getStreamDefinitionMap(), executionPlansEntry.getValue().getOptions());
+                                    kafkaController.send2Kafka(kafkaTopic, streamName, event,
+                                            siddhiAppRuntime.getStreamDefinitionMap(),
+                                            executionPlansEntry.getValue().getOptions(),
+                                            outputMapper);
                                 }
                             }
                         });

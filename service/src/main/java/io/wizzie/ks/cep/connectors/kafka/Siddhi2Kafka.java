@@ -35,7 +35,8 @@ public class Siddhi2Kafka {
     }
 
 
-    public void send(String kafkaTopic, String streamName, Event event, Map<String, StreamDefinition> streamDefinitionMap, Map<String, Object> options) {
+    public void send(String kafkaTopic, String streamName, Event event, Map<String, StreamDefinition> streamDefinitionMap,
+                     Map<String, Object> options, Map<String, String> sinkMapper) {
 
         if(multiId){
             kafkaTopic = String.format("%s_%s",applicationId, kafkaTopic);
@@ -48,9 +49,9 @@ public class Siddhi2Kafka {
         //Send event to kafkaTopic parsing it with the sink stream format
         log.trace("Sending event to topic: " + kafkaTopic);
         List<Attribute> attributeList = streamDefinitionMap.get(streamName).getAttributeList();
-        log.trace("Parsed event: " + eventsParser.parseToMap(attributeList, event, options));
+        log.trace("Parsed event: " + eventsParser.parseToMap(attributeList, event, options, sinkMapper));
 
-        Map<String, Object> parsedEvent = eventsParser.parseToMap(attributeList, event, options);
+        Map<String, Object> parsedEvent = eventsParser.parseToMap(attributeList, event, options, sinkMapper);
         if (parsedEvent.isEmpty()) {
             log.warn("The parsed event is empty. Not sending it.");
         } else {

@@ -3,9 +3,7 @@ package io.wizzie.ks.cep.controllers;
 import io.wizzie.ks.cep.model.*;
 import org.junit.Test;
 
-import java.util.Arrays;
-import java.util.LinkedList;
-import java.util.List;
+import java.util.*;
 
 import static org.junit.Assert.assertEquals;
 
@@ -55,12 +53,14 @@ public class SiddhiControllerUnitTest {
     @Test
     public void addProcessingDefinitionUnitWithDashTest() {
         SiddhiController siddhiController = SiddhiController.TEST_CreateInstance();
+        Map<String, String> dimMapper = new HashMap<>();
 
-        SourceModel sourceModel = new SourceModel("streamu1", "inputu1", null);
+        SourceModel sourceModel = new SourceModel("streamu1", "inputu1", dimMapper);
         List<SourceModel> sourceModelList = new LinkedList<>();
         sourceModelList.add(sourceModel);
 
-        SinkModel sinkModel = new SinkModel("streamoutputu1", "outputu1", null);
+        SinkModel sinkModel = new SinkModel("streamoutputu1", "outputu1", dimMapper);
+
         List<SinkModel> sinkModelList = new LinkedList<>();
         sinkModelList.add(sinkModel);
 
