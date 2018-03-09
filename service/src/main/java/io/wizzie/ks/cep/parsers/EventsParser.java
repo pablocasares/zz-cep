@@ -53,6 +53,7 @@ public class EventsParser {
             attributeList = new ArrayList<>();
             for (AttributeModel attributeModel : streamModel.getAttributes()) {
                 Object element;
+              
                 if(inputRenames.get(streamName) != null && inputRenames.get(streamName).containsKey(attributeModel.getName())){
                     element = eventData.get(inputRenames.get(streamName).get(attributeModel.getName()));
                 }else{
@@ -66,7 +67,8 @@ public class EventsParser {
         return attributeList.toArray();
     }
 
-    public Map<String, Object> parseToMap(List<Attribute> attributeList, Event event, Map<String, Object> options) {
+    public Map<String, Object> parseToMap(List<Attribute> attributeList, Event event, Map<String, Object> options,
+                                          Map<String, String> sinkMapper) {
 
         Map<String, Object> eventData = new HashMap<>();
 
@@ -77,12 +79,14 @@ public class EventsParser {
                 log.trace("Filtered null value");
             } else {
                 String columnName = attributeList.get(index).getName();
-                eventData.put(columnName, object);
+                if (sinkMapper != null && sinkMapper.containsKey(columnName)) {
+                    eventData.put(sinkMapper.get(columnName), object);
+                } else {
+                    eventData.put(columnName, object);
+                }
             }
             index++;
         }
-
         return eventData;
     }
-
 }

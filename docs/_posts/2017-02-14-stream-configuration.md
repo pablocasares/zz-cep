@@ -104,6 +104,31 @@ The current `options` available value is:
 
 * `"filterOutputNullDimension"`: This value can be set to `true` if the rule should filter out the null values at the output when the event is sended to Kafka.
 
+The configuration for `streams` is:
+
+```json
+ "streams": {
+                "in": [
+                    {
+                        "streamName": "streaminput",
+                        "kafkaTopic": "kafkainput"
+                        "dimMapper": {"fieldNameToConvertTo": "originalKafkaFieldName"}
+                    }
+                ],
+                "out": [
+                    {
+                        "streamName": "streamoutput",
+                        "kafkaTopic": "kafkaoutput",
+                        "dimMapper": {"fieldNameToConvertTo": "originalKafkaFieldName"}
+                    }
+                ]
+            }
+```
+
+* `streamName`: The stream name. This must match the stream name used at the execution plan.
+* `kafkaTopic`: The topic name where the data will be readed/written.
+* `dimMapper`: As Siddhi does not support field names with characters as `.`,`-`or `_`.
+This value may be used to rename the field names to ones supported by Siddhi and then reconvert them at the output. This field is optional.
 
 
 So, the full stream configuration should be:
