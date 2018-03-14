@@ -16,7 +16,10 @@ public class RuleModel {
                      @JsonProperty("version") String version,
                      @JsonProperty("streams") List<String> streams,
                      @JsonProperty("executionPlan") String executionPlan) {
-
+        this.id = id;
+        this.version = version;
+        this.streams = streams;
+        this.executionPlan = executionPlan;
     }
 
     @JsonProperty
