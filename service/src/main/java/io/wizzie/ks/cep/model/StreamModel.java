@@ -36,4 +36,15 @@ public class StreamModel {
         this.attributes = attributes;
     }
 
+    @Override
+    public String toString() {
+        StringBuilder sb = new StringBuilder();
+
+        sb.append("{")
+                .append("streamName: ").append(streamName).append(", ")
+                .append("attributes: ").append(attributes)
+                .append("}");
+
+        return sb.toString();
+    }
 }
