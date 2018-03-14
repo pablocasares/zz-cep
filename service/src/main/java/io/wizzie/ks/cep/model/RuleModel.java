@@ -61,4 +61,18 @@ public class RuleModel {
     public void setExecutionPlan(String executionPlan) {
         this.executionPlan = executionPlan;
     }
+
+    @Override
+    public String toString() {
+        StringBuilder sb = new StringBuilder();
+
+        sb.append("{")
+                .append("id: ").append(id).append(", ")
+                .append("version: ").append(version).append(", ")
+                .append("streams: ").append(streams).append(", ")
+                .append("executionPlan: ").append(executionPlan)
+                .append("}");
+
+        return sb.toString();
+    }
 }
