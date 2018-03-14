@@ -56,4 +56,15 @@ public class AttributeModel {
     public void setAttributeType(AttributeType attributeType) {
         this.attributeType = attributeType;
     }
+
+    @Override
+    public String toString() {
+        StringBuilder sb = new StringBuilder();
+        sb.append("{")
+                .append("name: ").append(name).append(", ")
+                .append("type: ").append(attributeType.toString())
+                .append("}");
+
+        return sb.toString();
+    }
 }
