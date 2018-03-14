@@ -40,4 +40,17 @@ public class InOutStreamModel {
     public void setStreams(List<StreamModel> streams) {
         this.streams = streams;
     }
+
+    @Override
+    public String toString() {
+        StringBuilder sb = new StringBuilder();
+
+        sb.append("{")
+                .append("sources: ").append(sources).append(", ")
+                .append("sinks: ").append(sinks).append(", ")
+                .append("streams: ").append(streams)
+                .append("}");
+
+        return sb.toString();
+    }
 }
