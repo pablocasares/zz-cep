@@ -30,6 +30,8 @@ public class ProcessingModel {
         sb.append("{")
                 .append("rules: ").append(rules)
                 .append("}");
+
+        return sb.toString();
     }
 }
 
