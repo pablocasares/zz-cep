@@ -1,6 +1,7 @@
 package io.wizzie.ks.cep.metrics;
 
-import io.wizzie.ks.cep.builder.config.Config;
+
+import io.wizzie.bootstrapper.builder.Config;
 
 import java.util.ArrayList;
 import java.util.HashMap;
