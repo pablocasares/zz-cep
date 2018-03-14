@@ -1,0 +1,25 @@
+{
+  "sources": [
+    {
+      "streamName": "inputStream",
+      "kafkaTopic": "input"
+    }
+  ],
+  "streams": [
+    {
+      "streamName": "inputStream",
+      "attributes": [
+        {"name": "id", "type": "int"},
+        {"name": "name", "type": "string"},
+        {"name": "process", "type": "bool"},
+        {"name": "value", "type": "double"}
+      ]
+    }
+  ],
+  "sinks": [
+    {
+      "streamName": "outputStream",
+      "kafkaTopic": "output"
+    }
+  ]
+}
