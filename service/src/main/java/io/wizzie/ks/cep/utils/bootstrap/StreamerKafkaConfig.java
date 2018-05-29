@@ -45,7 +45,7 @@ public class StreamerKafkaConfig {
             ProcessingModel model = objectMapper.readValue(streamConfig, ProcessingModel.class);
 
             KafkaProducer<String, String> producer = new KafkaProducer<>(properties);
-            producer.send(new ProducerRecord<>("__cep_bootstrapper", 0, args[1], streamConfig),
+            producer.send(new ProducerRecord<>("__cep_bootstrap", 0, args[1], streamConfig),
                     ((metadata, exception) -> {
                         if (exception == null) {
                             System.out.println(String.format("Wrote processing definition with appID[%s] with offset: %d",
@@ -74,7 +74,7 @@ public class StreamerKafkaConfig {
             );
 
             KafkaConsumer<String, String> restoreConsumer = new KafkaConsumer<>(consumerConfig);
-            TopicPartition storePartition = new TopicPartition("__cep_bootstrapper", 0);
+            TopicPartition storePartition = new TopicPartition("__cep_bootstrap", 0);
             restoreConsumer.assign(Collections.singletonList(storePartition));
 
             // calculate the end offset of the partition
