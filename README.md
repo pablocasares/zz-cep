@@ -2,15 +2,15 @@
 # Cep
 
 Cep is a complex event processing engine based on Siddhi and Kafka. You only need to define a JSON stream where you specify the process logic and how the message are transformed.
-[Try it now!!](https://wizzie.io/zz-cep/getting/base-tutorial.html)
+[Try it now!!](https://wizzie-io.github.io/zz-cep/getting/base-tutorial.html)
 
 ## Documentation
 
-You can find the docs on the [Docs Website](https://wizzie.io/zz-cep/)
+You can find the docs on the [Docs Website](https://wizzie-io.github.io/zz-cep/)
 
 ## Getting Started
 
-You can get started with Cep with this [tutorial](https://wizzie.io/zz-cep/getting/base-tutorial.html).
+You can get started with Cep with this [tutorial](https://wizzie-io.github.io/zz-cep/getting/base-tutorial.html).
 
 ## Compiling Sources
 
