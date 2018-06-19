@@ -1,5 +1,12 @@
+
+<p align="center">
+    <img src="docs/assets/img/zz-cep.logo.svg" alt="ZZ-CEP" title="ZZ-CEP" width="250%"/>
+</p>
+
+[![wizzie-io](https://img.shields.io/badge/powered%20by-wizzie.io-F68D2E.svg)](https://github.com/wizzie-io/)
 [![CircleCI](https://circleci.com/gh/wizzie-io/zz-cep.svg?style=shield&circle-token=845e475c24569ae89a683fcf6b6266a08636a8aa)](https://circleci.com/gh/wizzie-io/zz-cep)
-# Cep
+[![Docs](https://img.shields.io/badge/docs-current-brightgreen.svg)](https://wizzie-io.github.io/zz-cep/) 
+[![GitHub release](https://img.shields.io/github/release/wizzie-io/zz-cep.svg)](https://github.com/wizzie-io/zz-cep/releases/latest) 
 
 Cep is a complex event processing engine based on Siddhi and Kafka. You only need to define a JSON stream where you specify the process logic and how the message are transformed.
 [Try it now!!](https://wizzie-io.github.io/zz-cep/getting/base-tutorial.html)
