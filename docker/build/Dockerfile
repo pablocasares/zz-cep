@@ -25,4 +25,4 @@ ENV GENERAL_LOG_LEVEL info
 
 ENV JVM_OPTIONS -Xmx512m -Xms512m
 
-CMD /bin/cep-start.sh
+CMD exec /bin/cep-start.sh
