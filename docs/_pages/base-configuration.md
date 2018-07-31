@@ -29,9 +29,9 @@ Example configuration file:
 | `application.id`      | This id is used to identify a group of cep instances. Normally this id is used to identify different clients.      |  - |
 | `bootstrap.servers`      | A list of host/port pairs to use for establishing the initial connection to the Kafka cluster. The client will make use of all servers irrespective of which servers are specified here for bootstrapping—this list only impacts the initial hosts used to discover the full set of servers. This list should be in the form `host1:port1,host2:port2`      | - |
 | `num.stream.threads`      | The number of threads to execute stream processing.      | 1 |
-| `bootstrapper.classname`      | The bootstrapper class reference. More info: [Bootstrapper](http://www.wizzie.io/zz-cep/bootstrapper/definition-boostrapper.html)       | - |
+| `bootstrapper.classname`      | The bootstrapper class reference. More info: [Bootstrapper](http://wizzie-io.github.io/zz-cep/bootstrapper/definition-boostrapper.html)       | - |
 | `metric.enable`      | Enable metrics system.      | false |
-| `metric.listeners`      | Array with metrics listeners. More info: [Metrics](http://www.wizzie.io/zz-cep/metrics/configuration.html)      | ["io.wizzie.ks.cep.metrics.ConsoleMetricListener"] |
+| `metric.listeners`      | Array with metrics listeners. More info: [Metrics](http://wizzie-io.github.io/zz-cep/metrics/configuration.html)      | ["io.wizzie.ks.cep.metrics.ConsoleMetricListener"] |
 | `metric.interval`      | Metric report interval (milliseconds)      |  60000 |
 | `metric.enable`      | Enable metrics system.      | false |
 | `multi.id`      | This property is used when you have multiple cep instances with differences `application.id` and the cep uses the same topic names. More Info [Multi Tenant](https://github.com/wizzie-io/zz-cep/zz-cep/conf/multitenant.html)      |  false |

@@ -8,7 +8,7 @@ order: 1
 
 The bootstrapper is the mechanism that is used to load stream config into cep. You can configure the boostrapper class on the config file, using `bootstrapper.classname` property. Currently, the cep has two bootstrappers:
 
-* [FileBootstrapper](https://wizzie.io/zz-cep/bootstrapper/file-boostrapper.html)
-* [KafkaBootstrapper](https://wizzie.io/zz-cep/bootstrapper/kafka-boostrapper.html)
+* [FileBootstrapper](https://wizzie-io.github.io/zz-cep/bootstrapper/file-boostrapper.html)
+* [KafkaBootstrapper](https://wizzie-io.github.io/zz-cep/bootstrapper/kafka-boostrapper.html)
 
 

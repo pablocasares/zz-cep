@@ -8,7 +8,7 @@ date: 2017-08-17 10:57:26
 ## How to get CEP image
 You can pull the docker image from our registry:
 ```
-$ docker pull gcr.io/wizzie-registry/cep:0.1.0
+$ docker pull wizzieio/zz-cep:latest
 ```
 
 ## How to use this image
@@ -39,9 +39,9 @@ You can found more information about `wurstmeister/kafka` image [here](https://h
 Once kafka broker is up, we can start a Cep container and link it to the kafka broker, and configuring the APPLICATION_ID environment variable with our custom app name:
 
 ```
-$ docker run --rm --name my-cep --net=host -e APPLICATION_ID=my-cep-app -e KAFKA_BOOTSTRAP_SERVER=localhost:9092 gcr.io/wizzie-registry/cep:0.1.0
+$ docker run --rm --name my-cep --net=host -e APPLICATION_ID=my-cep-app -e KAFKA_BOOTSTRAP_SERVER=localhost:9092 wizzieio/zz-cep:latest
 ```
-Now you can follow the [base tutorial](http://www.wizzie.io/zz-cep/getting/base-tutorial.html) to test Cep!
+Now you can follow the [base tutorial](http://wizzie-io.github.io/zz-cep/getting/base-tutorial.html) to test Cep!
 
 ### Using environment variables in cep configuration
 
@@ -54,4 +54,4 @@ You can configure the docker image using these environment properties:
 | `METRIC_ENABLE` | Enable the metrics |  true  |
 | `METRIC_INTERVAL`|The interval time to report metrics (milliseconds) | 60000 |
 
-You can found more information about base configuration [here](http://www.wizzie.io/zz-cep/conf/base-configuration.html)
+You can found more information about base configuration [here](http://wizzie-io.github.io/zz-cep/conf/base-configuration.html)
