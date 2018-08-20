@@ -3,7 +3,7 @@
     <parent>
         <artifactId>zz-cep</artifactId>
         <groupId>io.wizzie.cep</groupId>
-        <version>0.3.1-SNAPSHOT</version>
+        <version>0.4.0</version>
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
@@ -194,7 +194,7 @@
         <dependency>
             <groupId>io.wizzie.cep</groupId>
             <artifactId>zz-cep-model</artifactId>
-            <version>0.3.1-SNAPSHOT</version>
+            <version>0.4.0</version>
         </dependency>
 
     </dependencies>
