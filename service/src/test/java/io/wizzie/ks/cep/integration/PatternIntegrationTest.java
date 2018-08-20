@@ -1,10 +1,10 @@
-package io.wizzie.ks.cep.integration;
+package io.wizzie.cep.integration;
 
 import io.wizzie.bootstrapper.builder.Config;
-import io.wizzie.ks.cep.builder.Builder;
-import io.wizzie.ks.cep.controllers.SiddhiController;
-import io.wizzie.ks.cep.serializers.JsonDeserializer;
-import io.wizzie.ks.cep.serializers.JsonSerializer;
+import io.wizzie.cep.builder.Builder;
+import io.wizzie.cep.controllers.SiddhiController;
+import io.wizzie.cep.serializers.JsonDeserializer;
+import io.wizzie.cep.serializers.JsonSerializer;
 import kafka.utils.MockTime;
 import org.apache.kafka.clients.consumer.ConsumerConfig;
 import org.apache.kafka.clients.producer.ProducerConfig;

@@ -125,7 +125,7 @@ We need to modify the config file that is inside the folder `config/sample_confi
   "bootstraper.classname": "io.wizzie.bootstrapper.bootstrappers.impl.KafkaBootstrapper",
   "bootstrap.kafka.topics": ["__cep_bootstrapper"],
   "metric.enable": true,
-  "metric.listeners": ["io.wizzie.ks.cep.metrics.ConsoleMetricListener"],
+  "metric.listeners": ["io.wizzie.cep.metrics.ConsoleMetricListener"],
   "metric.interval": 60000
 }
 ```

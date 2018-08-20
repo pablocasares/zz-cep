@@ -1,7 +1,7 @@
-package io.wizzie.ks.cep.controllers;
+package io.wizzie.cep.controllers;
 
-import io.wizzie.ks.cep.model.*;
-import io.wizzie.ks.cep.parsers.EventsParser;
+import io.wizzie.cep.model.*;
+import io.wizzie.cep.parsers.EventsParser;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.wso2.siddhi.core.SiddhiAppRuntime;

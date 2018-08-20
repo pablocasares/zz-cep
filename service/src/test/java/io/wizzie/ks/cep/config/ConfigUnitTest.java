@@ -1,4 +1,4 @@
-package io.wizzie.ks.cep.config;
+package io.wizzie.cep.config;
 
 import io.wizzie.bootstrapper.builder.Config;
 import org.junit.Test;

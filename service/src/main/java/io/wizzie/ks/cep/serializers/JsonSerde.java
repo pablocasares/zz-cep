@@ -1,4 +1,4 @@
-package io.wizzie.ks.cep.serializers;
+package io.wizzie.cep.serializers;
 
 import org.apache.kafka.common.serialization.Deserializer;
 import org.apache.kafka.common.serialization.Serde;

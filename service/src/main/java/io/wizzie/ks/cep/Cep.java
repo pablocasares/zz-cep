@@ -1,7 +1,7 @@
-package io.wizzie.ks.cep;
+package io.wizzie.cep;
 
 import io.wizzie.bootstrapper.builder.Config;
-import io.wizzie.ks.cep.builder.Builder;
+import io.wizzie.cep.builder.Builder;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -22,7 +22,7 @@ public class Cep {
                 log.info("Stopped CEP process.");
             }));
         } else {
-            log.error("Execute: java -cp ${JAR_PATH} io.wizzie.ks.cep <config_file>");
+            log.error("Execute: java -cp ${JAR_PATH} io.wizzie.cep <config_file>");
         }
     }
 }

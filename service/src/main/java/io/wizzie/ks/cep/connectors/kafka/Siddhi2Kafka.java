@@ -1,6 +1,6 @@
-package io.wizzie.ks.cep.connectors.kafka;
+package io.wizzie.cep.connectors.kafka;
 
-import io.wizzie.ks.cep.parsers.EventsParser;
+import io.wizzie.cep.parsers.EventsParser;
 import org.apache.kafka.clients.producer.KafkaProducer;
 import org.apache.kafka.clients.producer.Producer;
 import org.apache.kafka.clients.producer.ProducerRecord;
@@ -14,8 +14,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.Properties;
 
-import static io.wizzie.ks.cep.builder.config.ConfigProperties.APPLICATION_ID;
-import static io.wizzie.ks.cep.builder.config.ConfigProperties.MULTI_ID;
+import static io.wizzie.cep.builder.config.ConfigProperties.APPLICATION_ID;
+import static io.wizzie.cep.builder.config.ConfigProperties.MULTI_ID;
 
 public class Siddhi2Kafka {
 

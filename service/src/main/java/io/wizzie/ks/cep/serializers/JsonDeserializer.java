@@ -1,4 +1,4 @@
-package io.wizzie.ks.cep.serializers;
+package io.wizzie.cep.serializers;
 
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;

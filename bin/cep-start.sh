@@ -14,4 +14,4 @@ do
     CLASSPATH=${CLASSPATH}:${file}
 done
 
-exec java ${JVM_OPTIONS} -cp ${CLASSPATH} io.wizzie.ks.cep.Cep $1
+exec java ${JVM_OPTIONS} -cp ${CLASSPATH} io.wizzie.cep.Cep $1

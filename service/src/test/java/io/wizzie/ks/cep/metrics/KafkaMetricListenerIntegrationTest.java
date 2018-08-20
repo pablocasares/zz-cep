@@ -1,17 +1,17 @@
-package io.wizzie.ks.cep.metrics;
+package io.wizzie.cep.metrics;
 
 import io.wizzie.bootstrapper.builder.Config;
-import io.wizzie.ks.cep.builder.Builder;
-import io.wizzie.ks.cep.builder.config.ConfigProperties;
-import io.wizzie.ks.cep.serializers.JsonDeserializer;
-import io.wizzie.ks.cep.serializers.JsonSerde;
+import io.wizzie.cep.builder.Builder;
+import io.wizzie.cep.builder.config.ConfigProperties;
+import io.wizzie.cep.serializers.JsonDeserializer;
+import io.wizzie.cep.serializers.JsonSerde;
 import kafka.utils.MockTime;
 import org.apache.kafka.clients.consumer.ConsumerConfig;
 import org.apache.kafka.common.serialization.Serdes;
 import org.apache.kafka.common.serialization.StringDeserializer;
 import org.apache.kafka.common.serialization.StringSerializer;
 import org.apache.kafka.streams.KeyValue;
-import io.wizzie.ks.cep.builder.config.ConfigProperties;
+import io.wizzie.cep.builder.config.ConfigProperties;
 import org.apache.kafka.streams.integration.utils.EmbeddedKafkaCluster;
 import org.apache.kafka.streams.integration.utils.IntegrationTestUtils;
 import org.junit.BeforeClass;

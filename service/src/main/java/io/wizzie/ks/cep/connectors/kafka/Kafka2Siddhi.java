@@ -1,7 +1,7 @@
-package io.wizzie.ks.cep.connectors.kafka;
+package io.wizzie.cep.connectors.kafka;
 
 
-import io.wizzie.ks.cep.parsers.EventsParser;
+import io.wizzie.cep.parsers.EventsParser;
 import org.apache.kafka.clients.consumer.ConsumerRecord;
 import org.apache.kafka.clients.consumer.ConsumerRecords;
 import org.apache.kafka.clients.consumer.KafkaConsumer;
@@ -13,8 +13,8 @@ import org.wso2.siddhi.core.stream.input.InputHandler;
 import java.util.*;
 import java.util.concurrent.Semaphore;
 
-import static io.wizzie.ks.cep.builder.config.ConfigProperties.APPLICATION_ID;
-import static io.wizzie.ks.cep.builder.config.ConfigProperties.MULTI_ID;
+import static io.wizzie.cep.builder.config.ConfigProperties.APPLICATION_ID;
+import static io.wizzie.cep.builder.config.ConfigProperties.MULTI_ID;
 
 
 public class Kafka2Siddhi implements Runnable {

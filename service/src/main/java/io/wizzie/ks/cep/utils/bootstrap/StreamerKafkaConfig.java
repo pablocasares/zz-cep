@@ -1,7 +1,7 @@
-package io.wizzie.ks.cep.utils.bootstrap;
+package io.wizzie.cep.utils.bootstrap;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import io.wizzie.ks.cep.model.ProcessingModel;
+import io.wizzie.cep.model.ProcessingModel;
 import org.apache.kafka.clients.consumer.ConsumerRecord;
 import org.apache.kafka.clients.consumer.KafkaConsumer;
 import org.apache.kafka.clients.producer.KafkaProducer;
@@ -114,7 +114,7 @@ public class StreamerKafkaConfig {
                 System.out.println(String.format("Don't find any processing definition with app id [%s]", args[1]));
             }
         } else {
-            System.out.println("Usage: java -cp cep-selfcontained.jar io.wizzie.ks.cep.utils.bootstrap.StreamerKafkaConfig <bootstrap_kafka_servers> <app_id> [stream_config_path]");
+            System.out.println("Usage: java -cp cep-selfcontained.jar io.wizzie.cep.utils.bootstrap.StreamerKafkaConfig <bootstrap_kafka_servers> <app_id> [stream_config_path]");
         }
     }
 }

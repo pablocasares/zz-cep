@@ -1,4 +1,4 @@
-package io.wizzie.ks.cep.model;
+package io.wizzie.cep.model;
 
 import org.junit.Test;
 

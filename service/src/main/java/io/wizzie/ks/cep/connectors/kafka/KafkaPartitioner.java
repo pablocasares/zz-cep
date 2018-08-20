@@ -1,4 +1,4 @@
-package io.wizzie.ks.cep.connectors.kafka;
+package io.wizzie.cep.connectors.kafka;
 
 import org.apache.kafka.clients.producer.Partitioner;
 import org.apache.kafka.common.Cluster;

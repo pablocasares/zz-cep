@@ -1,4 +1,4 @@
-package io.wizzie.ks.cep.exceptions;
+package io.wizzie.cep.exceptions;
 
 public class SourceNotFoundException extends RuntimeException {
 

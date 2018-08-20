@@ -1,4 +1,4 @@
-package io.wizzie.ks.cep.builder.config;
+package io.wizzie.cep.builder.config;
 
 public class ConfigProperties {
     public static final String BOOTSTRAPER_CLASSNAME = "bootstraper.classname";

@@ -18,7 +18,7 @@ Example configuration file:
   "bootstraper.classname": "io.wizzie.bootstrapper.bootstrappers.impl.KafkaBootstrapper",
   "bootstrap.kafka.topics": ["__cep_bootstrapper"],
   "metric.enable": true,
-  "metric.listeners": ["io.wizzie.ks.cep.metrics.ConsoleMetricListener"],
+  "metric.listeners": ["io.wizzie.cep.metrics.ConsoleMetricListener"],
   "metric.interval": 60000,
   "multi.id": false
 }
@@ -31,7 +31,7 @@ Example configuration file:
 | `num.stream.threads`      | The number of threads to execute stream processing.      | 1 |
 | `bootstrapper.classname`      | The bootstrapper class reference. More info: [Bootstrapper](http://wizzie-io.github.io/zz-cep/bootstrapper/definition-boostrapper.html)       | - |
 | `metric.enable`      | Enable metrics system.      | false |
-| `metric.listeners`      | Array with metrics listeners. More info: [Metrics](http://wizzie-io.github.io/zz-cep/metrics/configuration.html)      | ["io.wizzie.ks.cep.metrics.ConsoleMetricListener"] |
+| `metric.listeners`      | Array with metrics listeners. More info: [Metrics](http://wizzie-io.github.io/zz-cep/metrics/configuration.html)      | ["io.wizzie.cep.metrics.ConsoleMetricListener"] |
 | `metric.interval`      | Metric report interval (milliseconds)      |  60000 |
 | `metric.enable`      | Enable metrics system.      | false |
 | `multi.id`      | This property is used when you have multiple cep instances with differences `application.id` and the cep uses the same topic names. More Info [Multi Tenant](https://github.com/wizzie-io/zz-cep/zz-cep/conf/multitenant.html)      |  false |

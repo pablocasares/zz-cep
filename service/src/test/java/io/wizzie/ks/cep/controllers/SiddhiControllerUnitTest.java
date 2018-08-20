@@ -1,6 +1,6 @@
-package io.wizzie.ks.cep.controllers;
+package io.wizzie.cep.controllers;
 
-import io.wizzie.ks.cep.model.*;
+import io.wizzie.cep.model.*;
 import org.junit.Test;
 
 import java.util.*;

@@ -1,8 +1,8 @@
-package io.wizzie.ks.cep.parsers;
+package io.wizzie.cep.parsers;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import io.wizzie.ks.cep.model.AttributeModel;
-import io.wizzie.ks.cep.model.StreamModel;
+import io.wizzie.cep.model.AttributeModel;
+import io.wizzie.cep.model.StreamModel;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.wso2.siddhi.core.event.Event;
@@ -10,7 +10,7 @@ import org.wso2.siddhi.query.api.definition.Attribute;
 
 import java.util.*;
 
-import static io.wizzie.ks.cep.utils.RuleOptionsConstants.FILTER_OUTPUT_NULL_DIMENSION;
+import static io.wizzie.cep.utils.RuleOptionsConstants.FILTER_OUTPUT_NULL_DIMENSION;
 
 public class EventsParser {
 

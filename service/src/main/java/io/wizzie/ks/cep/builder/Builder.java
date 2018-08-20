@@ -1,12 +1,12 @@
-package io.wizzie.ks.cep.builder;
+package io.wizzie.cep.builder;
 
 import com.codahale.metrics.JmxAttributeGauge;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import io.wizzie.bootstrapper.builder.*;
-import io.wizzie.ks.cep.controllers.SiddhiController;
-import io.wizzie.ks.cep.model.SiddhiAppBuilder;
+import io.wizzie.cep.controllers.SiddhiController;
+import io.wizzie.cep.model.SiddhiAppBuilder;
 import io.wizzie.metrics.MetricsManager;
-import io.wizzie.ks.cep.model.ProcessingModel;
+import io.wizzie.cep.model.ProcessingModel;
 import org.apache.kafka.clients.consumer.ConsumerConfig;
 import org.apache.kafka.streams.KafkaStreams;
 import org.slf4j.Logger;
@@ -17,7 +17,7 @@ import javax.management.ObjectName;
 import java.io.IOException;
 import java.util.Properties;
 
-import static io.wizzie.ks.cep.builder.config.ConfigProperties.*;
+import static io.wizzie.cep.builder.config.ConfigProperties.*;
 import static org.apache.kafka.clients.CommonClientConfigs.BOOTSTRAP_SERVERS_CONFIG;
 import static org.apache.kafka.clients.admin.AdminClientConfig.CLIENT_ID_CONFIG;
 import static org.apache.kafka.clients.consumer.ConsumerConfig.*;
@@ -69,7 +69,7 @@ public class Builder implements Listener {
         consumerProperties.put(ENABLE_AUTO_COMMIT_CONFIG, "true");
         consumerProperties.put(AUTO_COMMIT_INTERVAL_MS_CONFIG, "1000");
         consumerProperties.put(KEY_DESERIALIZER_CLASS_CONFIG, "org.apache.kafka.common.serialization.StringDeserializer");
-        consumerProperties.put(VALUE_DESERIALIZER_CLASS_CONFIG, config.getOrDefault(VALUE_DESERIALIZER, "io.wizzie.ks.cep.serializers.JsonDeserializer"));
+        consumerProperties.put(VALUE_DESERIALIZER_CLASS_CONFIG, config.getOrDefault(VALUE_DESERIALIZER, "io.wizzie.cep.serializers.JsonDeserializer"));
         consumerProperties.put(MULTI_ID, config.getOrDefault(MULTI_ID, false));
 
         Properties producerProperties = new Properties();
@@ -77,8 +77,8 @@ public class Builder implements Listener {
         producerProperties.put(BOOTSTRAP_SERVERS_CONFIG, config.get(KAFKA_CLUSTER));
         producerProperties.put(CLIENT_ID_CONFIG, String.format("%s_%s", config.get(APPLICATION_ID), "zz-cep"));
         producerProperties.put(KEY_SERIALIZER_CLASS_CONFIG, "org.apache.kafka.common.serialization.StringSerializer");
-        producerProperties.put(PARTITIONER_CLASS_CONFIG, "io.wizzie.ks.cep.connectors.kafka.KafkaPartitioner");
-        producerProperties.put(VALUE_SERIALIZER_CLASS_CONFIG, config.getOrDefault(VALUE_SERIALIZER, "io.wizzie.ks.cep.serializers.JsonSerializer"));
+        producerProperties.put(PARTITIONER_CLASS_CONFIG, "io.wizzie.cep.connectors.kafka.KafkaPartitioner");
+        producerProperties.put(VALUE_SERIALIZER_CLASS_CONFIG, config.getOrDefault(VALUE_SERIALIZER, "io.wizzie.cep.serializers.JsonSerializer"));
         producerProperties.put(MULTI_ID, config.getOrDefault(MULTI_ID, false));
         siddhiController.initKafkaController(consumerProperties, producerProperties);
 

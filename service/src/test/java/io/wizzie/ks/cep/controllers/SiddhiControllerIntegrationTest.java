@@ -1,9 +1,9 @@
-package io.wizzie.ks.cep.controllers;
+package io.wizzie.cep.controllers;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import io.wizzie.ks.cep.model.*;
-import io.wizzie.ks.cep.serializers.JsonDeserializer;
-import io.wizzie.ks.cep.serializers.JsonSerializer;
+import io.wizzie.cep.model.*;
+import io.wizzie.cep.serializers.JsonDeserializer;
+import io.wizzie.cep.serializers.JsonSerializer;
 import kafka.utils.MockTime;
 import org.apache.kafka.clients.consumer.ConsumerConfig;
 import org.apache.kafka.clients.producer.ProducerConfig;
@@ -21,8 +21,8 @@ import java.io.IOException;
 import java.util.*;
 import java.util.concurrent.ExecutionException;
 
-import static io.wizzie.ks.cep.builder.config.ConfigProperties.APPLICATION_ID;
-import static io.wizzie.ks.cep.builder.config.ConfigProperties.MULTI_ID;
+import static io.wizzie.cep.builder.config.ConfigProperties.APPLICATION_ID;
+import static io.wizzie.cep.builder.config.ConfigProperties.MULTI_ID;
 import static org.apache.kafka.clients.producer.ProducerConfig.PARTITIONER_CLASS_CONFIG;
 import static org.junit.Assert.assertEquals;
 
@@ -81,14 +81,14 @@ public class SiddhiControllerIntegrationTest {
         consumerNoMultiIdProperties.put("enable.auto.commit", "true");
         consumerNoMultiIdProperties.put("auto.commit.interval.ms", "1000");
         consumerNoMultiIdProperties.put("key.deserializer", StringDeserializer.class.getName());
-        consumerNoMultiIdProperties.put("value.deserializer", "io.wizzie.ks.cep.serializers.JsonDeserializer");
+        consumerNoMultiIdProperties.put("value.deserializer", "io.wizzie.cep.serializers.JsonDeserializer");
         //Property just needed for testing.
         consumerNoMultiIdProperties.put(ConsumerConfig.AUTO_OFFSET_RESET_CONFIG, "earliest");
 
         producerNoMultiIdProperties.put("bootstrap.servers", CLUSTER.bootstrapServers());
         producerNoMultiIdProperties.put("key.serializer", "org.apache.kafka.common.serialization.StringSerializer");
-        producerNoMultiIdProperties.put("value.serializer", "io.wizzie.ks.cep.serializers.JsonSerializer");
-        producerNoMultiIdProperties.put(PARTITIONER_CLASS_CONFIG, "io.wizzie.ks.cep.connectors.kafka.KafkaPartitioner");
+        producerNoMultiIdProperties.put("value.serializer", "io.wizzie.cep.serializers.JsonSerializer");
+        producerNoMultiIdProperties.put(PARTITIONER_CLASS_CONFIG, "io.wizzie.cep.connectors.kafka.KafkaPartitioner");
 
 
     }
@@ -994,7 +994,7 @@ public class SiddhiControllerIntegrationTest {
         internalConsumerProperties.put("enable.auto.commit", "true");
         internalConsumerProperties.put("auto.commit.interval.ms", "1000");
         internalConsumerProperties.put("key.deserializer", StringDeserializer.class.getName());
-        internalConsumerProperties.put("value.deserializer", "io.wizzie.ks.cep.serializers.JsonDeserializer");
+        internalConsumerProperties.put("value.deserializer", "io.wizzie.cep.serializers.JsonDeserializer");
         internalConsumerProperties.put(APPLICATION_ID, "aabb");
         internalConsumerProperties.put(MULTI_ID, true);
         //Property just needed for testing.
@@ -1003,8 +1003,8 @@ public class SiddhiControllerIntegrationTest {
         Properties internalProducerProperties = new Properties();
         internalProducerProperties.put("bootstrap.servers", CLUSTER.bootstrapServers());
         internalProducerProperties.put("key.serializer", "org.apache.kafka.common.serialization.StringSerializer");
-        internalProducerProperties.put("value.serializer", "io.wizzie.ks.cep.serializers.JsonSerializer");
-        internalProducerProperties.put(PARTITIONER_CLASS_CONFIG, "io.wizzie.ks.cep.connectors.kafka.KafkaPartitioner");
+        internalProducerProperties.put("value.serializer", "io.wizzie.cep.serializers.JsonSerializer");
+        internalProducerProperties.put(PARTITIONER_CLASS_CONFIG, "io.wizzie.cep.connectors.kafka.KafkaPartitioner");
         internalProducerProperties.put(APPLICATION_ID, "aabb");
         internalProducerProperties.put(MULTI_ID, true);
 
