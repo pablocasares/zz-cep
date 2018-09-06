@@ -3,7 +3,6 @@ package io.wizzie.cep.model;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.wso2.siddhi.core.SiddhiAppRuntime;
 import org.wso2.siddhi.core.SiddhiManager;
 
 import java.util.HashMap;

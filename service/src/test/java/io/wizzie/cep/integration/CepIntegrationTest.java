@@ -14,8 +14,6 @@ import org.apache.kafka.common.serialization.StringSerializer;
 import org.apache.kafka.streams.KeyValue;
 import org.apache.kafka.streams.integration.utils.EmbeddedKafkaCluster;
 import org.apache.kafka.streams.integration.utils.IntegrationTestUtils;
-import org.junit.AfterClass;
-import org.junit.BeforeClass;
 import org.junit.ClassRule;
 import org.junit.Test;
 
@@ -27,8 +25,7 @@ import java.util.*;
 
 import static org.junit.Assert.assertEquals;
 
-public class PatternIntegrationTest {
-
+public class CepIntegrationTest {
 
     private static int NUM_BROKERS = 1;
 
@@ -37,10 +34,10 @@ public class PatternIntegrationTest {
     private final static MockTime MOCK_TIME = CLUSTER.time;
 
     @Test
-    public void patternTest() throws Exception {
+    public void simpleFilterTest() throws Exception {
         Config config = new Config();
-
-        config.put("application.id", "test3");
+        String appId = UUID.randomUUID().toString();
+        config.put("application.id", "test1");
         config.put("bootstrap.servers", CLUSTER.bootstrapServers());
         config.put("num.stream.threads", 1);
         config.put("bootstraper.classname", "io.wizzie.bootstrapper.bootstrappers.impl.KafkaBootstrapper");
@@ -63,28 +60,18 @@ public class PatternIntegrationTest {
         producerConfig.put(ProducerConfig.KEY_SERIALIZER_CLASS_CONFIG, Serdes.String().serializer().getClass());
         producerConfig.put(ProducerConfig.VALUE_SERIALIZER_CLASS_CONFIG, StringSerializer.class);
         ClassLoader classLoader = Thread.currentThread().getContextClassLoader();
-        File file = new File(classLoader.getResource("pattern_query.json").getFile());
+        File file = new File(classLoader.getResource("simple_query.json").getFile());
 
         String jsonConfig = getFileContent(file);
 
-        KeyValue<String, String> jsonConfigKv = new KeyValue<>("test3", jsonConfig);
+        KeyValue<String, String> jsonConfigKv = new KeyValue<>("test1", jsonConfig);
         IntegrationTestUtils.produceKeyValuesSynchronously("__cep_bootstrap", Collections.singletonList(jsonConfigKv), producerConfig, MOCK_TIME);
 
         Map<String, Object> message1 = new HashMap<>();
 
         message1.put("timestamp", 1122334455L);
-        message1.put("roomNo", 1L);
-        message1.put("temp", 5L);
 
         KeyValue<String, Map<String, Object>> kvStream1 = new KeyValue<>("KEY_A", message1);
-
-        Map<String, Object> message2 = new HashMap<>();
-
-        message2.put("timestamp", 1122334456L);
-        message2.put("roomNo", 1L);
-        message2.put("temp", 11L);
-
-        KeyValue<String, Map<String, Object>> kvStream2 = new KeyValue<>("KEY_A", message2);
 
         Properties producerConfigA = new Properties();
         producerConfigA.put(ProducerConfig.BOOTSTRAP_SERVERS_CONFIG, CLUSTER.bootstrapServers());
@@ -93,8 +80,8 @@ public class PatternIntegrationTest {
         producerConfigA.put(ProducerConfig.KEY_SERIALIZER_CLASS_CONFIG, Serdes.String().serializer().getClass());
         producerConfigA.put(ProducerConfig.VALUE_SERIALIZER_CLASS_CONFIG, JsonSerializer.class);
 
-        IntegrationTestUtils.produceKeyValuesSynchronously("kafkainput3", Collections.singletonList(kvStream1), producerConfigA, MOCK_TIME);
-        IntegrationTestUtils.produceKeyValuesSynchronously("kafkainput3", Collections.singletonList(kvStream2), producerConfigA, MOCK_TIME);
+        IntegrationTestUtils.produceKeyValuesSynchronously("kafkainput", Collections.singletonList(kvStream1), producerConfigA, MOCK_TIME);
+
         Properties consumerConfig = new Properties();
         consumerConfig.put(ConsumerConfig.BOOTSTRAP_SERVERS_CONFIG, CLUSTER.bootstrapServers());
         consumerConfig.put(ConsumerConfig.GROUP_ID_CONFIG, "test-group-consumer-A");
@@ -102,18 +89,18 @@ public class PatternIntegrationTest {
         consumerConfig.put(ConsumerConfig.VALUE_DESERIALIZER_CLASS_CONFIG, JsonDeserializer.class);
         consumerConfig.put(ConsumerConfig.AUTO_OFFSET_RESET_CONFIG, "earliest");
 
-        List<KeyValue<String, Map<String, Object>>> receivedMessagesFromOutput = IntegrationTestUtils.waitUntilMinKeyValueRecordsReceived(consumerConfig, "kafkaoutput3", 1);
+        List<KeyValue<String, Map<String, Object>>> receivedMessagesFromOutput = IntegrationTestUtils.waitUntilMinKeyValueRecordsReceived(consumerConfig, "kafkaoutput", 1);
 
         Map<String, Object> expectedData = new HashMap<>();
-        expectedData.put("roomNo", 1L);
-        expectedData.put("initialTemp", 5L);
-        expectedData.put("finalTemp", 11L);
+        expectedData.put("timestamp", 1122334455L);
 
-
-        KeyValue<String, Map<String, Object>> expectedDataKv = new KeyValue<>(null, expectedData);
+        KeyValue<String, Map<String, Object>> expectedDataKv = new KeyValue<>("KEY_A", expectedData);
 
         assertEquals(Collections.singletonList(expectedDataKv), receivedMessagesFromOutput);
+
+        builder.close();
     }
+
 
     private static String getFileContent(File file) throws IOException {
         BufferedReader bufferedReader = new BufferedReader(new FileReader(file));
@@ -121,6 +108,7 @@ public class PatternIntegrationTest {
         StringBuilder stringBuffer = new StringBuilder();
         String line;
         while ((line = bufferedReader.readLine()) != null) {
+
             stringBuffer.append(line).append("\n");
         }
         return stringBuffer.toString();

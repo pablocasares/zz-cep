@@ -7,14 +7,12 @@ import io.wizzie.cep.controllers.SiddhiController;
 import io.wizzie.cep.model.SiddhiAppBuilder;
 import io.wizzie.metrics.MetricsManager;
 import io.wizzie.cep.model.ProcessingModel;
-import org.apache.kafka.clients.consumer.ConsumerConfig;
 import org.apache.kafka.streams.KafkaStreams;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import javax.management.MalformedObjectNameException;
 import javax.management.ObjectName;
-import java.io.IOException;
 import java.util.Properties;
 
 import static io.wizzie.cep.builder.config.ConfigProperties.*;

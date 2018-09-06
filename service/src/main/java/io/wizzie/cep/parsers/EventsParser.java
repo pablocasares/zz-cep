@@ -1,6 +1,5 @@
 package io.wizzie.cep.parsers;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
 import io.wizzie.cep.model.AttributeModel;
 import io.wizzie.cep.model.StreamModel;
 import org.slf4j.Logger;

@@ -14,8 +14,6 @@ import org.apache.kafka.common.serialization.StringSerializer;
 import org.apache.kafka.streams.KeyValue;
 import org.apache.kafka.streams.integration.utils.EmbeddedKafkaCluster;
 import org.apache.kafka.streams.integration.utils.IntegrationTestUtils;
-import org.junit.AfterClass;
-import org.junit.BeforeClass;
 import org.junit.ClassRule;
 import org.junit.Test;
 
@@ -27,7 +25,7 @@ import java.util.*;
 
 import static org.junit.Assert.assertEquals;
 
-public class CepIntegrationTest {
+public class StreamsIntegrationTest {
 
     private static int NUM_BROKERS = 1;
 
@@ -36,10 +34,9 @@ public class CepIntegrationTest {
     private final static MockTime MOCK_TIME = CLUSTER.time;
 
     @Test
-    public void simpleFilterTest() throws Exception {
+    public void streamsTest() throws Exception {
         Config config = new Config();
-        String appId = UUID.randomUUID().toString();
-        config.put("application.id", "test1");
+        config.put("application.id", "test4");
         config.put("bootstrap.servers", CLUSTER.bootstrapServers());
         config.put("num.stream.threads", 1);
         config.put("bootstraper.classname", "io.wizzie.bootstrapper.bootstrappers.impl.KafkaBootstrapper");
@@ -62,18 +59,19 @@ public class CepIntegrationTest {
         producerConfig.put(ProducerConfig.KEY_SERIALIZER_CLASS_CONFIG, Serdes.String().serializer().getClass());
         producerConfig.put(ProducerConfig.VALUE_SERIALIZER_CLASS_CONFIG, StringSerializer.class);
         ClassLoader classLoader = Thread.currentThread().getContextClassLoader();
-        File file = new File(classLoader.getResource("simple_query.json").getFile());
+        File file = new File(classLoader.getResource("streams_query.json").getFile());
 
         String jsonConfig = getFileContent(file);
 
-        KeyValue<String, String> jsonConfigKv = new KeyValue<>("test1", jsonConfig);
+        KeyValue<String, String> jsonConfigKv = new KeyValue<>("test4", jsonConfig);
         IntegrationTestUtils.produceKeyValuesSynchronously("__cep_bootstrap", Collections.singletonList(jsonConfigKv), producerConfig, MOCK_TIME);
 
         Map<String, Object> message1 = new HashMap<>();
 
         message1.put("timestamp", 1122334455L);
-
         KeyValue<String, Map<String, Object>> kvStream1 = new KeyValue<>("KEY_A", message1);
+
+        Map<String, Object> message2 = new HashMap<>();
 
         Properties producerConfigA = new Properties();
         producerConfigA.put(ProducerConfig.BOOTSTRAP_SERVERS_CONFIG, CLUSTER.bootstrapServers());
@@ -82,7 +80,9 @@ public class CepIntegrationTest {
         producerConfigA.put(ProducerConfig.KEY_SERIALIZER_CLASS_CONFIG, Serdes.String().serializer().getClass());
         producerConfigA.put(ProducerConfig.VALUE_SERIALIZER_CLASS_CONFIG, JsonSerializer.class);
 
-        IntegrationTestUtils.produceKeyValuesSynchronously("kafkainput", Collections.singletonList(kvStream1), producerConfigA, MOCK_TIME);
+        IntegrationTestUtils.produceKeyValuesSynchronously("kafkainput4", Collections.singletonList(kvStream1), producerConfigA, MOCK_TIME);
+        IntegrationTestUtils.produceKeyValuesSynchronously("kafkainput5", Collections.singletonList(kvStream1), producerConfigA, MOCK_TIME);
+        IntegrationTestUtils.produceKeyValuesSynchronously("kafkainput6", Collections.singletonList(kvStream1), producerConfigA, MOCK_TIME);
 
         Properties consumerConfig = new Properties();
         consumerConfig.put(ConsumerConfig.BOOTSTRAP_SERVERS_CONFIG, CLUSTER.bootstrapServers());
@@ -91,18 +91,18 @@ public class CepIntegrationTest {
         consumerConfig.put(ConsumerConfig.VALUE_DESERIALIZER_CLASS_CONFIG, JsonDeserializer.class);
         consumerConfig.put(ConsumerConfig.AUTO_OFFSET_RESET_CONFIG, "earliest");
 
-        List<KeyValue<String, Map<String, Object>>> receivedMessagesFromOutput = IntegrationTestUtils.waitUntilMinKeyValueRecordsReceived(consumerConfig, "kafkaoutput", 1);
+        List<KeyValue<String, Map<String, Object>>> receivedMessagesFromOutput = IntegrationTestUtils.waitUntilMinKeyValueRecordsReceived(consumerConfig, "kafkaoutput4", 3);
 
         Map<String, Object> expectedData = new HashMap<>();
         expectedData.put("timestamp", 1122334455L);
 
         KeyValue<String, Map<String, Object>> expectedDataKv = new KeyValue<>("KEY_A", expectedData);
-
-        assertEquals(Collections.singletonList(expectedDataKv), receivedMessagesFromOutput);
-
-        builder.close();
+        List<KeyValue<String, Map<String, Object>>> expectedDataList = new ArrayList<>();
+        expectedDataList.add(expectedDataKv);
+        expectedDataList.add(expectedDataKv);
+        expectedDataList.add(expectedDataKv);
+        assertEquals(expectedDataList, receivedMessagesFromOutput);
     }
-
 
     private static String getFileContent(File file) throws IOException {
         BufferedReader bufferedReader = new BufferedReader(new FileReader(file));
@@ -110,7 +110,6 @@ public class CepIntegrationTest {
         StringBuilder stringBuffer = new StringBuilder();
         String line;
         while ((line = bufferedReader.readLine()) != null) {
-
             stringBuffer.append(line).append("\n");
         }
         return stringBuffer.toString();
