@@ -7,14 +7,14 @@
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
-    <artifactId>${project.parent.artifactId}-service</artifactId>
+    <artifactId>service</artifactId>
 
     <properties>
         <kafka.version>1.1.0</kafka.version>
         <dropwizard.version>3.1.0</dropwizard.version>
         <precondition.version>0.1.5</precondition.version>
-        <config-bootstrapper.version>0.0.6</config-bootstrapper.version>
-        <metrics-library.version>0.0.3</metrics-library.version>
+        <config-bootstrapper.version>0.0.7</config-bootstrapper.version>
+        <metrics-library.version>0.0.4</metrics-library.version>
     </properties>
 
     <dependencies>
@@ -193,7 +193,7 @@
         </dependency>
         <dependency>
             <groupId>io.wizzie.cep</groupId>
-            <artifactId>zz-cep-model</artifactId>
+            <artifactId>model</artifactId>
             <version>0.4.2-SNAPSHOT</version>
         </dependency>
 
