@@ -1,0 +1,28 @@
+docs:
+- title: Home
+  url: /
+- title: Getting Started
+  children:
+  - title: Base Tutorial
+    url: /getting_started/base_tutorial
+
+- title: Configuration
+  children:
+  - title: Base Configuration
+    url: /configuration/base_configuration
+  - title: Stream Configuration
+    url: /configuration/stream_configuration
+  - title: Bootstrapper
+    url: /configuration/bootstrapper
+  - title: Metrics
+    url: /configuration/metrics
+  - title: Multi Tenant
+    url: /configuration/multi_tenant
+  - title: Kafka Key
+    url: /configuration/kafka_key
+
+- title: Docker
+  children:
+  - title: Docker Configuration
+    url: /docker/docker_configuration
+
