@@ -1,6 +1,6 @@
 
 <p align="center">
-    <img src="docs/assets/img/zz-cep.logo.svg" alt="ZZ-CEP" title="ZZ-CEP" width="250%"/>
+    <img src="docs/assets/images/logo.svg" alt="ZZ-CEP" title="ZZ-CEP" width="250%"/>
 </p>
 
 [![CircleCI](https://circleci.com/gh/wizzie-io/zz-cep/tree/master.svg?style=svg)](https://circleci.com/gh/wizzie-io/zz-cep/tree/master)
@@ -13,7 +13,7 @@ Cep is a complex event processing engine based on Siddhi and Kafka. You only nee
 
 ## Documentation
 
-You can find the docs on the [Docs Website](https://wizzie-io.github.io/zz-cep/)
+You can find the cep.logo.svgdocs on the [Docs Website](https://wizzie-io.github.io/zz-cep/)
 
 ## Getting Started
 
