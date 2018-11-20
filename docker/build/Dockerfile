@@ -18,6 +18,7 @@ ENV METRIC_ENABLE true
 ENV METRIC_INTERVAL 60000
 ENV METRIC_KAFKA_TOPIC __metrics
 ENV MULTI_ID false
+ENV BOOTSTRAP_CLASSNAME io.wizzie.bootstrapper.bootstrappers.impl.KafkaBootstrapper
 ENV BOOTSTRAP_KAFKA_TOPICS [\"__cep_bootstrap\"]
 
 ENV LOG_LEVEL info
