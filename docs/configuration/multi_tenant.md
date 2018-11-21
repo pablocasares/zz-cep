@@ -4,7 +4,7 @@ layout: single
 toc: false
 ---
 
-The Cep service has a multi tenant mode, on this mode it prefix the `application.id` automatically on all the Kafka topics, except the bootstraper and the metrics topic.
+The Cep service has a multi tenant mode, on this mode it prefix the `application.id` automatically on all the Kafka topics, except the bootstrapper and the metrics topic.
 
 On this mode when you define a processing model, for example:
 

@@ -1,7 +1,7 @@
 {
   "application.id": "${APPLICATION_ID}",
   "bootstrap.servers": "${KAFKA_BOOTSTRAP_SERVER}",
-  "bootstraper.classname": "io.wizzie.bootstrapper.bootstrappers.impl.KafkaBootstrapper",
+  "bootstrapper.classname": "io.wizzie.bootstrapper.bootstrappers.impl.KafkaBootstrapper",
   "bootstrap.kafka.topics": ${BOOTSTRAP_KAFKA_TOPICS},
   "metric.kafka.topic": "${METRIC_KAFKA_TOPIC}",
   "multi.id": ${MULTI_ID},

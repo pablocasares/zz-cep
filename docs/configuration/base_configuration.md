@@ -13,7 +13,7 @@ Example configuration file:
   "application.id": "cep-instance-id",
   "bootstrap.servers": "localhost:9092",
   "num.stream.threads": 1,
-  "bootstraper.classname": "io.wizzie.bootstrapper.bootstrappers.impl.KafkaBootstrapper",
+  "bootstrapper.classname": "io.wizzie.bootstrapper.bootstrappers.impl.KafkaBootstrapper",
   "bootstrap.kafka.topics": ["__cep_bootstrapper"],
   "metric.enable": true,
   "metric.listeners": ["io.wizzie.cep.metrics.ConsoleMetricListener"],

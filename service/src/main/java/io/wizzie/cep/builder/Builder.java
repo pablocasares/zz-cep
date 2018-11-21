@@ -81,7 +81,7 @@ public class Builder implements Listener {
         siddhiController.initKafkaController(consumerProperties, producerProperties);
 
         bootstrapper = BootstrapperBuilder.makeBuilder()
-                .boostrapperClass(config.get(BOOTSTRAPER_CLASSNAME))
+                .boostrapperClass(config.get(BOOTSTRAPPER_CLASSNAME))
                 .withConfigInstance(config)
                 .listener(this)
                 .build();

@@ -40,7 +40,7 @@ public class DifferentOutputTest {
         config.put("application.id", "test2");
         config.put("bootstrap.servers", CLUSTER2.bootstrapServers());
         config.put("num.stream.threads", 1);
-        config.put("bootstraper.classname", "io.wizzie.bootstrapper.bootstrappers.impl.KafkaBootstrapper");
+        config.put("bootstrapper.classname", "io.wizzie.bootstrapper.bootstrappers.impl.KafkaBootstrapper");
         List<String> bootstrapTopics = new LinkedList<>();
         bootstrapTopics.add("__cep_bootstrap");
         config.put("bootstrap.kafka.topics", bootstrapTopics);
