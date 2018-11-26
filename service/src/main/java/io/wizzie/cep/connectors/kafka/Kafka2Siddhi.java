@@ -12,23 +12,25 @@ import org.wso2.siddhi.core.stream.input.InputHandler;
 
 import java.util.*;
 import java.util.concurrent.Semaphore;
+import java.util.concurrent.TimeUnit;
+import java.util.concurrent.atomic.AtomicBoolean;
 
 import static io.wizzie.cep.builder.config.ConfigProperties.APPLICATION_ID;
 import static io.wizzie.cep.builder.config.ConfigProperties.MULTI_ID;
 
 
 public class Kafka2Siddhi implements Runnable {
-
     private KafkaConsumer consumer;
     private Map<String, String> topics2Siddhi = new HashMap<>();
-    private Map<String, Map<String,String>> inputMapper = new HashMap<>();
+    private Map<String, Map<String, String>> inputMapper = new HashMap<>();
     Map<String, Map<String, InputHandler>> inputHandlers = new HashMap<>();
     EventsParser eventsParser;
     Semaphore mutex;
     private static final Logger log = LoggerFactory.getLogger(Kafka2Siddhi.class);
     private boolean multiId = false;
     private String applicationId;
-
+    Object subscribed = new Object();
+    AtomicBoolean running = new AtomicBoolean(true);
 
     public Kafka2Siddhi(Properties consumerProperties) {
         mutex = new Semaphore(1);
@@ -43,38 +45,35 @@ public class Kafka2Siddhi implements Runnable {
     @Override
     public void run() {
         try {
-            while (true) {
-                log.trace("Consumer acquiring mutex");
-                mutex.acquire();
-                ConsumerRecords<String, Map<String, Object>> records = null;
-                try {
-                    log.trace("Consumer starts poll. It will stay at this line if the consumer can't connect to Kafka.");
-                    records = consumer.poll(100);
-                } catch (IllegalStateException e) {
-                    //ignore if consumer not subscribed
-                } finally {
-                }
+            while (running.get()) {
+                if (!consumer.subscription().isEmpty()) {
+                    log.trace("Consumer acquiring mutex");
+                    mutex.acquire();
 
-                if (records != null) {
-                    //iterate over received events
-                    for (ConsumerRecord<String, Map<String, Object>> record : records) {
-                        log.debug("Consumed event: " + record.key() + " --> " + record.value());
-                        //iterate over topics-->stream names relations
-                        log.debug("Current topics2Siddhi relations: " + topics2Siddhi.toString());
-                        for (Map.Entry<String, String> topics2SiddhiEntry : topics2Siddhi.entrySet()) {
-                            //if the received event belongs to a concrete topic
-                            if (topics2SiddhiEntry.getKey().equals(record.topic())) {
-                                log.debug("Received event belogs to stream: " + topics2SiddhiEntry.getValue());
-                                //iterate over all rules --> inputhandlers relations
-                                for (Map.Entry<String, Map<String, InputHandler>> inputHandlersEntry : inputHandlers.entrySet()) {
-                                    //iterate over streams --> inputhandlers relations
-                                    for (Map.Entry<String, InputHandler> stream2InputHandler : inputHandlersEntry.getValue().entrySet()) {
-                                        //if this topic belongs to this stream2InputHandler send it:
-                                        if (stream2InputHandler.getKey().equals(topics2SiddhiEntry.getValue())) {
-                                            log.debug("This event from topic: " + record.topic() + " belongs to stream: " + stream2InputHandler.getKey() + ". Sending it to: " + stream2InputHandler.getValue().toString());
-                                            if (record.value() != null) {
-                                                Object[] data = eventsParser.parseToObjectArray(topics2SiddhiEntry.getValue(), record.key(), record.value(), inputMapper);
-                                                stream2InputHandler.getValue().send(data);
+                    log.trace("Consumer starts poll. It will stay at this line if the consumer can't connect to Kafka.");
+                    ConsumerRecords<String, Map<String, Object>> records = consumer.poll(500);
+
+                    if (records != null) {
+                        //iterate over received events
+                        for (ConsumerRecord<String, Map<String, Object>> record : records) {
+                            log.debug("Consumed event: " + record.key() + " --> " + record.value());
+                            //iterate over topics-->stream names relations
+                            log.debug("Current topics2Siddhi relations: " + topics2Siddhi.toString());
+                            for (Map.Entry<String, String> topics2SiddhiEntry : topics2Siddhi.entrySet()) {
+                                //if the received event belongs to a concrete topic
+                                if (topics2SiddhiEntry.getKey().equals(record.topic())) {
+                                    log.debug("Received event belogs to stream: " + topics2SiddhiEntry.getValue());
+                                    //iterate over all rules --> inputhandlers relations
+                                    for (Map.Entry<String, Map<String, InputHandler>> inputHandlersEntry : inputHandlers.entrySet()) {
+                                        //iterate over streams --> inputhandlers relations
+                                        for (Map.Entry<String, InputHandler> stream2InputHandler : inputHandlersEntry.getValue().entrySet()) {
+                                            //if this topic belongs to this stream2InputHandler send it:
+                                            if (stream2InputHandler.getKey().equals(topics2SiddhiEntry.getValue())) {
+                                                log.debug("This event from topic: " + record.topic() + " belongs to stream: " + stream2InputHandler.getKey() + ". Sending it to: " + stream2InputHandler.getValue().toString());
+                                                if (record.value() != null) {
+                                                    Object[] data = eventsParser.parseToObjectArray(topics2SiddhiEntry.getValue(), record.key(), record.value(), inputMapper);
+                                                    stream2InputHandler.getValue().send(data);
+                                                }
                                             }
                                         }
                                     }
@@ -82,18 +81,24 @@ public class Kafka2Siddhi implements Runnable {
                             }
                         }
                     }
+
+                    log.trace("Consumer releasing mutex");
+                    mutex.release();
+                } else {
+                    log.info("Waiting to subscribe to some topic");
+                    synchronized (subscribed) {
+                        subscribed.wait();
+                    }
+                    log.info("Start to consume from topics {}", consumer.subscription());
                 }
-                log.trace("Consumer releasing mutex");
-                mutex.release();
             }
         } catch (WakeupException e) {
             // ignore for shutdown
         } catch (InterruptedException e) {
             log.error(e.getMessage());
         } finally {
-            consumer.close();
+            consumer.close(1, TimeUnit.MINUTES);
         }
-
     }
 
     public void subscribe(Map<String, String> kafka2Siddhi, Map<String, Map<String, InputHandler>> inputHandlers, Map<String, Map<String, String>> inputRenames) {
@@ -134,10 +139,17 @@ public class Kafka2Siddhi implements Runnable {
             mutex.release();
         }
         log.debug("Subscribed");
+
+        synchronized (subscribed) {
+            subscribed.notifyAll();
+        }
     }
 
     public void shutdown() {
+        running.set(false);
+        synchronized (subscribed) {
+            subscribed.notifyAll();
+        }
         consumer.wakeup();
     }
-
 }
