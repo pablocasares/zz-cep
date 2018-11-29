@@ -35,11 +35,11 @@
     </scm>
 
     <properties>
-        <kafka.version>1.1.0</kafka.version>
+        <kafka.version>2.1.0</kafka.version>
         <dropwizard.version>3.1.0</dropwizard.version>
         <precondition.version>0.1.5</precondition.version>
-        <config-bootstrapper.version>0.0.9</config-bootstrapper.version>
-        <metrics-library.version>0.0.6</metrics-library.version>
+        <config-bootstrapper.version>0.0.10</config-bootstrapper.version>
+        <metrics-library.version>0.0.7</metrics-library.version>
         <jackson.version>2.9.5</jackson.version>
     </properties>
 
