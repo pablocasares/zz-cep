@@ -8,7 +8,7 @@
     <parent>
         <artifactId>zz-cep</artifactId>
         <groupId>io.wizzie.cep</groupId>
-        <version>0.4.2-SNAPSHOT</version>
+        <version>0.5.0</version>
     </parent>
 
     <artifactId>distribution</artifactId>
