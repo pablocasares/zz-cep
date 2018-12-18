@@ -1,7 +1,7 @@
 {
   "application.id": "${APPLICATION_ID}",
   "bootstrap.servers": "${KAFKA_BOOTSTRAP_SERVER}",
-  "bootstraper.classname": "${BOOTSTRAP_CLASSNAME}",
+  "bootstrapper.classname": "${BOOTSTRAP_CLASSNAME}",
   "bootstrap.kafka.topics": ${BOOTSTRAP_KAFKA_TOPICS},
   "file.bootstrapper.path": "${BOOTSTRAP_FILEPATH}",
   "metric.kafka.topic": "${METRIC_KAFKA_TOPIC}",
