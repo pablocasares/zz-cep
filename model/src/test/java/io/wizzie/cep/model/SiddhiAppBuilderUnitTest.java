@@ -30,7 +30,7 @@ public class SiddhiAppBuilderUnitTest {
         SourceModel sourceModel = new SourceModel("streamName", "kafkaTopic", null);
         SinkModel sinkModel = new SinkModel("sinkName", "kafkaTopic", null);
         StreamMapModel streamMapModel = new StreamMapModel(Arrays.asList(sourceModel), Arrays.asList(sinkModel));
-        String streamDefinition = siddhiAppBuilder.generateRuleDefinition(new RuleModel("1", "v1", streamMapModel, "myExecutionPlan", null));
+        String streamDefinition = siddhiAppBuilder.generateRuleDefinition(new RuleModel("1", streamMapModel, "myExecutionPlan", null));
 
         assertEquals("@info(name = '1') myExecutionPlan ;",streamDefinition);
     }
@@ -41,7 +41,7 @@ public class SiddhiAppBuilderUnitTest {
         SinkModel sinkModel = new SinkModel("sinkName", "kafkaTopic", null);
         StreamMapModel streamMapModel = new StreamMapModel(Arrays.asList(sourceModel), Arrays.asList(sinkModel));
         List<RuleModel> rules = Arrays.asList(
-                new RuleModel("1", "v1", streamMapModel, "from streamName select * insert into sinkName", null)
+                new RuleModel("1", streamMapModel, "from streamName select * insert into sinkName", null)
         );
 
         List<StreamModel> streamsModel = Arrays.asList(
@@ -61,7 +61,7 @@ public class SiddhiAppBuilderUnitTest {
         SinkModel sinkModel = new SinkModel("sinkName", "kafkaTopic", null);
         StreamMapModel streamMapModel = new StreamMapModel(Arrays.asList(sourceModel), Arrays.asList(sinkModel));
         List<RuleModel> rules = Arrays.asList(
-                new RuleModel("1", "v1", streamMapModel, "from streamName selecst * insert into sinkName", null)
+                new RuleModel("1", streamMapModel, "from streamName selecst * insert into sinkName", null)
         );
 
         List<StreamModel> streamsModel = Arrays.asList(

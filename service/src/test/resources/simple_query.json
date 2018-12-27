@@ -13,7 +13,6 @@
   "rules": [
     {
       "id": "1",
-      "version": "v1",
       "streams": {
         "in": [
           {

@@ -126,12 +126,11 @@ public class SiddhiControllerIntegrationTest {
         sinkModelList.add(sinkModel);
 
         String id = "rule1";
-        String version = "v1";
         String executionPlan = "from stream1 select * insert into streamoutput1";
 
         StreamMapModel streamMapModel = new StreamMapModel(sourceModelList, sinkModelList);
 
-        RuleModel ruleModelObject = new RuleModel(id, version, streamMapModel, executionPlan, null);
+        RuleModel ruleModelObject = new RuleModel(id, streamMapModel, executionPlan, null);
 
         List<RuleModel> ruleModelList = new LinkedList<>();
         ruleModelList.add(ruleModelObject);
@@ -232,12 +231,11 @@ public class SiddhiControllerIntegrationTest {
         sinkModelList.add(sinkModel);
 
         String id = "rule2";
-        String version = "v1";
         String executionPlan = "from stream2 select * insert into streamoutput2";
 
         StreamMapModel streamMapModel = new StreamMapModel(Arrays.asList(sourceModel), Arrays.asList(sinkModel));
 
-        RuleModel ruleModelObject = new RuleModel(id, version, streamMapModel, executionPlan, null);
+        RuleModel ruleModelObject = new RuleModel(id, streamMapModel, executionPlan, null);
 
         List<RuleModel> ruleModelList = new LinkedList<>();
         ruleModelList.add(ruleModelObject);
@@ -330,21 +328,19 @@ public class SiddhiControllerIntegrationTest {
         sinkModelList.add(sinkModel);
 
         String id = "rule3";
-        String version = "v1";
         String executionPlan = "from stream3 select * insert into streamoutput3";
 
         StreamMapModel streamMapModel = new StreamMapModel(sourceModelList, sinkModelList);
 
-        RuleModel ruleModelObject = new RuleModel(id, version, streamMapModel, executionPlan, null);
+        RuleModel ruleModelObject = new RuleModel(id, streamMapModel, executionPlan, null);
 
 
         String id2 = "rule33";
-        String version2 = "v1";
         String executionPlan2 = "from stream33 select * insert into streamoutput3";
 
         StreamMapModel streamMapModel2 = new StreamMapModel(sourceModelList, sinkModelList);
 
-        RuleModel ruleModelObject2 = new RuleModel(id2, version2, streamMapModel2, executionPlan2, null);
+        RuleModel ruleModelObject2 = new RuleModel(id2, streamMapModel2, executionPlan2, null);
 
         List<RuleModel> ruleModelList = new LinkedList<>();
         ruleModelList.add(ruleModelObject);
@@ -437,12 +433,11 @@ public class SiddhiControllerIntegrationTest {
         sinkModelList.add(sinkModel);
 
         String id = "rule4";
-        String version = "v1";
         String executionPlan = "from stream4 select avg(attributeName) as avg insert into streamoutput4";
 
         StreamMapModel streamMapModel = new StreamMapModel(sourceModelList, sinkModelList);
 
-        RuleModel ruleModelObject = new RuleModel(id, version, streamMapModel, executionPlan, null);
+        RuleModel ruleModelObject = new RuleModel(id, streamMapModel, executionPlan, null);
 
 
         List<RuleModel> ruleModelList = new LinkedList<>();
@@ -530,12 +525,12 @@ public class SiddhiControllerIntegrationTest {
         sinkModelList.add(sinkModel);
 
         String id = "rule5";
-        String version = "v1";
+
         String executionPlan = "partition with (fieldA of streaminput5) begin from streaminput5#window.timeBatch(5 sec) select avg(fieldB) as avg insert into streamoutput5 end";
 
         StreamMapModel streamMapModel = new StreamMapModel(sourceModelList, sinkModelList);
 
-        RuleModel ruleModelObject = new RuleModel(id, version, streamMapModel, executionPlan, null);
+        RuleModel ruleModelObject = new RuleModel(id, streamMapModel, executionPlan, null);
 
 
         List<RuleModel> ruleModelList = new LinkedList<>();
@@ -627,11 +622,10 @@ public class SiddhiControllerIntegrationTest {
         sinkModelList.add(sinkModel2);
 
         String id = "rule6";
-        String version = "v1";
         String executionPlan = "from every e1=streaminput6[fieldA == 'yes'] -> e2=streaminput6[fieldB > 0] select 'Correct' as description insert into streamoutput6";
         StreamMapModel streamMapModel = new StreamMapModel(sourceModelList, sinkModelList);
 
-        RuleModel ruleModelObject = new RuleModel(id, version, streamMapModel, executionPlan, null);
+        RuleModel ruleModelObject = new RuleModel(id, streamMapModel, executionPlan, null);
 
 
         List<RuleModel> ruleModelList = new LinkedList<>();
@@ -719,11 +713,10 @@ public class SiddhiControllerIntegrationTest {
         sinkModelList.add(sinkModel2);
 
         String id = "rule6";
-        String version = "v1";
         String executionPlan = "from streaminput7 select * insert into streamoutput7";
 
         StreamMapModel streamMapModel = new StreamMapModel(sourceModelList, sinkModelList);
-        RuleModel ruleModelObject = new RuleModel(id, version, streamMapModel, executionPlan, null);
+        RuleModel ruleModelObject = new RuleModel(id, streamMapModel, executionPlan, null);
 
         List<RuleModel> ruleModelList = new LinkedList<>();
         ruleModelList.add(ruleModelObject);
@@ -809,14 +802,13 @@ public class SiddhiControllerIntegrationTest {
         sinkModelList.add(sinkModel);
 
         String id = "rule8";
-        String version = "v1";
         String executionPlan = "from stream8 select * insert into streamoutput8";
         Map<String, Object> options = new HashMap<>();
         options.put("filterOutputNullDimension", true);
 
         StreamMapModel streamMapModel = new StreamMapModel(sourceModelList, sinkModelList);
 
-        RuleModel ruleModelObject = new RuleModel(id, version, streamMapModel, executionPlan, options);
+        RuleModel ruleModelObject = new RuleModel(id, streamMapModel, executionPlan, options);
 
 
         List<RuleModel> ruleModelList = new LinkedList<>();
@@ -905,14 +897,13 @@ public class SiddhiControllerIntegrationTest {
         sinkModelList.add(sinkModel);
 
         String id = "rule9";
-        String version = "v1";
         String executionPlan = "from stream9 select * insert into streamoutput9";
         Map<String, Object> options = new HashMap<>();
         options.put("filterOutputNullDimension", true);
 
         StreamMapModel streamMapModel = new StreamMapModel(sourceModelList, sinkModelList);
 
-        RuleModel ruleModelObject = new RuleModel(id, version, streamMapModel, executionPlan, options);
+        RuleModel ruleModelObject = new RuleModel(id, streamMapModel, executionPlan, options);
 
 
         List<RuleModel> ruleModelList = new LinkedList<>();
@@ -1020,12 +1011,11 @@ public class SiddhiControllerIntegrationTest {
         sinkModelList.add(sinkModel);
 
         String id = "rule10";
-        String version = "v1";
         String executionPlan = "from stream10 select * insert into streamoutput10";
 
         StreamMapModel streamMapModel = new StreamMapModel(Arrays.asList(sourceModel), Arrays.asList(sinkModel));
 
-        RuleModel ruleModelObject = new RuleModel(id, version, streamMapModel, executionPlan, null);
+        RuleModel ruleModelObject = new RuleModel(id, streamMapModel, executionPlan, null);
 
         List<RuleModel> ruleModelList = new LinkedList<>();
         ruleModelList.add(ruleModelObject);
@@ -1103,12 +1093,11 @@ public class SiddhiControllerIntegrationTest {
         sinkModelList.add(sinkModel);
 
         String id = "rule11";
-        String version = "v1";
         String executionPlan = "from stream11 select * insert into streamoutput11";
 
         StreamMapModel streamMapModel = new StreamMapModel(Arrays.asList(sourceModel), Arrays.asList(sinkModel));
 
-        RuleModel ruleModelObject = new RuleModel(id, version, streamMapModel, executionPlan, null);
+        RuleModel ruleModelObject = new RuleModel(id, streamMapModel, executionPlan, null);
 
         List<RuleModel> ruleModelList = new LinkedList<>();
         ruleModelList.add(ruleModelObject);
@@ -1185,12 +1174,11 @@ public class SiddhiControllerIntegrationTest {
         sinkModelList.add(sinkModel);
 
         String id = "rule12";
-        String version = "v1";
         String executionPlan = "from stream12 select * insert into streamoutput12";
 
         StreamMapModel streamMapModel = new StreamMapModel(Arrays.asList(sourceModel), Arrays.asList(sinkModel));
 
-        RuleModel ruleModelObject = new RuleModel(id, version, streamMapModel, executionPlan, null);
+        RuleModel ruleModelObject = new RuleModel(id, streamMapModel, executionPlan, null);
 
         List<RuleModel> ruleModelList = new LinkedList<>();
         ruleModelList.add(ruleModelObject);
@@ -1266,12 +1254,11 @@ public class SiddhiControllerIntegrationTest {
         sinkModelList.add(sinkModel);
 
         String id = "rule13";
-        String version = "v1";
         String executionPlan = "from stream13 select attributeName, attributeName as KAFKA_KEY insert into streamoutput13";
 
         StreamMapModel streamMapModel = new StreamMapModel(Arrays.asList(sourceModel), Arrays.asList(sinkModel));
 
-        RuleModel ruleModelObject = new RuleModel(id, version, streamMapModel, executionPlan, null);
+        RuleModel ruleModelObject = new RuleModel(id, streamMapModel, executionPlan, null);
 
         List<RuleModel> ruleModelList = new LinkedList<>();
         ruleModelList.add(ruleModelObject);
@@ -1352,12 +1339,11 @@ public class SiddhiControllerIntegrationTest {
         sinkModelList.add(sinkModel);
 
         String id = "rule14";
-        String version = "v1";
         String executionPlan = "from stream14#window.timeBatch(1 sec) select timestamp, sum(bytes) as sumbytes insert into streamoutput14";
 
         StreamMapModel streamMapModel = new StreamMapModel(Arrays.asList(sourceModel), Arrays.asList(sinkModel));
 
-        RuleModel ruleModelObject = new RuleModel(id, version, streamMapModel, executionPlan, null);
+        RuleModel ruleModelObject = new RuleModel(id, streamMapModel, executionPlan, null);
 
         List<RuleModel> ruleModelList = new LinkedList<>();
         ruleModelList.add(ruleModelObject);
@@ -1441,12 +1427,11 @@ public class SiddhiControllerIntegrationTest {
         sinkModelList.add(sinkModel);
 
         String id = "rule15";
-        String version = "v1";
         String executionPlan = "from stream15 select * insert into streamoutput15";
 
         StreamMapModel streamMapModel = new StreamMapModel(Arrays.asList(sourceModel), Arrays.asList(sinkModel));
 
-        RuleModel ruleModelObject = new RuleModel(id, version, streamMapModel, executionPlan, null);
+        RuleModel ruleModelObject = new RuleModel(id, streamMapModel, executionPlan, null);
 
         List<RuleModel> ruleModelList = new LinkedList<>();
         ruleModelList.add(ruleModelObject);
@@ -1531,12 +1516,11 @@ public class SiddhiControllerIntegrationTest {
         sinkModelList.add(sinkModel);
 
         String id = "rule16";
-        String version = "v1";
         String executionPlan = "from stream16 select * insert into streamoutput16";
 
         StreamMapModel streamMapModel = new StreamMapModel(Arrays.asList(sourceModel), Arrays.asList(sinkModel));
 
-        RuleModel ruleModelObject = new RuleModel(id, version, streamMapModel, executionPlan, null);
+        RuleModel ruleModelObject = new RuleModel(id, streamMapModel, executionPlan, null);
 
         List<RuleModel> ruleModelList = new LinkedList<>();
         ruleModelList.add(ruleModelObject);
@@ -1619,12 +1603,11 @@ public class SiddhiControllerIntegrationTest {
         sinkModelList.add(sinkModel);
 
         String id = "rule17";
-        String version = "v1";
         String executionPlan = "from stream17 select * insert into streamoutput17";
 
         StreamMapModel streamMapModel = new StreamMapModel(Arrays.asList(sourceModel), Arrays.asList(sinkModel));
 
-        RuleModel ruleModelObject = new RuleModel(id, version, streamMapModel, executionPlan, null);
+        RuleModel ruleModelObject = new RuleModel(id, streamMapModel, executionPlan, null);
 
         List<RuleModel> ruleModelList = new LinkedList<>();
         ruleModelList.add(ruleModelObject);

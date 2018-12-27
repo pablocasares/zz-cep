@@ -83,3 +83,7 @@ cep-service.iml
 
 # Exclude maven wrapper
 !/.mvn/wrapper/maven-wrapper.jar
+
+.DS_Store
+docs/.DS_Store
+docs/assets/.DS_Store

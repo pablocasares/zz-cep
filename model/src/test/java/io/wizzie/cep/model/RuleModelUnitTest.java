@@ -14,58 +14,39 @@ public class RuleModelUnitTest {
     @Test
     public void idIsNotNullTest() {
         String id = "1";
-        String version = "v1";
         SourceModel sourceModel = new SourceModel("streamName", "kafkaTopic", null);
         SinkModel sinkModel = new SinkModel("sinkName", "kafkaTopic", null);
         StreamMapModel streamMapModel = new StreamMapModel(Arrays.asList(sourceModel), Arrays.asList(sinkModel));
         String executionPlan = "placeholder";
 
-        RuleModel ruleModelObject = new RuleModel(id, version, streamMapModel, executionPlan, null);
+        RuleModel ruleModelObject = new RuleModel(id, streamMapModel, executionPlan, null);
 
         assertNotNull(ruleModelObject.id);
         assertEquals(id, ruleModelObject.getId());
     }
 
     @Test
-    public void versionIsNotNullTest() {
-        String id = "1";
-        String version = "v1";
-        SourceModel sourceModel = new SourceModel("streamName", "kafkaTopic", null);
-        SinkModel sinkModel = new SinkModel("sinkName", "kafkaTopic", null);
-        StreamMapModel streamMapModel = new StreamMapModel(Arrays.asList(sourceModel), Arrays.asList(sinkModel));
-        String executionPlan = "placeholder";
-
-        RuleModel ruleModelObject = new RuleModel(id, version, streamMapModel, executionPlan, null);
-
-        assertNotNull(ruleModelObject.version);
-        assertEquals(version, ruleModelObject.getVersion());
-    }
-
-    @Test
     public void streamsIsNotNullTest() {
         String id = "1";
-        String version = "v1";
         SourceModel sourceModel = new SourceModel("streamName", "kafkaTopic", null);
         SinkModel sinkModel = new SinkModel("sinkName", "kafkaTopic", null);
         StreamMapModel streamMapModel = new StreamMapModel(Arrays.asList(sourceModel), Arrays.asList(sinkModel));
         String executionPlan = "placeholder";
 
-        RuleModel ruleModelObject = new RuleModel(id, version, streamMapModel, executionPlan, null);
+        RuleModel ruleModelObject = new RuleModel(id, streamMapModel, executionPlan, null);
 
         assertNotNull(ruleModelObject.streamMapModel);
-        assertEquals(version, ruleModelObject.getVersion());
     }
 
     @Test
     public void executionPlanIsNotNullTest() {
         String id = "1";
-        String version = "v1";
         SourceModel sourceModel = new SourceModel("streamName", "kafkaTopic", null);
         SinkModel sinkModel = new SinkModel("sinkName", "kafkaTopic", null);
         StreamMapModel streamMapModel = new StreamMapModel(Arrays.asList(sourceModel), Arrays.asList(sinkModel));
         String executionPlan = "placeholder";
 
-        RuleModel ruleModelObject = new RuleModel(id, version, streamMapModel, executionPlan, null);
+        RuleModel ruleModelObject = new RuleModel(id, streamMapModel, executionPlan, null);
 
         assertNotNull(ruleModelObject.executionPlan);
         assertEquals(executionPlan, ruleModelObject.getExecutionPlan());
@@ -74,7 +55,6 @@ public class RuleModelUnitTest {
     @Test
     public void optionsIsNotNullTest() {
         String id = "1";
-        String version = "v1";
         SourceModel sourceModel = new SourceModel("streamName", "kafkaTopic", null);
         SinkModel sinkModel = new SinkModel("sinkName", "kafkaTopic", null);
         StreamMapModel streamMapModel = new StreamMapModel(Arrays.asList(sourceModel), Arrays.asList(sinkModel));
@@ -82,7 +62,7 @@ public class RuleModelUnitTest {
         Map<String, Object> options = new HashMap<>();
         options.put("filterOutputNullDimension", true);
 
-        RuleModel ruleModelObject = new RuleModel(id, version, streamMapModel, executionPlan, options);
+        RuleModel ruleModelObject = new RuleModel(id, streamMapModel, executionPlan, options);
 
         assertNotNull(ruleModelObject.options);
         assertEquals(executionPlan, ruleModelObject.getExecutionPlan());
@@ -91,19 +71,15 @@ public class RuleModelUnitTest {
     @Test
     public void toStringIsCorrectTest() {
         String id = "1";
-        String version = "v1";
         SourceModel sourceModel = new SourceModel("streamName", "kafkaTopic", null);
         SinkModel sinkModel = new SinkModel("sinkName", "kafkaTopic", null);
         StreamMapModel streamMapModel = new StreamMapModel(Arrays.asList(sourceModel), Arrays.asList(sinkModel));
         String executionPlan = "placeholder";
 
-        RuleModel ruleModelObject = new RuleModel(id, version, streamMapModel, executionPlan, null);
+        RuleModel ruleModelObject = new RuleModel(id, streamMapModel, executionPlan, null);
 
         assertNotNull(ruleModelObject.id);
         assertEquals(id, ruleModelObject.getId());
-
-        assertNotNull(ruleModelObject.version);
-        assertEquals(version, ruleModelObject.getVersion());
 
         assertNotNull(ruleModelObject.streamMapModel);
         assertEquals(streamMapModel, ruleModelObject.getStreams());
@@ -112,7 +88,7 @@ public class RuleModelUnitTest {
         assertEquals(executionPlan, ruleModelObject.getExecutionPlan());
 
         assertEquals(
-                "{id: 1, version: v1, streams: {in: [{streamName: streamName, kafkaTopic: kafkaTopic}], out: " +
+                "{id: 1, streams: {in: [{streamName: streamName, kafkaTopic: kafkaTopic}], out: " +
                         "[{streamName: sinkName, kafkaTopic: kafkaTopic}]}, executionPlan: placeholder, options: null}",
                 ruleModelObject.toString());
 
@@ -121,7 +97,6 @@ public class RuleModelUnitTest {
     @Test
     public void toStringWithOptionsIsCorrectTest() {
         String id = "1";
-        String version = "v1";
         SourceModel sourceModel = new SourceModel("streamName", "kafkaTopic", null);
         SinkModel sinkModel = new SinkModel("sinkName", "kafkaTopic", null);
         StreamMapModel streamMapModel = new StreamMapModel(Arrays.asList(sourceModel), Arrays.asList(sinkModel));
@@ -129,13 +104,10 @@ public class RuleModelUnitTest {
         Map<String, Object> options = new HashMap<>();
         options.put("filterOutputNullDimension", true);
 
-        RuleModel ruleModelObject = new RuleModel(id, version, streamMapModel, executionPlan, options);
+        RuleModel ruleModelObject = new RuleModel(id, streamMapModel, executionPlan, options);
 
         assertNotNull(ruleModelObject.id);
         assertEquals(id, ruleModelObject.getId());
-
-        assertNotNull(ruleModelObject.version);
-        assertEquals(version, ruleModelObject.getVersion());
 
         assertNotNull(ruleModelObject.streamMapModel);
         assertEquals(streamMapModel, ruleModelObject.getStreams());
@@ -147,7 +119,7 @@ public class RuleModelUnitTest {
         assertEquals(options, ruleModelObject.options);
 
         assertEquals(
-                "{id: 1, version: v1, streams: {in: [{streamName: streamName, kafkaTopic: kafkaTopic}], out: " +
+                "{id: 1, streams: {in: [{streamName: streamName, kafkaTopic: kafkaTopic}], out: " +
                         "[{streamName: sinkName, kafkaTopic: kafkaTopic}]}, executionPlan: placeholder, options: {filterOutputNullDimension=true}}",
                 ruleModelObject.toString());
 

@@ -21,7 +21,6 @@
   "rules": [
     {
       "id": "3",
-      "version": "v1",
       "streams": {
         "in": [
           {
