@@ -5,6 +5,8 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import io.wizzie.bootstrapper.builder.*;
 import io.wizzie.cep.controllers.SiddhiController;
 import io.wizzie.cep.model.SiddhiAppBuilder;
+import io.wizzie.cep.utils.Utils;
+import io.wizzie.metrics.MetricsConstant;
 import io.wizzie.metrics.MetricsManager;
 import io.wizzie.cep.model.ProcessingModel;
 import org.apache.kafka.streams.KafkaStreams;
@@ -13,6 +15,8 @@ import org.slf4j.LoggerFactory;
 
 import javax.management.MalformedObjectNameException;
 import javax.management.ObjectName;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Properties;
 
 import static io.wizzie.cep.builder.config.ConfigProperties.*;
@@ -51,6 +55,14 @@ public class Builder implements Listener {
     private void startBuilder(Config config) throws Exception {
         this.siddhiAppBuilder = new SiddhiAppBuilder();
         this.config = config;
+
+        Map<String, Object> metricDataBag = config.getOrDefault(
+                MetricsConstant.METRIC_DATABAG, new HashMap<>()
+        );
+
+        metricDataBag.put("host", Utils.getIdentifier());
+        config.put(MetricsConstant.METRIC_DATABAG, metricDataBag);
+
         metricsManager = new MetricsManager(config.getMapConf());
         metricsManager.start();
 
