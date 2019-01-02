@@ -22,12 +22,11 @@ public class SiddhiControllerUnitTest {
         sinkModelList.add(sinkModel);
 
         String id = "ruleu1";
-        String version = "v1";
         String executionPlan = "from streamu1 select * insert into streamoutputu1";
 
         StreamMapModel streamMapModel = new StreamMapModel(Arrays.asList(sourceModel), Arrays.asList(sinkModel));
 
-        RuleModel ruleModelObject = new RuleModel(id, version, streamMapModel, executionPlan, null);
+        RuleModel ruleModelObject = new RuleModel(id, streamMapModel, executionPlan, null);
 
         List<RuleModel> ruleModelList = new LinkedList<>();
         ruleModelList.add(ruleModelObject);
@@ -65,12 +64,11 @@ public class SiddhiControllerUnitTest {
         sinkModelList.add(sinkModel);
 
         String id = "ruleu1";
-        String version = "v1";
         String executionPlan = "from streamu1 select * insert into streamoutputu1";
 
         StreamMapModel streamMapModel = new StreamMapModel(Arrays.asList(sourceModel), Arrays.asList(sinkModel));
 
-        RuleModel ruleModelObject = new RuleModel(id, version, streamMapModel, executionPlan, null);
+        RuleModel ruleModelObject = new RuleModel(id, streamMapModel, executionPlan, null);
 
         List<RuleModel> ruleModelList = new LinkedList<>();
         ruleModelList.add(ruleModelObject);
@@ -106,12 +104,11 @@ public class SiddhiControllerUnitTest {
         sinkModelList.add(sinkModel);
 
         String id = "ruleu2";
-        String version = "v1";
         String executionPlan = "from streamu2 select * insert into streamoutputu2";
 
         StreamMapModel streamMapModel = new StreamMapModel(Arrays.asList(sourceModel), Arrays.asList(sinkModel));
 
-        RuleModel ruleModelObject = new RuleModel(id, version, streamMapModel, executionPlan, null);
+        RuleModel ruleModelObject = new RuleModel(id, streamMapModel, executionPlan, null);
 
         List<RuleModel> ruleModelList = new LinkedList<>();
         ruleModelList.add(ruleModelObject);
@@ -148,21 +145,19 @@ public class SiddhiControllerUnitTest {
         sinkModelList.add(sinkModel);
 
         String id = "ruleu3";
-        String version = "v1";
         String executionPlan = "from streamu3 select * insert into streamoutputu3";
 
         StreamMapModel streamMapModel = new StreamMapModel(sourceModelList, sinkModelList);
 
-        RuleModel ruleModelObject = new RuleModel(id, version, streamMapModel, executionPlan, null);
+        RuleModel ruleModelObject = new RuleModel(id, streamMapModel, executionPlan, null);
 
 
         String id2 = "ruleu33";
-        String version2 = "v1";
         String executionPlan2 = "from streamu3 select * insert into streamoutputu3";
 
         StreamMapModel streamMapModel2 = new StreamMapModel(sourceModelList, sinkModelList);
 
-        RuleModel ruleModelObject2 = new RuleModel(id2, version2, streamMapModel2, executionPlan2, null);
+        RuleModel ruleModelObject2 = new RuleModel(id2, streamMapModel2, executionPlan2, null);
 
         List<RuleModel> ruleModelList = new LinkedList<>();
         ruleModelList.add(ruleModelObject);
@@ -200,21 +195,19 @@ public class SiddhiControllerUnitTest {
         sinkModelList.add(sinkModel);
 
         String id = "ruleu4";
-        String version = "v1";
         String executionPlan = "from streamu4 select * insert into streamoutputu4";
 
         StreamMapModel streamMapModel = new StreamMapModel(sourceModelList, sinkModelList);
 
-        RuleModel ruleModelObject = new RuleModel(id, version, streamMapModel, executionPlan, null);
+        RuleModel ruleModelObject = new RuleModel(id, streamMapModel, executionPlan, null);
 
 
         String id2 = "ruleu44";
-        String version2 = "v1";
         String executionPlan2 = "from streamu4 select * insert into streamoutputu4";
 
         StreamMapModel streamMapModel2 = new StreamMapModel(sourceModelList, sinkModelList);
 
-        RuleModel ruleModelObject2 = new RuleModel(id2, version2, streamMapModel2, executionPlan2, null);
+        RuleModel ruleModelObject2 = new RuleModel(id2, streamMapModel2, executionPlan2, null);
 
         List<RuleModel> ruleModelList = new LinkedList<>();
         ruleModelList.add(ruleModelObject);
@@ -252,21 +245,19 @@ public class SiddhiControllerUnitTest {
         sinkModelList.add(sinkModel);
 
         String id = "ruleu5";
-        String version = "v1";
         String executionPlan = "from streamu5 select * insert into streamoutputu5";
 
         StreamMapModel streamMapModel = new StreamMapModel(sourceModelList, sinkModelList);
 
-        RuleModel ruleModelObject = new RuleModel(id, version, streamMapModel, executionPlan, null);
+        RuleModel ruleModelObject = new RuleModel(id, streamMapModel, executionPlan, null);
 
 
         String id2 = "ruleu55";
-        String version2 = "v1";
         String executionPlan2 = "from streamu5 select * insert into streamoutputu5";
 
         StreamMapModel streamMapModel2 = new StreamMapModel(sourceModelList, sinkModelList);
 
-        RuleModel ruleModelObject2 = new RuleModel(id2, version2, streamMapModel2, executionPlan2, null);
+        RuleModel ruleModelObject2 = new RuleModel(id2, streamMapModel2, executionPlan2, null);
 
         List<RuleModel> ruleModelList = new LinkedList<>();
         ruleModelList.add(ruleModelObject);
@@ -285,12 +276,11 @@ public class SiddhiControllerUnitTest {
         siddhiController.generateExecutionPlans();
 
         id = "ruleu5";
-        version = "v1";
         executionPlan = "from streamu5 select * insert into streamoutputu5";
 
         streamMapModel = new StreamMapModel(Arrays.asList(sourceModel), Arrays.asList(sinkModel));
 
-        ruleModelObject = new RuleModel(id, version, streamMapModel, executionPlan, null);
+        ruleModelObject = new RuleModel(id, streamMapModel, executionPlan, null);
 
         ruleModelList = new LinkedList<>();
         ruleModelList.add(ruleModelObject);
@@ -327,12 +317,11 @@ public class SiddhiControllerUnitTest {
         sinkModelList.add(sinkModel);
 
         String id = "ruleu6";
-        String version = "v1";
         String executionPlan = "from streamu6 select * insert into streamoutputu6";
 
         StreamMapModel streamMapModel = new StreamMapModel(sourceModelList, sinkModelList);
 
-        RuleModel ruleModelObject = new RuleModel(id, version, streamMapModel, executionPlan, null);
+        RuleModel ruleModelObject = new RuleModel(id, streamMapModel, executionPlan, null);
 
 
         sourceModel = new SourceModel("streamu66", "input1", null);
@@ -344,12 +333,11 @@ public class SiddhiControllerUnitTest {
         sinkModelList.add(sinkModel);
 
         String id2 = "ruleu66";
-        String version2 = "v1";
         String executionPlan2 = "from streamu66 select * insert into streamoutputu66";
 
         StreamMapModel streamMapModel2 = new StreamMapModel(sourceModelList, sinkModelList);
 
-        RuleModel ruleModelObject2 = new RuleModel(id2, version2, streamMapModel2, executionPlan2, null);
+        RuleModel ruleModelObject2 = new RuleModel(id2, streamMapModel2, executionPlan2, null);
 
         List<RuleModel> ruleModelList = new LinkedList<>();
         ruleModelList.add(ruleModelObject);
@@ -400,12 +388,11 @@ public class SiddhiControllerUnitTest {
         sinkModelList.add(sinkModel);
 
         String id = "ruleu7";
-        String version = "v1";
         String executionPlan = "from streamnotdefinedu7 select * insert into streamoutputu7";
 
         StreamMapModel streamMapModel = new StreamMapModel(sourceModelList, sinkModelList);
 
-        RuleModel ruleModelObject = new RuleModel(id, version, streamMapModel, executionPlan, null);
+        RuleModel ruleModelObject = new RuleModel(id, streamMapModel, executionPlan, null);
 
         List<RuleModel> ruleModelList = new LinkedList<>();
         ruleModelList.add(ruleModelObject);
@@ -448,21 +435,19 @@ public class SiddhiControllerUnitTest {
         sinkModelList.add(sinkModel);
 
         String id = "ruleu8";
-        String version = "v1";
         String executionPlan = "from streamu8 select * insert into streamoutputu8";
 
         StreamMapModel streamMapModel = new StreamMapModel(sourceModelList, sinkModelList);
 
-        RuleModel ruleModelObject = new RuleModel(id, version, streamMapModel, executionPlan, null);
+        RuleModel ruleModelObject = new RuleModel(id, streamMapModel, executionPlan, null);
 
 
         String id2 = "ruleu88";
-        String version2 = "v1";
         String executionPlan2 = "from streamu8 select * insert into streamoutputu8";
 
         StreamMapModel streamMapModel2 = new StreamMapModel(sourceModelList, sinkModelList);
 
-        RuleModel ruleModelObject2 = new RuleModel(id2, version2, streamMapModel2, executionPlan2, null);
+        RuleModel ruleModelObject2 = new RuleModel(id2, streamMapModel2, executionPlan2, null);
 
         List<RuleModel> ruleModelList = new LinkedList<>();
         ruleModelList.add(ruleModelObject);
@@ -481,12 +466,11 @@ public class SiddhiControllerUnitTest {
         siddhiController.generateExecutionPlans();
 
         id = "ruleu8";
-        version = "v2";
-        executionPlan = "from streamu8 select * insert into streamoutputu8";
+        executionPlan = "from streamu8 select * insert into streamoutputu88";
 
         streamMapModel = new StreamMapModel(Arrays.asList(sourceModel), Arrays.asList(sinkModel));
 
-        ruleModelObject = new RuleModel(id, version, streamMapModel, executionPlan, null);
+        ruleModelObject = new RuleModel(id, streamMapModel, executionPlan, null);
 
         ruleModelList = new LinkedList<>();
         ruleModelList.add(ruleModelObject);
@@ -506,9 +490,5 @@ public class SiddhiControllerUnitTest {
         assertEquals(1, siddhiController.executionPlanRuntimes.size());
         assertEquals(1, siddhiController.streamDefinitions.size());
         assertEquals(1, siddhiController.currentExecutionPlans.size());
-        assertEquals("v2", siddhiController.currentExecutionPlans.get("ruleu8").getVersion());
-
     }
-
-
 }

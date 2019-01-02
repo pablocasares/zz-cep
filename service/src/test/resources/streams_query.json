@@ -31,7 +31,6 @@
   "rules": [
     {
       "id": "2",
-      "version": "v1",
       "streams": {
         "in": [
           {

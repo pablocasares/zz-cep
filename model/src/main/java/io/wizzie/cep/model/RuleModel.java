@@ -8,19 +8,16 @@ import java.util.Map;
 
 public class RuleModel {
     String id;
-    String version;
     StreamMapModel streamMapModel;
     String executionPlan;
     Map<String, Object> options;
 
     @JsonCreator
     public RuleModel(@JsonProperty("id") String id,
-                     @JsonProperty("version") String version,
                      @JsonProperty("streamMapModel") StreamMapModel streams,
                      @JsonProperty("executionPlan") String executionPlan,
                      @JsonProperty("options") Map<String, Object> options) {
         this.id = id;
-        this.version = version;
         this.streamMapModel = streams;
         this.executionPlan = executionPlan;
         this.options = options;
@@ -42,16 +39,6 @@ public class RuleModel {
     @JsonProperty
     public void setId(String id) {
         this.id = id;
-    }
-
-    @JsonProperty
-    public String getVersion() {
-        return version;
-    }
-
-    @JsonProperty
-    public void setVersion(String version) {
-        this.version = version;
     }
 
     @JsonProperty
@@ -82,7 +69,6 @@ public class RuleModel {
 
         sb.append("{")
                 .append("id: ").append(id).append(", ")
-                .append("version: ").append(version).append(", ")
                 .append("streams: ").append(streamMapModel).append(", ")
                 .append("executionPlan: ").append(executionPlan).append(", ")
                 .append("options: ").append(options)

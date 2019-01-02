@@ -90,11 +90,13 @@ public class SiddhiController {
         }
         log.debug("Created every ruleDefinition checking if streamDefinition exists");
 
-        //Remove the rules that was already added to Siddhi with an equal version before this new config arrived.
+        //Remove the rules that was already added to Siddhi with equal streams section & execution plan before this new config arrived.
         for (Map.Entry<String, RuleModel> executionPlansEntry : currentExecutionPlans.entrySet()) {
-            if (expectedExecutionPlans.containsKey(executionPlansEntry.getKey()) && (expectedExecutionPlans.get(executionPlansEntry.getKey()).getVersion().equals(executionPlansEntry.getValue().getVersion()))) {
+            if (expectedExecutionPlans.containsKey(executionPlansEntry.getKey())
+                    && (expectedExecutionPlans.get(executionPlansEntry.getKey()).getExecutionPlan().equals(executionPlansEntry.getValue().getExecutionPlan()))
+                    && (expectedExecutionPlans.get(executionPlansEntry.getKey()).getStreams().toString().equals(executionPlansEntry.getValue().getStreams().toString()))) {
                 expectedExecutionPlans.put(executionPlansEntry.getKey(), executionPlansEntry.getValue());
-                log.debug("Rule: " + executionPlansEntry.getKey() + " is already added with the same version.");
+                log.debug("Rule: " + executionPlansEntry.getKey() + " is already added with the same execution plan and streams section.");
             }
         }
 
@@ -103,15 +105,29 @@ public class SiddhiController {
             //Delete and stop older rules or delete and stop rules not defined.
             log.debug("Current execution plans: " + currentExecutionPlans);
             log.debug("Expected execution plans: " + expectedExecutionPlans);
-            if (!expectedExecutionPlans.containsKey(executionPlansEntry.getKey())) { //|| !rulesDefinition.containsKey(executionPlansEntry.getKey())) {
+            if (executionPlanRuntimes.containsKey(executionPlansEntry.getKey())
+                    && !expectedExecutionPlans.containsKey(executionPlansEntry.getKey())) {
                 log.debug("Stopping execution plan: " + executionPlansEntry.getKey() + " as it is no longer needed");
                 executionPlanRuntimes.get(executionPlansEntry.getKey()).shutdown();
                 executionPlanRuntimes.remove(executionPlansEntry.getKey());
                 inputHandlers.remove(executionPlansEntry.getKey());
             }
 
-            if (expectedExecutionPlans.containsKey(executionPlansEntry.getKey()) && !expectedExecutionPlans.get(executionPlansEntry.getKey()).getVersion().equals(executionPlansEntry.getValue().getVersion())) {
-                log.debug("Stopping execution plan: " + executionPlansEntry.getKey() + " as it has a different version");
+            if (executionPlanRuntimes.containsKey(executionPlansEntry.getKey())
+                    && expectedExecutionPlans.containsKey(executionPlansEntry.getKey())
+                    && !expectedExecutionPlans.get(executionPlansEntry.getKey()).getExecutionPlan()
+                    .equals(executionPlansEntry.getValue().getExecutionPlan())) {
+                log.debug("Stopping execution plan: " + executionPlansEntry.getKey() + " as it has a different execution plan");
+                executionPlanRuntimes.get(executionPlansEntry.getKey()).shutdown();
+                executionPlanRuntimes.remove(executionPlansEntry.getKey());
+                inputHandlers.remove(executionPlansEntry.getKey());
+            }
+
+            if (executionPlanRuntimes.containsKey(executionPlansEntry.getKey())
+                    && expectedExecutionPlans.containsKey(executionPlansEntry.getKey())
+                    && !expectedExecutionPlans.get(executionPlansEntry.getKey()).getStreams().toString()
+                    .equals(executionPlansEntry.getValue().getStreams().toString())) {
+                log.debug("Stopping execution plan: " + executionPlansEntry.getKey() + " as it has a different streams section");
                 executionPlanRuntimes.get(executionPlansEntry.getKey()).shutdown();
                 executionPlanRuntimes.remove(executionPlansEntry.getKey());
                 inputHandlers.remove(executionPlansEntry.getKey());
