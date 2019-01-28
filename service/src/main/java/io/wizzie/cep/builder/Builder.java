@@ -4,11 +4,11 @@ import com.codahale.metrics.jvm.JmxAttributeGauge;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import io.wizzie.bootstrapper.builder.*;
 import io.wizzie.cep.controllers.SiddhiController;
+import io.wizzie.cep.model.ProcessingModel;
 import io.wizzie.cep.model.SiddhiAppBuilder;
 import io.wizzie.cep.utils.Utils;
 import io.wizzie.metrics.MetricsConstant;
 import io.wizzie.metrics.MetricsManager;
-import io.wizzie.cep.model.ProcessingModel;
 import org.apache.kafka.streams.KafkaStreams;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -38,7 +38,7 @@ public class Builder implements Listener {
     SiddhiAppBuilder siddhiAppBuilder;
 
     //Prevent invalid instantiation
-    private Builder(){
+    private Builder() {
     }
 
     //Use this constructor for production code
@@ -66,7 +66,7 @@ public class Builder implements Listener {
         metricsManager = new MetricsManager(config.getMapConf());
         metricsManager.start();
 
-        if(siddhiController == null) {
+        if (siddhiController == null) {
             siddhiController = SiddhiController.getInstance();
         }
 
@@ -74,7 +74,7 @@ public class Builder implements Listener {
         consumerProperties.putAll(config.getMapConf());
         consumerProperties.put(BOOTSTRAP_SERVERS_CONFIG, config.get(KAFKA_CLUSTER));
 
-        consumerProperties.put(GROUP_ID_CONFIG,  String.format("%s_%s", config.get(APPLICATION_ID), "zz-cep"));
+        consumerProperties.put(GROUP_ID_CONFIG, String.format("%s_%s", config.get(APPLICATION_ID), "zz-cep"));
         consumerProperties.put(CLIENT_ID_CONFIG, String.format("%s_%s", config.get(APPLICATION_ID), "zz-cep"));
         consumerProperties.put(ENABLE_AUTO_COMMIT_CONFIG, "true");
         consumerProperties.put(AUTO_COMMIT_INTERVAL_MS_CONFIG, "1000");
@@ -109,69 +109,73 @@ public class Builder implements Listener {
 
         ObjectMapper objectMapper = new ObjectMapper();
 
-        try {
-            ProcessingModel processingModel = objectMapper.readValue(bootstrapConfig, ProcessingModel.class);
-            log.info("Processing plan: {}", processingModel);
-            if(siddhiAppBuilder.validateSiddhiPlan(processingModel)) {
-                siddhiController.addProcessingDefinition(processingModel);
-                siddhiController.generateExecutionPlans();
-                siddhiController.addProcessingModel2KafkaController();
+        if (bootstrapConfig == null) {
+            log.info("-------- STOPPED ZZ-CEP PROCESSING --------");
+        } else {
+            try {
+                ProcessingModel processingModel = objectMapper.readValue(bootstrapConfig, ProcessingModel.class);
+                log.info("Processing plan: {}", processingModel);
+                if (siddhiAppBuilder.validateSiddhiPlan(processingModel)) {
+                    siddhiController.addProcessingDefinition(processingModel);
+                    siddhiController.generateExecutionPlans();
+                    siddhiController.addProcessingModel2KafkaController();
+                }
+            } catch (Exception e) {
+                log.error(e.getMessage(), e);
             }
-        } catch (Exception e) {
-            log.error(e.getMessage(), e);
-        }
 
-        registerKafkaMetrics(config, metricsManager);
-        log.info("Started CEP with conf {}", config.getProperties());
+            registerKafkaMetrics(config, metricsManager);
+            log.info("Started CEP with conf {}", config.getProperties());
+        }
     }
 
-    private void registerKafkaMetrics(Config config, MetricsManager metricsManager){
+    private void registerKafkaMetrics(Config config, MetricsManager metricsManager) {
         String appId = config.get(APPLICATION_ID_CONFIG);
 
         log.info("Register kafka jvm metrics: ");
 
-            try {
+        try {
 
-                // PRODUCER
-                log.info(" * {}", "producer.messages_send_per_sec");
-                metricsManager.registerMetric("producer.messages_send_per_sec",
-                        new JmxAttributeGauge(new ObjectName("kafka.producer:type=producer-metrics,client-id="
-                                + String.format("%s_%s", appId, "zz-cep")), "record-send-rate"));
+            // PRODUCER
+            log.info(" * {}", "producer.messages_send_per_sec");
+            metricsManager.registerMetric("producer.messages_send_per_sec",
+                    new JmxAttributeGauge(new ObjectName("kafka.producer:type=producer-metrics,client-id="
+                            + String.format("%s_%s", appId, "zz-cep")), "record-send-rate"));
 
-                log.info(" * {}", "producer.output_bytes_per_sec");
-                metricsManager.registerMetric("producer.output_bytes_per_sec",
-                        new JmxAttributeGauge(new ObjectName("kafka.producer:type=producer-metrics,client-id="
-                                + String.format("%s_%s", appId, "zz-cep")), "outgoing-byte-rate"));
+            log.info(" * {}", "producer.output_bytes_per_sec");
+            metricsManager.registerMetric("producer.output_bytes_per_sec",
+                    new JmxAttributeGauge(new ObjectName("kafka.producer:type=producer-metrics,client-id="
+                            + String.format("%s_%s", appId, "zz-cep")), "outgoing-byte-rate"));
 
-                log.info(" * {}", "producer.incoming_bytes_per_sec");
-                metricsManager.registerMetric("producer.incoming_bytes_per_sec",
-                        new JmxAttributeGauge(new ObjectName("kafka.producer:type=producer-metrics,client-id="
-                                + String.format("%s_%s", appId, "zz-cep")), "incoming-byte-rate"));
+            log.info(" * {}", "producer.incoming_bytes_per_sec");
+            metricsManager.registerMetric("producer.incoming_bytes_per_sec",
+                    new JmxAttributeGauge(new ObjectName("kafka.producer:type=producer-metrics,client-id="
+                            + String.format("%s_%s", appId, "zz-cep")), "incoming-byte-rate"));
 
-                // CONSUMER
-                log.info(" * {}", "consumer.max_lag");
-                metricsManager.registerMetric("consumer.max_lag",
-                        new JmxAttributeGauge(new ObjectName("kafka.consumer:type=consumer-fetch-manager-metrics,client-id="
-                                + String.format("%s_%s", appId, "zz-cep")), "records-lag-max"));
+            // CONSUMER
+            log.info(" * {}", "consumer.max_lag");
+            metricsManager.registerMetric("consumer.max_lag",
+                    new JmxAttributeGauge(new ObjectName("kafka.consumer:type=consumer-fetch-manager-metrics,client-id="
+                            + String.format("%s_%s", appId, "zz-cep")), "records-lag-max"));
 
-                log.info(" * {}", "consumer.output_bytes_per_sec");
-                metricsManager.registerMetric("consumer.output_bytes_per_sec",
-                        new JmxAttributeGauge(new ObjectName("kafka.consumer:type=consumer-metrics,client-id="
-                                + String.format("%s_%s", appId, "zz-cep")), "outgoing-byte-rate"));
+            log.info(" * {}", "consumer.output_bytes_per_sec");
+            metricsManager.registerMetric("consumer.output_bytes_per_sec",
+                    new JmxAttributeGauge(new ObjectName("kafka.consumer:type=consumer-metrics,client-id="
+                            + String.format("%s_%s", appId, "zz-cep")), "outgoing-byte-rate"));
 
-                log.info(" * {}", "consumer.incoming_bytes_per_sec");
-                metricsManager.registerMetric("consumer.incoming_bytes_per_sec",
-                        new JmxAttributeGauge(new ObjectName("kafka.consumer:type=consumer-metrics,client-id="
-                                + String.format("%s_%s", appId, "zz-cep")), "incoming-byte-rate"));
+            log.info(" * {}", "consumer.incoming_bytes_per_sec");
+            metricsManager.registerMetric("consumer.incoming_bytes_per_sec",
+                    new JmxAttributeGauge(new ObjectName("kafka.consumer:type=consumer-metrics,client-id="
+                            + String.format("%s_%s", appId, "zz-cep")), "incoming-byte-rate"));
 
-                log.info(" * {}", "consumer.records_per_sec");
-                metricsManager.registerMetric("consumer.records_per_sec",
-                        new JmxAttributeGauge(new ObjectName("kafka.consumer:type=consumer-fetch-manager-metrics,client-id="
-                                + String.format("%s_%s", appId, "zz-cep")), "records-consumed-rate"));
+            log.info(" * {}", "consumer.records_per_sec");
+            metricsManager.registerMetric("consumer.records_per_sec",
+                    new JmxAttributeGauge(new ObjectName("kafka.consumer:type=consumer-fetch-manager-metrics,client-id="
+                            + String.format("%s_%s", appId, "zz-cep")), "records-consumed-rate"));
 
-            } catch (MalformedObjectNameException e) {
-                log.error("kafka jvm metrics not found", e);
-            }
+        } catch (MalformedObjectNameException e) {
+            log.error("kafka jvm metrics not found", e);
+        }
     }
 
     public void close() throws Exception {
