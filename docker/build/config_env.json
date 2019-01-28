@@ -9,5 +9,13 @@
   "metric.enable": ${METRIC_ENABLE},
   "metric.listeners": ["io.wizzie.metrics.listeners.KafkaMetricListener"],
   "metric.interval": ${METRIC_INTERVAL},
-  "metric.databag": {"component":"zz-cep"}
+  "metric.databag": {"component":"zz-cep"},
+  "producer.buffer.memory": ${PRODUCER_BUFFER_MEMORY},
+  "consumer.fetch.max.bytes": ${CONSUMER_FETCH_MAX_BYTES},
+  "consumer.max.poll.records": ${CONSUMER_MAX_POLL_RECORDS},
+  "consumer.fetch.max.wait.ms": ${CONSUMER_FETCH_MAX_WAIT_MS},
+  "consumer.send.buffer.bytes": ${CONSUMER_SEND_BUFFER_BYTES},
+  "consumer.receive.buffer.bytes": ${CONSUMER_RECEIVE_BUFFER_BYTES},
+  "producer.send.buffer.bytes": ${PRODUCER_SEND_BUFFER_BYTES},
+  "producer.receive.buffer.bytes": ${PRODUCER_RECEIVE_BUFFER_BYTES}
 }
