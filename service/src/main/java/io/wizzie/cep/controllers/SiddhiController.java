@@ -20,6 +20,7 @@ public class SiddhiController {
 
     private static final Logger log = LoggerFactory.getLogger(SiddhiController.class);
     private String multiId = "";
+    private boolean isRunning = false;
 
     ProcessingModel newProcessingModel;
 
@@ -207,6 +208,7 @@ public class SiddhiController {
                 log.debug("Starting processing the rule: " + executionPlansEntry.getValue().getId());
                 //start processing this rule
                 siddhiAppRuntime.start();
+                isRunning = true;
             }
         }
     }
@@ -230,4 +232,17 @@ public class SiddhiController {
         kafkaController.shutdown();
     }
 
+    public boolean isRunning (){
+        return isRunning;
+    }
+
+    public void stopAllRules(){
+        for (SiddhiAppRuntime app : executionPlanRuntimes.values()){
+            app.shutdown();
+        }
+        executionPlanRuntimes.clear();
+        currentExecutionPlans.clear();
+        isRunning = false;
+        log.info("Stopped all siddhi rules.");
+    }
 }

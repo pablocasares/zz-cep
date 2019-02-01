@@ -31,11 +31,11 @@ public class Builder implements Listener {
     private static final Logger log = LoggerFactory.getLogger(Builder.class);
 
     Config config;
-    KafkaStreams streams;
     MetricsManager metricsManager;
     Bootstrapper bootstrapper;
     SiddhiController siddhiController;
     SiddhiAppBuilder siddhiAppBuilder;
+    private boolean isRunning = false;
 
     //Prevent invalid instantiation
     private Builder() {
@@ -101,17 +101,18 @@ public class Builder implements Listener {
 
     @Override
     public void updateConfig(SourceSystem sourceSystem, String bootstrapConfig) {
-        if (streams != null) {
+        if (siddhiController.isRunning()) {
             metricsManager.clean();
-            streams.close();
-            log.info("Clean CEP process");
+            log.info("Cleaned CEP process metrics");
         }
 
         ObjectMapper objectMapper = new ObjectMapper();
 
-        if (bootstrapConfig == null) {
+        if (bootstrapConfig == null && siddhiController.isRunning()) {
+            isRunning = false;
+            siddhiController.stopAllRules();
             log.info("-------- STOPPED ZZ-CEP PROCESSING --------");
-        } else {
+        } else if (bootstrapConfig != null){
             try {
                 ProcessingModel processingModel = objectMapper.readValue(bootstrapConfig, ProcessingModel.class);
                 log.info("Processing plan: {}", processingModel);
@@ -119,6 +120,7 @@ public class Builder implements Listener {
                     siddhiController.addProcessingDefinition(processingModel);
                     siddhiController.generateExecutionPlans();
                     siddhiController.addProcessingModel2KafkaController();
+                    isRunning = true;
                 }
             } catch (Exception e) {
                 log.error(e.getMessage(), e);
@@ -181,8 +183,11 @@ public class Builder implements Listener {
     public void close() throws Exception {
         metricsManager.interrupt();
         bootstrapper.close();
-        if (streams != null) streams.close();
         siddhiController.shutdown();
+    }
+
+    public boolean isRunning(){
+        return isRunning;
     }
 
 }
